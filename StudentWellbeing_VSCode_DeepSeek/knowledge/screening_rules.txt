@@ -1,0 +1,19 @@
+WHOOLEY
+- Q1: Dalam dua minggu lalu, adakah murid sering berasa sedih, murung atau putus harapan?
+- Q2: Dalam dua minggu lalu, adakah murid kurang berminat atau kurang seronok melakukan perkara yang biasanya digemari?
+- Jika sekurang-kurangnya satu jawapan ialah "Ya", keputusan saringan WHOOLEY ialah Positif.
+- WHOOLEY ialah saringan awal, bukan diagnosis.
+
+GAD-2
+- Q1: Berasa gugup, cemas atau resah.
+- Q2: Tidak dapat menghentikan atau mengawal kebimbangan.
+- Skor setiap item: 0=Tidak pernah, 1=Beberapa hari, 2=Lebih separuh hari, 3=Hampir setiap hari.
+- Jumlah skor ialah 0 hingga 6.
+- Skor 3 atau lebih ialah saringan GAD-2 Positif.
+- GAD-2 ialah saringan awal, bukan diagnosis.
+
+PRINSIP INTERVENSI
+- Cadangan mesti berdasarkan corak jawapan, kehadiran, disiplin, pemerhatian guru, intervensi terdahulu dan maklum balas penjaga.
+- Kehadiran rendah atau salah laku tidak boleh dianggap sebagai bukti penyakit mental.
+- Kes senjata, keganasan serius, ancaman keselamatan, mencederakan diri atau bunuh diri mesti ditandakan untuk semakan manusia dengan segera mengikut prosedur sekolah.
+- Semua keputusan penting mesti disahkan oleh guru, GBK, pentadbir atau profesional berkaitan.

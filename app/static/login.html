@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Well-Being Support System</title>
+<style>
+  :root {
+    --blue: #1a3aad; --blue-dark: #1e3a8a; --teal: #0d9488;
+    --bg: #f1f5f9; --border: #e2e8f0; --text: #1e293b; --muted: #64748b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
+  a { text-decoration: none; color: inherit; }
+  body.lang-zh, body.lang-zh input, body.lang-zh select, body.lang-zh textarea, body.lang-zh button {
+    font-family: KaiTi, "Kaiti SC", STKaiti, "AR PL KaitiM GB", "TW-Kai", cursive, serif;
+  }
+
+  .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px; background: rgba(255,255,255,0.95); box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--blue-dark); }
+  .logo-badge { width: 38px; height: 38px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center;
+    justify-content: center; font-size: 11px; font-weight: 800; line-height: 1.1; text-align: center; }
+  .nav-actions { display: flex; align-items: center; gap: 14px; }
+  select#langSelect { border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 14px; background: #fff; }
+  .btn { border: none; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .btn-primary { background: var(--teal); color: #fff; }
+  .btn-primary:hover { background: #0b7c72; }
+  .btn-outline { background: #fff; border: 1px solid var(--blue); color: var(--blue); }
+
+  .hero { margin-top: 68px; padding: 90px 24px 70px; text-align: center; color: #fff;
+    background: linear-gradient(135deg, var(--blue), #2563eb 45%, var(--teal)); }
+  .hero h1 { font-size: 2.2rem; margin: 0 0 14px; max-width: 780px; margin-inline: auto; }
+  .hero p { font-size: 1.05rem; opacity: 0.92; max-width: 620px; margin: 0 auto 30px; }
+
+  .features { max-width: 1080px; margin: -40px auto 60px; padding: 0 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .feature-card { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 8px 24px rgba(15,23,42,0.08); }
+  .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .feature-card h3 { margin: 0 0 8px; color: var(--blue-dark); font-size: 1.05rem; }
+  .feature-card p { margin: 0; color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
+
+  .footer-note { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 20px 0 50px; }
+
+  .overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.55); display: none; align-items: center; justify-content: center; z-index: 50; }
+  .overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 16px; padding: 32px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); position: relative; }
+  .modal .close-btn { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--muted); }
+  .modal-badge { display: flex; justify-content: center; margin-bottom: 14px; }
+  .modal h2 { text-align: center; color: var(--blue-dark); margin: 0 0 20px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .field input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
+  .field input:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
+  .modal .btn { width: 100%; margin-top: 6px; }
+  .modal-link { display: block; text-align: center; margin-top: 14px; font-size: 0.85rem; color: var(--blue); cursor: pointer; }
+  .error-banner { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; border-radius: 8px; padding: 10px 12px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
+  .success-banner { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; border-radius: 8px; padding: 10px 12px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand"><span class="logo-badge">KPM</span><span data-i18n="app.title">Sistem Sokongan Kesejahteraan Pelajar</span></div>
+  <div class="nav-actions">
+    <select id="langSelect"></select>
+    <button class="btn btn-primary" onclick="openLogin()" data-i18n="login.title">Log Masuk</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1 data-i18n="hero.title">Sistem Sokongan Amaran Awal, Intervensi &amp; Rujukan Kesejahteraan Pelajar</h1>
+  <p data-i18n="hero.subtitle">Sokongan keputusan berbantukan AI untuk kaunselor sekolah Malaysia</p>
+  <button class="btn btn-outline" style="background:#fff" onclick="openLogin()" data-i18n="login.title">Log Masuk</button>
+</section>
+
+<div class="features">
+  <div class="feature-card">
+    <div class="icon">🔍</div>
+    <h3 data-i18n="feature.early_detection.title">Pengesanan Awal</h3>
+    <p data-i18n="feature.early_detection.desc">Kenal pasti isyarat risiko kesejahteraan lebih awal menggunakan data kehadiran, tingkah laku dan penilaian.</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🧭</div>
+    <h3 data-i18n="feature.intervention.title">Intervensi</h3>
+    <p data-i18n="feature.intervention.desc">Jana pelan intervensi berasaskan sekolah yang disesuaikan dengan keperluan setiap pelajar.</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">📄</div>
+    <h3 data-i18n="feature.referral.title">Rujukan</h3>
+    <p data-i18n="feature.referral.desc">Sediakan dokumen rujukan formal untuk profesional penjagaan kesihatan luar.</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">📊</div>
+    <h3 data-i18n="feature.reporting.title">Pelaporan</h3>
+    <p data-i18n="feature.reporting.desc">Jejaki trend kesejahteraan seluruh sekolah dengan papan pemuka pengurusan.</p>
+  </div>
+</div>
+
+<div class="footer-note">
+  <span data-i18n="footer.moe_aligned">Selaras dengan KPM 2027</span> · <span data-i18n="footer.pdpa_compliant">Mematuhi PDPA</span>
+</div>
+
+<div class="overlay" id="loginOverlay">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModals()">✕</button>
+    <div class="modal-badge"><span class="logo-badge">KPM</span></div>
+    <h2 data-i18n="login.title">Log Masuk</h2>
+    <div class="error-banner" id="loginError"></div>
+    <form id="loginForm" onsubmit="return handleLogin(event)">
+      <div class="field">
+        <label data-i18n="login.ic_label">Nombor Kad Pengenalan</label>
+        <input type="text" id="icNumber" pattern="[0-9\-]+" required />
+      </div>
+      <div class="field">
+        <label data-i18n="login.password_label">Kata Laluan</label>
+        <input type="password" id="password" required />
+      </div>
+      <button class="btn btn-primary" type="submit" data-i18n="login.submit">Hantar</button>
+    </form>
+    <span class="modal-link" onclick="openForgot()" data-i18n="login.forgot_password">Lupa Kata Laluan?</span>
+  </div>
+</div>
+
+<div class="overlay" id="forgotOverlay">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModals()">✕</button>
+    <div class="modal-badge"><span class="logo-badge">KPM</span></div>
+    <h2 data-i18n="login.forgot_password">Lupa Kata Laluan?</h2>
+    <div class="success-banner" id="forgotSuccess"></div>
+    <form id="forgotForm" onsubmit="return handleForgotPassword(event)">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="forgotEmail" required />
+      </div>
+      <button class="btn btn-primary" type="submit" data-i18n="login.submit">Hantar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'swb_auth';
+let TRANSLATIONS = {};
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (TRANSLATIONS[key]) el.textContent = TRANSLATIONS[key];
+  });
+}
+
+async function loadLanguages() {
+  const langSelect = document.getElementById('langSelect');
+  const res = await fetch('/i18n/languages');
+  const languages = await res.json();
+  langSelect.innerHTML = languages.map(l => `<option value="${l.code}">${l.native_name}</option>`).join('');
+  const saved = localStorage.getItem('swb_lang') || languages.find(l => l.is_default)?.code || 'ms';
+  langSelect.value = saved;
+  await loadTranslations(saved);
+  langSelect.addEventListener('change', async () => {
+    localStorage.setItem('swb_lang', langSelect.value);
+    await loadTranslations(langSelect.value);
+  });
+}
+
+async function loadTranslations(code) {
+  const res = await fetch(`/i18n/translations?lang=${code}`);
+  TRANSLATIONS = await res.json();
+  applyTranslations();
+  document.body.classList.toggle('lang-zh', code === 'zh');
+}
+
+function openLogin() { document.getElementById('loginOverlay').classList.add('open'); }
+function openForgot() { closeModals(); document.getElementById('forgotOverlay').classList.add('open'); }
+function closeModals() {
+  document.getElementById('loginOverlay').classList.remove('open');
+  document.getElementById('forgotOverlay').classList.remove('open');
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const errorBanner = document.getElementById('loginError');
+  errorBanner.style.display = 'none';
+  const ic_number = document.getElementById('icNumber').value;
+  const password = document.getElementById('password').value;
+  try {
+    const res = await fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ic_number, password }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      errorBanner.textContent = body.detail || TRANSLATIONS['login.error_invalid'] || 'Invalid IC number or password.';
+      errorBanner.style.display = 'block';
+      return false;
+    }
+    const data = await res.json();
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    window.location.href = '/dashboard';
+  } catch (err) {
+    errorBanner.textContent = 'Network error. Please try again.';
+    errorBanner.style.display = 'block';
+  }
+  return false;
+}
+
+async function handleForgotPassword(e) {
+  e.preventDefault();
+  const email = document.getElementById('forgotEmail').value;
+  const res = await fetch('/auth/forgot-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  const body = await res.json();
+  const successBanner = document.getElementById('forgotSuccess');
+  successBanner.textContent = body.message;
+  successBanner.style.display = 'block';
+  return false;
+}
+
+if (sessionStorage.getItem(STORAGE_KEY)) {
+  window.location.replace('/dashboard');
+}
+loadLanguages();
+</script>
+</body>
+</html>

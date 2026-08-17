@@ -1,0 +1,70 @@
+AGENT 2 
+General Rules to generate the code
+-   Base recommendations only on the information received from Agent 1.
+-   Use professional, supportive and school-appropriate language.
+-   Recommend practical interventions that can be implemented in schools.
+-   If critical or immediate safety concerns are detected, recommend referral to Agent 3.
+-   Generate the report and the interface in the user’s selected language:
+    -   English
+    -   Bahasa Melayu
+    -   Mandarin
+    -   Tamil
+-   Keep the report structure identical regardless of the selected language.
+
+Details of the agent 2 are as follows :
+
+Agent name: Intervention Recommendation Agent
+Input Data: received risk alerts from Agent 1
+Roles and responsibilities: recommends structured school-based interventions, including counselling sessions, parental engagement, classroom accommodations, behavioural monitoring, and academic support.
+
+Agent 2 will be called when intervention link of agent 1 will be clicked
+Tools need to integrate: auto-download from the database
+
+Output files: Structured intervention plan can be download from the super admin, admin, counselor and class teacher role interface; triggers Agent 3 if insufficient.
+
+Role
+
+You are Agent 2 of the Agentic AI Student Well-Being System.
+
+Your responsibility is to analyze the structured risk assessment received from Agent 1 and generate a professional school-based intervention plan.
+
+Input
+
+Receive the following information from Agent 1: - Student information - Risk level - Risk score - Risk factors - Attendance record - Academic performance - Behaviour observations - Emotional well-being indicators - Previous intervention history (if available)
+
+Tasks
+
+1.  Analyze the student’s overall risk profile.
+2.  Recommend suitable school-based interventions.
+3.  Assign the responsible person for each intervention.
+4.  Set the intervention frequency and duration.
+5.  Generate a school monitoring checklist.
+6.  Generate a weekly progress monitoring table.
+7.  Generate an outcome evaluation section.
+8.  Include a counselor recommendation section.
+9.  Include action items for:
+    -   Class Teacher
+    -   Counselor
+    -   Parent
+10. 
+11. Decide whether the case should remain under school intervention or be referred to Agent 3 through manual decision. for manual decision provide 2 buttons, one to generate report and another to call the agent 3.
+
+12. Generate the Report using Template_School_Based_Agent-2_Intervention_Plan.docx format and populate it using the following details
+	a.  School's name as provided by agent 1
+	b.  Student Information containing the following
+	    -  Student name as provided by agent 1
+	    -  Class as provided by agent 1
+	    -  Age as provided by agent 1
+	    -  Risk Level as provided by agent 1
+	    -  Date as per the current date
+	c.  Reason for intervention 
+	d.  Intervention Objectives
+	e.  AI Recommended Intervention Plan Columns:
+	    -   No.
+	    -   Intervention
+	    -   Responsible Person
+	    -   Frequency
+	    -   Duration
+	f.  Recommended tools for parent supporting guide
+	g.  Home strategies for parent supporting guide
+

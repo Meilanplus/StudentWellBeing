@@ -1,0 +1,42 @@
+Act as a database engineer and UI designer design a Form which collects all the class teachers and counselors Feedback pertaining to student data.
+
+The fields are listed here
+
+Agent 1
+Agent name: Risk Detection
+
+Input Data:
+ Input data from class teacher: student IC, student name, school name, student percentage attendance and date, discipline records
+ Input data from counselor:
+	1) Saringan Minda Sihat Score and Counselor’s Comments (counselor) for students standard 4 to 6,
+	2) Emotional distress signals (counselor) for students standard 1 to 3
+ Discipline record and repeated misconduct (class teacher)
+ Changes in classroom participation (class teacher)
+ Teacher observation (class teacher)
+ Stimulate input files
+- consider this file "Roles_Task_Data.xlsx"
+The log in refer to the excel file "Log in username and password"
+
+Keep the data in four languages i.e. English, Bahasa Melayu, Mandarin, Tamil.
+
+Multilingual in Homepage of log in.
+
+Run the application through uvicorn server with the help of unused port number.
+
+Tools need to integrate: database(sqlite)
+
+Output files: Risk score (Low/ Moderate/ High). Triggers agent 2 if threshold exceeded.(sqlite database). Refer the format in this file" "
+
+Display the output based on the following instruction:
+	1. Create a drop down of roles
+	2. based on the selected role, display the input data
+
+Display the input data key in according to the role: class_teacher, counselor, administrator, SuperAdmin, teacher and parent. Administrator and super_admin can view all the data.
+
+Create an attractive, amazing and excellent UI for this through Html, css and javascript
+
+
+--------------------	Not to be used now	--------------------
+
+Create a new conda environment in the name "Feedback_notification" , install relevant packages and save the relevant packages and environment in environment.yml file, keep it in the folder.
+

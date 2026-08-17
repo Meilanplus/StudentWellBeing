@@ -1,0 +1,5 @@
+﻿student_id,student_name,class_name,attendance_percentage,absence_reason,discipline_details,teacher_observation,whooley_q1,whooley_q2,gad2_q1,gad2_q2,previous_intervention,parent_feedback
+ST0001,WILLBER TAN WEI BO,2M,95,Masalah kesihatan,Tidak mengikut giliran; memukul murid,Kadang-kadang mudah marah tetapi masih aktif dalam kelas.,Tidak,Tidak,1,0,Tiada,Belum diperoleh
+ST0002,KYLER DARNIEL,3K,99,Masalah kesihatan,Membawa pisau; memukul guru; memukul murid,Tingkah laku agresif dan sukar mematuhi arahan.,Tidak,Ya,2,2,Teguran dan perbincangan dengan guru disiplin,Penjaga bersetuju hadir perjumpaan
+ST0003,WONG JUN HAN,6B,92,Masalah kesihatan,Merosakkan harta benda sekolah,Kelihatan kecewa apabila tugasan sukar.,Tidak,Tidak,0,1,Bimbingan guru kelas,Belum diperoleh
+ST0004,THILUSHAN SAIRAAM A/L SENTHIL KUMAR,6B,55,Masalah kesihatan; masalah keluarga; ponteng sekolah,Ponteng sekolah; bergaduh; merosakkan buku SPBT,"Semakin pendiam, kerap tidak hadir dan kurang menyiapkan kerja.",Ya,Ya,3,3,Kaunseling ringkas sekali,Keluarga memaklumkan terdapat tekanan di rumah

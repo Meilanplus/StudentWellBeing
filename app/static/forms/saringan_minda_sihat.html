@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8"/>
+<title>Borang Saringan Minda Sihat (SMS) — KPM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Times New Roman',serif;font-size:13px;color:#000;background:#fff;padding:20px}
+.page{max-width:720px;margin:auto;padding:28px 32px;border:1px solid #ccc}
+.kpm-header{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:10px}
+.kpm-logo{width:64px;height:64px;background:#003087;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;text-align:center;line-height:1.3;flex-shrink:0}
+.org-info{text-align:center}
+.org-info h1{font-size:15px;font-weight:700;letter-spacing:.5px}
+.org-info h2{font-size:13px;font-weight:700;margin-top:2px}
+.org-info p{font-size:11px;margin-top:2px}
+hr{border:none;border-top:2px solid #000;margin:8px 0}
+hr.thin{border-top:1px solid #000}
+.form-title{text-align:center;font-size:15px;font-weight:700;text-decoration:underline;margin:12px 0 8px}
+.subtitle{text-align:center;font-size:12px;font-style:italic;margin-bottom:14px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;margin-bottom:14px}
+.info-row{display:flex;align-items:flex-end;gap:4px;font-size:12px;border-bottom:1px solid #000;padding-bottom:2px}
+.info-label{white-space:nowrap;font-weight:700;flex-shrink:0}
+.info-line{flex:1;border-bottom:none}
+.section-title{font-size:13px;font-weight:700;background:#e8e8e8;padding:4px 8px;margin:14px 0 8px}
+.instr{font-size:11px;font-style:italic;margin-bottom:8px;line-height:1.5}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px}
+th{background:#d0d0d0;border:1px solid #000;padding:4px 6px;text-align:center;font-weight:700}
+td{border:1px solid #000;padding:4px 6px;vertical-align:top}
+td.no{text-align:center;width:28px}
+td.item{width:55%}
+td.score{text-align:center;width:60px}
+td.total-row{font-weight:700;background:#f0f0f0}
+.answer-box{display:inline-block;width:18px;height:18px;border:1px solid #000;vertical-align:middle;margin:0 4px}
+.tahap-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
+.tahap-table th,.tahap-table td{border:1px solid #000;padding:5px 8px}
+.tahap-table th{background:#d0d0d0;font-weight:700;text-align:center}
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}
+.sig-box{text-align:center}
+.sig-line{border-top:1px solid #000;margin-top:36px;margin-bottom:4px}
+.disclaimer{font-size:10px;font-style:italic;border-top:1px dashed #000;padding-top:8px;margin-top:16px;line-height:1.5}
+@media print{
+  body{padding:0}
+  .page{border:none;padding:16px 20px}
+  .print-btn{display:none}
+  @page{margin:1.2cm}
+}
+.print-btn{display:block;text-align:center;margin-bottom:16px}
+.print-btn button{background:#003087;color:#fff;border:none;padding:10px 28px;font-size:13px;cursor:pointer;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="print-btn"><button onclick="window.print()">🖨️ Cetak / Print to PDF</button></div>
+
+<div class="page">
+  <!-- Header -->
+  <div class="kpm-header">
+    <div class="kpm-logo">KPM<br/>MOE</div>
+    <div class="org-info">
+      <h1>KEMENTERIAN PENDIDIKAN MALAYSIA</h1>
+      <h2>BAHAGIAN PENGURUSAN SEKOLAH HARIAN</h2>
+      <p>Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI</p>
+    </div>
+  </div>
+  <hr/>
+
+  <div class="form-title">BORANG SARINGAN MINDA SIHAT (SMS)</div>
+  <div class="subtitle">Mental Health Screening Form · Untuk Kegunaan Kaunselor Sekolah Sahaja</div>
+
+  <!-- Student Info -->
+  <div class="info-grid">
+    <div class="info-row"><span class="info-label">Nama Murid:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label">No. ID / Kad Pelajar:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label">Kelas:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label">Tahun:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label">Jantina:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label">Tarikh Lahir:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label">Nama Sekolah:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label">Tarikh Saringan:</span><span class="info-line">&nbsp;</span></div>
+  </div>
+  <hr class="thin"/>
+
+  <!-- Instructions -->
+  <div class="section-title">ARAHAN / INSTRUCTIONS</div>
+  <div class="instr">
+    Baca setiap pernyataan di bawah dengan teliti. Tandakan (✓) dalam kotak yang paling menggambarkan perasaan atau keadaan murid dalam <strong>tempoh 2 minggu yang lalu</strong>.<br/>
+    <em>Read each statement carefully. Tick (✓) the box that best describes the student's feelings or condition over the <strong>past 2 weeks</strong>.</em>
+  </div>
+
+  <!-- Section A: Emosi -->
+  <div class="section-title">BAHAGIAN A — KESEJAHTERAAN EMOSI (Emotional Well-being)</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="no">Bil.</th>
+        <th class="item">Pernyataan / Statement</th>
+        <th class="score">Tidak Pernah<br/>(0)</th>
+        <th class="score">Kadang-<br/>kadang (1)</th>
+        <th class="score">Kerap<br/>(2)</th>
+        <th class="score">Sangat<br/>Kerap (3)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="no">1</td><td>Saya berasa sedih atau murung / <em>I feel sad or depressed</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">2</td><td>Saya berasa bimbang atau cemas / <em>I feel worried or anxious</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">3</td><td>Saya berasa tidak berharga atau tidak berguna / <em>I feel worthless</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">4</td><td>Saya mengalami perubahan mood yang tiba-tiba / <em>I experience sudden mood changes</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">5</td><td>Saya berasa tertekan dan tidak dapat bersuka ria / <em>I feel stressed and unable to enjoy activities</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" class="total-row" style="text-align:right;font-weight:700">Jumlah Markah Bahagian A / Section A Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Section B: Sosial -->
+  <div class="section-title">BAHAGIAN B — KESEJAHTERAAN SOSIAL (Social Well-being)</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="no">Bil.</th>
+        <th class="item">Pernyataan / Statement</th>
+        <th class="score">Tidak Pernah<br/>(0)</th>
+        <th class="score">Kadang-<br/>kadang (1)</th>
+        <th class="score">Kerap<br/>(2)</th>
+        <th class="score">Sangat<br/>Kerap (3)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="no">6</td><td>Saya mengasingkan diri daripada rakan-rakan / <em>I isolate myself from friends</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">7</td><td>Saya mengalami konflik dengan rakan sebaya / <em>I experience conflict with peers</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">8</td><td>Saya berasa sukar untuk berkomunikasi dengan orang lain / <em>I find it hard to communicate with others</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">9</td><td>Saya berasa dibuli atau diabaikan / <em>I feel bullied or ignored</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">10</td><td>Saya berasa keseorangan walaupun berada dalam kumpulan / <em>I feel lonely even in a group</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700">Jumlah Markah Bahagian B / Section B Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Section C: Akademik -->
+  <div class="section-title">BAHAGIAN C — KESEJAHTERAAN AKADEMIK (Academic Well-being)</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="no">Bil.</th>
+        <th class="item">Pernyataan / Statement</th>
+        <th class="score">Tidak Pernah<br/>(0)</th>
+        <th class="score">Kadang-<br/>kadang (1)</th>
+        <th class="score">Kerap<br/>(2)</th>
+        <th class="score">Sangat<br/>Kerap (3)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="no">11</td><td>Saya sukar menumpukan perhatian di dalam kelas / <em>I have difficulty focusing in class</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">12</td><td>Saya tidak menyiapkan kerja sekolah / <em>I do not complete schoolwork</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">13</td><td>Saya berasa tertekan dengan peperiksaan / <em>I feel pressured by exams</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">14</td><td>Saya tidak berminat untuk belajar / <em>I have no interest in learning</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">15</td><td>Saya sering tidak hadir ke sekolah / <em>I am frequently absent from school</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700">Jumlah Markah Bahagian C / Section C Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Section D: Fizikal -->
+  <div class="section-title">BAHAGIAN D — KESEJAHTERAAN FIZIKAL (Physical Well-being)</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="no">Bil.</th>
+        <th class="item">Pernyataan / Statement</th>
+        <th class="score">Tidak Pernah<br/>(0)</th>
+        <th class="score">Kadang-<br/>kadang (1)</th>
+        <th class="score">Kerap<br/>(2)</th>
+        <th class="score">Sangat<br/>Kerap (3)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="no">16</td><td>Saya mengalami masalah tidur / <em>I experience sleep problems</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">17</td><td>Selera makan saya berkurangan / <em>My appetite has decreased</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">18</td><td>Saya sering merasa sakit kepala atau sakit badan / <em>I often have headaches or body pain</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">19</td><td>Saya berasa keletihan walaupun rehat yang cukup / <em>I feel tired even after adequate rest</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">20</td><td>Saya mengabaikan kebersihan diri / <em>I neglect personal hygiene</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700">Jumlah Markah Bahagian D / Section D Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Scoring Summary -->
+  <hr/>
+  <div class="section-title">RUMUSAN MARKAH / SCORING SUMMARY</div>
+  <table>
+    <thead><tr><th>Bahagian</th><th>Markah Diperoleh</th><th>Markah Maksimum</th></tr></thead>
+    <tbody>
+      <tr><td>A — Kesejahteraan Emosi</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td>B — Kesejahteraan Sosial</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td>C — Kesejahteraan Akademik</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td>D — Kesejahteraan Fizikal</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td style="font-weight:700;background:#f0f0f0">JUMLAH KESELURUHAN / GRAND TOTAL</td><td style="text-align:center;font-weight:700;font-size:14px;background:#f0f0f0"></td><td style="text-align:center;font-weight:700;background:#f0f0f0">60</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Interpretation -->
+  <div class="section-title">TAFSIRAN / INTERPRETATION</div>
+  <table class="tahap-table">
+    <thead>
+      <tr><th>Jumlah Markah</th><th>Tahap / Level</th><th>Tindakan / Action Required</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align:center">0 – 15</td>
+        <td><strong>Tahap 1 — Baik</strong><br/><em>Level 1 — Good (No Risk)</em></td>
+        <td>Tiada intervensi khusus diperlukan. Kekalkan pemantauan biasa.</td>
+      </tr>
+      <tr>
+        <td style="text-align:center">16 – 35</td>
+        <td><strong>Tahap 2 — Sederhana</strong><br/><em>Level 2 — Moderate (Low Risk)</em></td>
+        <td>Sesi kaunseling individu disyorkan. Maklumkan kepada ibu bapa / penjaga.</td>
+      </tr>
+      <tr>
+        <td style="text-align:center">36 – 60</td>
+        <td><strong>Tahap 3 — Membimbangkan</strong><br/><em>Level 3 — Concerning (High Risk)</em></td>
+        <td>Intervensi segera dan kemungkinan rujukan kepada pakar diperlukan.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Interpretation box -->
+  <div style="border:1px solid #000;padding:10px 14px;margin-bottom:14px">
+    <div style="font-weight:700;margin-bottom:6px">Keputusan Saringan / Screening Result:</div>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;font-size:12px">
+      <label><span class="answer-box"></span> Tahap 1 — Baik</label>
+      <label><span class="answer-box"></span> Tahap 2 — Sederhana</label>
+      <label><span class="answer-box"></span> Tahap 3 — Membimbangkan</label>
+    </div>
+    <div style="margin-top:10px;border-bottom:1px solid #000;padding-bottom:4px">
+      <strong>Jumlah Markah Keseluruhan / Total Score: ___________</strong>
+    </div>
+    <div style="margin-top:8px;font-size:12px">Catatan / Notes:</div>
+    <div style="border-bottom:1px solid #999;margin-top:26px"></div>
+    <div style="border-bottom:1px solid #999;margin-top:20px"></div>
+  </div>
+
+  <!-- Signatures -->
+  <div class="sig-grid">
+    <div class="sig-box">
+      <div class="sig-line"></div>
+      <div><strong>Tandatangan Kaunselor / Counselor's Signature</strong></div>
+      <div style="font-size:11px;margin-top:4px">Nama: _______________________________</div>
+      <div style="font-size:11px">No. Daftar BKM: ________________________</div>
+      <div style="font-size:11px">Tarikh: ________________________________</div>
+    </div>
+    <div class="sig-box">
+      <div class="sig-line"></div>
+      <div><strong>Tandatangan Pengetua / Guru Besar</strong></div>
+      <div style="font-size:11px;margin-top:4px">Nama: _______________________________</div>
+      <div style="font-size:11px">Cop Sekolah:</div>
+      <div style="font-size:11px">Tarikh: ________________________________</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA / CONFIDENTIAL — FOR INTERNAL USE ONLY</strong><br/>
+    Borang ini adalah alat saringan dan BUKAN diagnosis klinikal. Keputusan saringan mesti ditafsirkan oleh kaunselor sekolah yang berkelayakan. Keputusan yang membimbangkan hendaklah dirujuk kepada pakar yang bersesuaian. Simpan maklumat ini dengan selamat mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).<br/>
+    <em>This form is a screening tool and is NOT a clinical diagnosis. Results must be interpreted by a qualified school counselor. Concerning results should be referred to appropriate specialists. Store this information securely in compliance with the Personal Data Protection Act 2010.</em><br/>
+    Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia
+  </div>
+</div>
+</body>
+</html>
