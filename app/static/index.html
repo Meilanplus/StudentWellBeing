@@ -480,7 +480,15 @@ function openBehaviorModal(id) {
     <form onsubmit="return submitBehaviorForm(event, ${rec ? rec.id : 'null'})">
       <div class="field"><label>Date</label><input type="date" id="bf_date" value="${rec ? escAttr(rec.incident_date) : ''}" required /></div>
       <div class="field"><label>Incident Type</label><input id="bf_incident_type" value="${rec ? escAttr(rec.incident_type) : ''}" required /></div>
-      <div class="field"><label>Severity</label><input id="bf_severity" value="${rec ? escAttr(rec.severity) : ''}" required /></div>
+      <div class="field">
+        <label>Severity</label>
+        <input id="bf_severity" value="${rec ? escAttr(rec.severity) : ''}" required />
+        <div class="muted" style="margin-top:4px; font-size:0.78rem; line-height:1.4;">
+          <b>Ringan</b>/Minor — one-off, no harm, easily corrected in the moment.
+          <b>Sederhana</b>/Moderate — disrupts others or breaches a rule, no safety risk.
+          <b>Berat</b>/Serious — actual or credible risk to safety (weapon, injury, violence).
+        </div>
+      </div>
       <div class="field"><label>Description</label><textarea id="bf_description" required>${rec ? escAttr(rec.description) : ''}</textarea></div>
       <div class="field"><label>Action Taken</label><textarea id="bf_action_taken">${rec ? escAttr(rec.action_taken) : ''}</textarea></div>
       <div class="field"><label>Reported By</label><input id="bf_reported_by" value="${rec ? escAttr(rec.reported_by) : ''}" required /></div>
