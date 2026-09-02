@@ -394,18 +394,31 @@ async function renderStudentDetail() {
   const content = document.getElementById('content');
   if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
   const s = await res.json();
-  const [attRes, behRes, mhRes] = await Promise.all([
+  const [attRes, behRes, mhRes, allRes] = await Promise.all([
     apiFetch(`/students/${S.studentId}/attendance`),
     apiFetch(`/students/${S.studentId}/behavior`),
     apiFetch(`/students/${S.studentId}/mental-health`),
+    apiFetch('/students/'),
   ]);
   attendanceCache = attRes.ok ? await attRes.json() : [];
   behaviorCache = behRes.ok ? await behRes.json() : [];
   mentalHealthCache = mhRes.ok ? await mhRes.json() : [];
+  studentsCache = allRes.ok ? await allRes.json() : [];
   const { attendance: attendanceDisplay, behavior: behaviorDisplay } = await translateRecordFields(attendanceCache, behaviorCache);
 
   content.innerHTML = `
     <button class="btn btn-outline" onclick="navigate('students')">← Back to Students</button>
+    <div class="card">
+      <div class="toolbar">
+        <div class="field" style="margin:0; flex:1"><input id="search_id" placeholder="Search ID" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <div class="field" style="margin:0; flex:1"><input id="search_name" placeholder="Search Name" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <div class="field" style="margin:0; flex:1"><input id="search_class" placeholder="Search Class" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <div class="field" style="margin:0; flex:1"><input id="search_year" placeholder="Search Year" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <button class="btn btn-primary" onclick="filterStudents()">${t('common.search', 'Search')}</button>
+      </div>
+      <table><thead><tr><th>ID</th><th>${t('students.full_name','Name')}</th><th>${t('students.class_name','Class')}</th><th>${t('students.school_year','Year')}</th></tr></thead>
+      <tbody id="studentsTbody">${studentsCache.map(studentRowHtml).join('') || '<tr><td colspan="4" class="muted">No students yet.</td></tr>'}</tbody></table>
+    </div>
     <h1 class="page-title">${s.full_name} <span class="muted">(${s.student_id})</span></h1>
     <div class="grid">
       <div class="card"><b>${t('students.class_name','Class')}:</b> ${s.class_name}<br/><b>${t('students.school_year','Year')}:</b> ${s.school_year}<br/><b>Gender:</b> ${s.gender}</div>
