@@ -8,6 +8,7 @@ from app.models.student import Student
 from app.models.intervention import Intervention
 from app.schemas.report import DashboardReport
 from app.agents.reporting_agent import ReportingAgent
+from app.services.i18n_lookup import get_language_display_name
 from app.permissions import require_task
 from app.constants import TASK_INVOKE_AGENT4_REPORTING
 
@@ -17,11 +18,12 @@ router = APIRouter(prefix="/reports", tags=["Dashboard & Reports"])
 @router.get("/dashboard", response_model=DashboardReport)
 def dashboard(
     period: str | None = None,
+    language: str = "ms",
     requester: User = Depends(require_task(TASK_INVOKE_AGENT4_REPORTING)),
     db: Session = Depends(get_db),
 ):
     agent = ReportingAgent(db)
-    return agent.generate_dashboard(period)
+    return agent.generate_dashboard(period, language=get_language_display_name(language, db))
 
 
 @router.get("/class-summary")

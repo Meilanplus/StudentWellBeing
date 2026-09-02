@@ -277,7 +277,7 @@ async function renderPage() {
 
 // ── Dashboard ──
 async function renderDashboard() {
-  const res = await apiFetch('/reports/dashboard');
+  const res = await apiFetch(`/reports/dashboard?language=${currentLang()}`);
   const content = document.getElementById('content');
   if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
   const d = await res.json();

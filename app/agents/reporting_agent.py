@@ -19,6 +19,8 @@ Rules:
 - Use professional language appropriate for school leadership review.
 - Protect privacy: never name individual students in the management summary — this is \
 an aggregate/anonymized view.
+- If a target language is specified in the prompt, write all free-text fields \
+(trend_analysis, management_summary, recommendations items) in that language.
 
 You will be given aggregated KPI and class-breakdown data (already computed — you do \
 not need tools). Respond with ONLY a JSON object matching this schema (no prose \
@@ -110,11 +112,13 @@ class ReportingAgent(BaseAgent):
         )
         return kpis, class_breakdown
 
-    def generate_dashboard(self, period: str | None = None) -> DashboardReport:
+    def generate_dashboard(self, period: str | None = None, language: str = "English") -> DashboardReport:
         period = period or date.today().strftime("%B %Y")
         kpis, class_breakdown = self._compute_kpis(period)
 
-        prompt = f"""Monthly KPI data:
+        prompt = f"""Target language: {language}
+
+Monthly KPI data:
 {kpis.model_dump_json(indent=2)}
 
 Class risk breakdown:
