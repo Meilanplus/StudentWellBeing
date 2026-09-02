@@ -14,6 +14,31 @@ from app.config import settings
 
 LANGUAGE_NAMES = {"ms": "Bahasa Malaysia", "en": "English", "zh": "Mandarin Chinese", "ta": "Tamil"}
 
+# The configured agent_model is a reasoning model that spends a large, highly
+# variable number of hidden "thinking" tokens before writing any visible
+# output — observed anywhere from ~7.7k to ~14.8k+ tokens for the same-sized
+# intervention plan across different calls. Since this call must reproduce an
+# already-large document in full, settings.agent_max_tokens (tuned for direct
+# generation from a short prompt) is nowhere near enough, and even a single
+# generous fixed budget isn't reliable given how much that reasoning spend
+# varies call to call. Retried once at a much larger budget before falling
+# back, rather than silently returning the untranslated original on the
+# first truncation.
+TRANSLATE_MAX_TOKENS = 32000
+TRANSLATE_MAX_TOKENS_RETRY = 64000
+
+
+def _translate_once(client: OpenAI, prompt: str, max_tokens: int) -> dict:
+    response = client.chat.completions.create(
+        model=settings.agent_model,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=max_tokens,
+    )
+    choice = response.choices[0]
+    if choice.finish_reason == "length":
+        raise ValueError("Translation response was truncated (hit max_tokens).")
+    return extract_json(choice.message.content or "")
+
 
 def translate_report_data(report_data: dict, target_language: str) -> dict:
     if target_language == "ms" or not report_data:
@@ -37,11 +62,11 @@ Input JSON:
 {json.dumps(report_data, ensure_ascii=False)}
 """
     try:
-        response = client.chat.completions.create(
-            model=settings.agent_model,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=settings.agent_max_tokens,
-        )
-        return extract_json(response.choices[0].message.content or "")
+        return _translate_once(client, prompt, TRANSLATE_MAX_TOKENS)
+    except Exception:
+        pass
+
+    try:
+        return _translate_once(client, prompt, TRANSLATE_MAX_TOKENS_RETRY)
     except Exception:
         return report_data
