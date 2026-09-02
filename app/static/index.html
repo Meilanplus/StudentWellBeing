@@ -13,8 +13,11 @@
   * { box-sizing: border-box; }
   body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
   a { color: inherit; }
+  body.lang-zh, body.lang-zh input, body.lang-zh select, body.lang-zh textarea, body.lang-zh button {
+    font-family: KaiTi, "Kaiti SC", STKaiti, "AR PL KaitiM GB", "TW-Kai", cursive, serif;
+  }
 
-  #sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 240px; background: var(--blue-dark); color: #fff; display: flex; flex-direction: column; padding: 20px 0; }
+  #sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 240px; background: var(--blue-dark); color: #fff; display: flex; flex-direction: column; padding: 20px 0; overflow-y: auto; overflow-x: hidden; }
   #sidebar .brand { display: flex; align-items: center; gap: 10px; padding: 0 20px 20px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.12); margin-bottom: 12px; }
   .logo-badge { width: 34px; height: 34px; border-radius: 50%; background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; }
   .nav-group-label { padding: 14px 20px 6px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.5); }
@@ -74,6 +77,11 @@
   .tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
   .muted { color: var(--muted); font-size: 0.85rem; }
   .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+  @media print {
+    #sidebar, #topbar, .no-print { display: none !important; }
+    #main { margin-left: 0; }
+    body { background: #fff; }
+  }
 </style>
 </head>
 <body>
@@ -89,6 +97,9 @@
   <div class="nav-item" data-page="intervention" data-i18n="nav.intervention">Intervention</div>
   <div class="nav-item" data-page="referral" data-i18n="nav.referral">Referral</div>
   <div class="nav-item" data-page="reporting" data-i18n="nav.reporting">Reporting</div>
+  <div class="nav-group-label" data-i18n="nav.forms_group">Forms</div>
+  <a class="nav-item" href="/static/forms/saringan_minda_sihat.html" target="_blank" data-i18n="nav.sms_form">SMS Form</a>
+  <a class="nav-item" href="/static/forms/nichq_vanderbilt.html" target="_blank" data-i18n="nav.nichq_form">NICHQ Form</a>
   <div class="nav-group-label">Tools</div>
   <div class="nav-item" data-page="assessments" data-i18n="nav.assessments">Assessment Instruments</div>
   <div class="nav-item" data-page="class_summary" data-i18n="nav.class_summary">Class Summary</div>
@@ -168,6 +179,7 @@ async function loadTranslations(code) {
   const res = await fetch(`/i18n/translations?lang=${code}`);
   TRANSLATIONS = await res.json();
   applyTranslations();
+  document.body.classList.toggle('lang-zh', code === 'zh');
 }
 
 function currentLang() { return document.getElementById('langSelect').value; }
@@ -192,7 +204,57 @@ function navigate(page, studentId) {
   document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.dataset.page === page));
   renderPage();
 }
-document.querySelectorAll('.nav-item').forEach(el => el.addEventListener('click', () => navigate(el.dataset.page)));
+document.querySelectorAll('.nav-item').forEach(el => el.addEventListener('click', () => { if (el.dataset.page) navigate(el.dataset.page); }));
+
+function escAttr(v) {
+  return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function findById(cache, id) { return cache.find(r => r.id === id) || null; }
+
+// Translates a fixed-vocabulary value (possibly comma-separated, e.g. "Ponteng, Vandalisme")
+// via translations keyed `${prefix}.${slugify(part)}`; unrecognized parts fall back to the original text.
+function slugify(s) { return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, ''); }
+function translateCategory(prefix, value) {
+  if (!value) return value;
+  return value.split(',').map(part => {
+    const trimmed = part.trim();
+    return t(`${prefix}.${slugify(trimmed)}`, trimmed);
+  }).join(', ');
+}
+
+// Reports are always generated/stored in Bahasa Malaysia (the canonical
+// language); this translates the free-text fields for whatever language is
+// currently selected. No-op (and no API call) when already viewing in ms.
+async function translateForDisplay(reportData) {
+  const lang = currentLang();
+  if (lang === 'ms') return reportData;
+  const res = await apiFetch('/risk/reports/translate', { method: 'POST', body: JSON.stringify({ report: reportData, target_language: lang }) });
+  if (!res.ok) return reportData;
+  return await res.json();
+}
+
+// Same idea as translateForDisplay, but for attendance/behavior record
+// free-text fields (reason, description), scoped to the student-viewing
+// permission rather than the risk-agent one. Returns display-only copies —
+// the original caches stay untranslated so edit forms keep the canonical
+// Bahasa Malaysia text.
+async function translateRecordFields(attendance, behavior) {
+  const lang = currentLang();
+  if (lang === 'ms') return { attendance, behavior };
+  const report = {
+    attendance: attendance.map(a => ({ id: a.id, reason: a.reason || '' })),
+    behavior: behavior.map(b => ({ id: b.id, description: b.description || '' })),
+  };
+  const res = await apiFetch('/students/translate-fields', { method: 'POST', body: JSON.stringify({ report, target_language: lang }) });
+  if (!res.ok) return { attendance, behavior };
+  const translated = await res.json();
+  const reasonById = Object.fromEntries((translated.attendance || []).map(a => [a.id, a.reason]));
+  const descById = Object.fromEntries((translated.behavior || []).map(b => [b.id, b.description]));
+  return {
+    attendance: attendance.map(a => ({ ...a, reason: reasonById[a.id] ?? a.reason })),
+    behavior: behavior.map(b => ({ ...b, description: descById[b.id] ?? b.description })),
+  };
+}
 
 async function renderPage() {
   const content = document.getElementById('content');
@@ -241,19 +303,47 @@ async function renderDashboard() {
 }
 
 // ── Students ──
+let studentsCache = [];
+
+function studentRowHtml(s) {
+  return `<tr class="clickable" onclick="navigate('student_detail', '${s.student_id}')"><td>${s.student_id}</td><td>${s.full_name}</td><td>${s.class_name}</td><td>${s.school_year}</td></tr>`;
+}
+
+function filterStudents() {
+  const idQ = document.getElementById('search_id').value.trim().toLowerCase();
+  const nameQ = document.getElementById('search_name').value.trim().toLowerCase();
+  const classQ = document.getElementById('search_class').value.trim().toLowerCase();
+  const yearQ = document.getElementById('search_year').value.trim();
+  const filtered = studentsCache.filter(s =>
+    (!idQ || s.student_id.toLowerCase().includes(idQ)) &&
+    (!nameQ || s.full_name.toLowerCase().includes(nameQ)) &&
+    (!classQ || s.class_name.toLowerCase().includes(classQ)) &&
+    (!yearQ || String(s.school_year).includes(yearQ))
+  );
+  document.getElementById('studentsTbody').innerHTML =
+    filtered.map(studentRowHtml).join('') || '<tr><td colspan="4" class="muted">No matching students.</td></tr>';
+}
+
 async function renderStudents() {
   const res = await apiFetch('/students/');
   const content = document.getElementById('content');
   if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
-  const students = await res.json();
+  studentsCache = await res.json();
   content.innerHTML = `
     <div class="toolbar">
       <h1 class="page-title" style="margin:0">${t('nav.students', 'All Students')}</h1>
       <button class="btn btn-primary" onclick="openAddStudentModal()">${t('students.add_new', 'Add New Student')}</button>
     </div>
     <div class="card">
+      <div class="toolbar">
+        <div class="field" style="margin:0; flex:1"><input id="search_id" placeholder="Search ID" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <div class="field" style="margin:0; flex:1"><input id="search_name" placeholder="Search Name" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <div class="field" style="margin:0; flex:1"><input id="search_class" placeholder="Search Class" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <div class="field" style="margin:0; flex:1"><input id="search_year" placeholder="Search Year" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
+        <button class="btn btn-primary" onclick="filterStudents()">${t('common.search', 'Search')}</button>
+      </div>
       <table><thead><tr><th>ID</th><th>${t('students.full_name','Name')}</th><th>${t('students.class_name','Class')}</th><th>${t('students.school_year','Year')}</th></tr></thead>
-      <tbody>${students.map(s => `<tr class="clickable" onclick="navigate('student_detail', '${s.student_id}')"><td>${s.student_id}</td><td>${s.full_name}</td><td>${s.class_name}</td><td>${s.school_year}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">No students yet.</td></tr>'}</tbody></table>
+      <tbody id="studentsTbody">${studentsCache.map(studentRowHtml).join('') || '<tr><td colspan="4" class="muted">No students yet.</td></tr>'}</tbody></table>
     </div>`;
 }
 
@@ -295,43 +385,150 @@ async function submitAddStudent(e) {
   return false;
 }
 
+let attendanceCache = [];
+let behaviorCache = [];
+let mentalHealthCache = [];
+
 async function renderStudentDetail() {
   const res = await apiFetch(`/students/${S.studentId}`);
   const content = document.getElementById('content');
   if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
   const s = await res.json();
-  const [attRes, behRes] = await Promise.all([
+  const [attRes, behRes, mhRes] = await Promise.all([
     apiFetch(`/students/${S.studentId}/attendance`),
     apiFetch(`/students/${S.studentId}/behavior`),
+    apiFetch(`/students/${S.studentId}/mental-health`),
   ]);
-  const attendance = attRes.ok ? await attRes.json() : [];
-  const behavior = behRes.ok ? await behRes.json() : [];
-  
-  // Calculate attendance percentage
-  const attendancePercentage = attendance.length > 0 
-    ? Math.round((attendance.filter(a => a.status === 'present').length / attendance.length) * 100)
-    : 0;
-  
+  attendanceCache = attRes.ok ? await attRes.json() : [];
+  behaviorCache = behRes.ok ? await behRes.json() : [];
+  mentalHealthCache = mhRes.ok ? await mhRes.json() : [];
+  const { attendance: attendanceDisplay, behavior: behaviorDisplay } = await translateRecordFields(attendanceCache, behaviorCache);
+
   content.innerHTML = `
+    <button class="btn btn-outline" onclick="navigate('students')">← Back to Students</button>
     <h1 class="page-title">${s.full_name} <span class="muted">(${s.student_id})</span></h1>
     <div class="grid">
       <div class="card"><b>${t('students.class_name','Class')}:</b> ${s.class_name}<br/><b>${t('students.school_year','Year')}:</b> ${s.school_year}<br/><b>Gender:</b> ${s.gender}</div>
       <div class="card"><b>${t('students.guardian_name','Guardian')}:</b> ${s.guardian_name || '-'}<br/><b>${t('students.guardian_contact','Contact')}:</b> ${s.guardian_contact || '-'}</div>
     </div>
     <div class="card">
-      <h3>Attendance (recent)</h3>
-      <table><thead><tr><th>Date</th><th>Attendance percentage</th><th>Reason</th></tr></thead>
-      <tbody>${attendance.slice(0,10).map(a => `<tr><td>${a.record_date}</td><td>${attendancePercentage}%</td><td>${a.reason||'-'}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">No records.</td></tr>'}</tbody></table>
+      <div class="toolbar"><h3 style="margin:0">Attendance</h3><button class="btn btn-primary btn-sm" onclick="openAttendanceModal()">+ Add</button></div>
+      <table><thead><tr><th>Date</th><th>Attendance percentage</th><th>Reason</th><th></th></tr></thead>
+      <tbody>${attendanceDisplay.slice(0,10).map(a => `<tr><td>${a.record_date}</td><td>${a.att_per}</td><td>${a.reason||'-'}</td><td><button class="btn btn-outline btn-sm" onclick="openAttendanceModal(${a.id})">${t('common.edit','Edit')}</button></td></tr>`).join('') || '<tr><td colspan="4" class="muted">No records.</td></tr>'}</tbody></table>
     </div>
     <div class="card">
-      <h3>Behavior (recent)</h3>
-      <table><thead><tr><th>Date</th><th>Type</th><th>Description</th></tr></thead>
-      <tbody>${behavior.slice(0,10).map(b => `<tr><td>${b.incident_date}</td><td>${b.incident_type}</td><td>${b.description}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">No records.</td></tr>'}</tbody></table>
+      <div class="toolbar"><h3 style="margin:0">Behavior</h3><button class="btn btn-primary btn-sm" onclick="openBehaviorModal()">+ Add</button></div>
+      <table><thead><tr><th>Date</th><th>Type</th><th>Description</th><th></th></tr></thead>
+      <tbody>${behaviorDisplay.slice(0,10).map(b => `<tr><td>${b.incident_date}</td><td>${translateCategory('behavior.incident_type', b.incident_type)}</td><td>${b.description}</td><td><button class="btn btn-outline btn-sm" onclick="openBehaviorModal(${b.id})">${t('common.edit','Edit')}</button></td></tr>`).join('') || '<tr><td colspan="4" class="muted">No records.</td></tr>'}</tbody></table>
+    </div>
+    <div class="card">
+      <div class="toolbar"><h3 style="margin:0">Mental Health</h3><button class="btn btn-primary btn-sm" onclick="openMentalHealthModal()">+ Add</button></div>
+      <table><thead><tr><th>Semester</th><th>Year</th><th>WHOOLEY</th><th>GAD-2 Score</th><th>GAD-2 Status</th><th></th></tr></thead>
+      <tbody>${mentalHealthCache.map(m => `<tr><td>${m.semester}</td><td>${m.year}</td><td>${m.whooley}</td><td>${m.gad2_score}</td><td>${m.gad2_status}</td><td><button class="btn btn-outline btn-sm" onclick="openMentalHealthModal(${m.id})">${t('common.edit','Edit')}</button></td></tr>`).join('') || '<tr><td colspan="6" class="muted">No records.</td></tr>'}</tbody></table>
     </div>
     <button class="btn btn-outline" onclick="navigate('students')">← Back to Students</button>`;
 }
 
+// ── Attendance add/edit ──
+function openAttendanceModal(id) {
+  const rec = id ? findById(attendanceCache, id) : null;
+  openModal(`
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <h3>Attendance Record</h3>
+    <form onsubmit="return submitAttendanceForm(event, ${rec ? rec.id : 'null'})">
+      <div class="field"><label>Date</label><input type="date" id="af_date" value="${rec ? escAttr(rec.record_date) : ''}" required /></div>
+      <div class="field"><label>Attendance %</label><input id="af_att_per" value="${rec ? escAttr(rec.att_per) : ''}" required /></div>
+      <div class="field"><label>Reason</label><input id="af_reason" value="${rec ? escAttr(rec.reason) : ''}" /></div>
+      <div class="field"><label>Recorded By</label><input id="af_recorded_by" value="${rec ? escAttr(rec.recorded_by) : ''}" required /></div>
+      <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
+    </form>`);
+}
+
+async function submitAttendanceForm(e, id) {
+  e.preventDefault();
+  const payload = {
+    record_date: document.getElementById('af_date').value,
+    att_per: document.getElementById('af_att_per').value,
+    reason: document.getElementById('af_reason').value || null,
+    recorded_by: document.getElementById('af_recorded_by').value,
+  };
+  const url = id ? `/students/${S.studentId}/attendance/${id}` : `/students/${S.studentId}/attendance`;
+  const res = await apiFetch(url, { method: id ? 'PATCH' : 'POST', body: JSON.stringify(payload) });
+  if (res.ok) { closeModal(); renderStudentDetail(); } else { alert((await res.json()).detail); }
+  return false;
+}
+
+// ── Behavior add/edit ──
+function openBehaviorModal(id) {
+  const rec = id ? findById(behaviorCache, id) : null;
+  openModal(`
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <h3>Behavior Record</h3>
+    <form onsubmit="return submitBehaviorForm(event, ${rec ? rec.id : 'null'})">
+      <div class="field"><label>Date</label><input type="date" id="bf_date" value="${rec ? escAttr(rec.incident_date) : ''}" required /></div>
+      <div class="field"><label>Incident Type</label><input id="bf_incident_type" value="${rec ? escAttr(rec.incident_type) : ''}" required /></div>
+      <div class="field"><label>Severity</label><input id="bf_severity" value="${rec ? escAttr(rec.severity) : ''}" required /></div>
+      <div class="field"><label>Description</label><textarea id="bf_description" required>${rec ? escAttr(rec.description) : ''}</textarea></div>
+      <div class="field"><label>Action Taken</label><textarea id="bf_action_taken">${rec ? escAttr(rec.action_taken) : ''}</textarea></div>
+      <div class="field"><label>Reported By</label><input id="bf_reported_by" value="${rec ? escAttr(rec.reported_by) : ''}" required /></div>
+      <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
+    </form>`);
+}
+
+async function submitBehaviorForm(e, id) {
+  e.preventDefault();
+  const payload = {
+    incident_date: document.getElementById('bf_date').value,
+    incident_type: document.getElementById('bf_incident_type').value,
+    severity: document.getElementById('bf_severity').value,
+    description: document.getElementById('bf_description').value,
+    action_taken: document.getElementById('bf_action_taken').value || null,
+    reported_by: document.getElementById('bf_reported_by').value,
+  };
+  const url = id ? `/students/${S.studentId}/behavior/${id}` : `/students/${S.studentId}/behavior`;
+  const res = await apiFetch(url, { method: id ? 'PATCH' : 'POST', body: JSON.stringify(payload) });
+  if (res.ok) { closeModal(); renderStudentDetail(); } else { alert((await res.json()).detail); }
+  return false;
+}
+
+// ── Mental health add/edit ──
+function openMentalHealthModal(id) {
+  const rec = id ? findById(mentalHealthCache, id) : null;
+  openModal(`
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <h3>Mental Health Record</h3>
+    <form onsubmit="return submitMentalHealthForm(event, ${rec ? rec.id : 'null'})">
+      <div class="form-grid">
+        <div class="field"><label>Semester</label><input type="number" min="0" max="9" id="mf_semester" value="${rec ? rec.semester : ''}" required /></div>
+        <div class="field"><label>Year</label><input type="number" min="1000" max="9999" id="mf_year" value="${rec ? rec.year : new Date().getFullYear()}" required /></div>
+        <div class="field"><label>WHOOLEY</label><input id="mf_whooley" value="${rec ? escAttr(rec.whooley) : ''}" required /></div>
+        <div class="field"><label>GAD-2 Score</label><input type="number" min="0" max="9" id="mf_gad2_score" value="${rec ? rec.gad2_score : ''}" required /></div>
+        <div class="field"><label>GAD-2 Status</label><input id="mf_gad2_status" value="${rec ? escAttr(rec.gad2_status) : ''}" required /></div>
+      </div>
+      <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
+    </form>`);
+}
+
+async function submitMentalHealthForm(e, id) {
+  e.preventDefault();
+  const payload = {
+    semester: parseInt(document.getElementById('mf_semester').value),
+    year: parseInt(document.getElementById('mf_year').value),
+    whooley: document.getElementById('mf_whooley').value,
+    gad2_score: parseInt(document.getElementById('mf_gad2_score').value),
+    gad2_status: document.getElementById('mf_gad2_status').value,
+  };
+  const url = id ? `/students/${S.studentId}/mental-health/${id}` : `/students/${S.studentId}/mental-health`;
+  const res = await apiFetch(url, { method: id ? 'PATCH' : 'POST', body: JSON.stringify(payload) });
+  if (res.ok) { closeModal(); renderStudentDetail(); } else { alert((await res.json()).detail); }
+  return false;
+}
+
 // ── Early Detection (Agent 1) ──
+let lastReport = null;
+let lastReportStudentId = null;
+let savedReportsCache = [];
+
 async function renderEarlyDetection() {
   const content = document.getElementById('content');
   const students = await (await apiFetch('/students/')).json();
@@ -342,32 +539,105 @@ async function renderEarlyDetection() {
         <select id="ed_student">${students.map(s => `<option value="${s.student_id}">${s.full_name} (${s.student_id})</option>`).join('')}</select>
       </div>
       <button class="btn btn-primary" onclick="runRiskAssessment()">${t('nav.invoke_agent1', 'Run Agent 1: Risk Detection')}</button>
-      <a href="/static/forms/saringan_minda_sihat.html" target="_blank" class="btn btn-outline" style="margin-left:8px; display:inline-block">SMS Form</a>
-      <a href="/static/forms/nichq_vanderbilt.html" target="_blank" class="btn btn-outline" style="margin-left:8px; display:inline-block">NICHQ Form</a>
+      <button class="btn btn-outline" style="margin-left:8px" onclick="viewPreviousReports()">${t('risk.view_previous_reports','View Previous Reports')}</button>
     </div>
     <div id="ed_result"></div>`;
+}
+
+function riskReportHtml(r, buttonsHtml) {
+  return `
+    <div class="card">
+      <h3>${r.student_name} — <span class="badge ${riskBadgeClass(r.risk_level)}">${r.risk_level}</span> (${r.risk_score}/100)</h3>
+      <p>${r.summary}</p>
+      <h4>${t('risk.factors_heading','Risk Factors')}</h4>
+      <table><thead><tr><th>${t('risk.category','Category')}</th><th>${t('risk.indicator','Indicator')}</th><th>${t('risk.severity','Severity')}</th><th>${t('risk.evidence','Evidence')}</th></tr></thead>
+      <tbody>${r.risk_factors.map(f => `<tr><td>${f.category}</td><td>${f.indicator}</td><td>${f.severity}</td><td>${f.evidence}</td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.none_flagged','None flagged.')}</td></tr>`}</tbody></table>
+      <h4>${t('risk.recommended_actions','Recommended Actions')}</h4><ul>${r.recommended_actions.map(a => `<li>${a}</li>`).join('')}</ul>
+      <div class="disclaimer">${r.disclaimer}</div>
+      <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
+    </div>`;
 }
 
 async function runRiskAssessment() {
   const studentId = document.getElementById('ed_student').value;
   const resultDiv = document.getElementById('ed_result');
   resultDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
-  const res = await apiFetch(`/risk/${studentId}/assess?language=${currentLang()}`);
+
+  const listRes = await apiFetch(`/risk/${studentId}/reports`);
+  if (listRes.ok) {
+    const reports = await listRes.json();
+    const todayStr = new Date().toDateString();
+    const todaysReport = reports.find(rep => new Date(rep.created_at).toDateString() === todayStr);
+    if (todaysReport) {
+      const display = await translateForDisplay(todaysReport.report_data);
+      const note = `<p class="muted">${t('risk.already_generated_today','A report for this student was already generated today — showing the saved report instead of recalculating.')}</p>`;
+      const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+      resultDiv.innerHTML = note + riskReportHtml(display, buttons);
+      return;
+    }
+  }
+
+  const res = await apiFetch(`/risk/${studentId}/assess?language=ms`);
   if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
-  const r = await res.json();
+  const canonical = await res.json();
+  lastReport = canonical;
+  lastReportStudentId = studentId;
+  const display = await translateForDisplay(canonical);
+  const buttons = `
+    <button class="btn btn-primary" onclick="saveRiskReport()">${t('common.save','Save')}</button>
+    <button class="btn btn-outline" onclick="discardRiskReport()">${t('risk.discard','Discard')}</button>
+    <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+  resultDiv.innerHTML = riskReportHtml(display, buttons);
+}
+
+async function saveRiskReport() {
+  if (!lastReport || !lastReportStudentId) return;
+  const res = await apiFetch(`/risk/${lastReportStudentId}/reports`, { method: 'POST', body: JSON.stringify(lastReport) });
+  if (res.ok) {
+    alert(t('risk.report_saved','Report saved.'));
+    lastReport = null;
+    lastReportStudentId = null;
+  } else {
+    alert((await res.json()).detail);
+  }
+}
+
+function discardRiskReport() {
+  document.getElementById('ed_result').innerHTML = '';
+  lastReport = null;
+  lastReportStudentId = null;
+}
+
+async function viewPreviousReports() {
+  const studentId = document.getElementById('ed_student').value;
+  const resultDiv = document.getElementById('ed_result');
+  resultDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+  const res = await apiFetch(`/risk/${studentId}/reports`);
+  if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
+  savedReportsCache = await res.json();
   resultDiv.innerHTML = `
     <div class="card">
-      <h3>${r.student_name} — <span class="badge ${riskBadgeClass(r.risk_level)}">${r.risk_level}</span> (${r.risk_score}/100)</h3>
-      <p>${r.summary}</p>
-      <h4>Risk Factors</h4>
-      <table><thead><tr><th>Category</th><th>Indicator</th><th>Severity</th><th>Evidence</th></tr></thead>
-      <tbody>${r.risk_factors.map(f => `<tr><td>${f.category}</td><td>${f.indicator}</td><td>${f.severity}</td><td>${f.evidence}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">None flagged.</td></tr>'}</tbody></table>
-      <h4>Recommended Actions</h4><ul>${r.recommended_actions.map(a => `<li>${a}</li>`).join('')}</ul>
-      <div class="disclaimer">${r.disclaimer}</div>
-    </div>`;
+      <h3>${t('risk.previous_reports','Previous Reports')}</h3>
+      <table><thead><tr><th>${t('risk.timestamp','Timestamp')}</th><th>${t('risk.level','Risk Level')}</th><th>${t('risk.score','Score')}</th><th></th></tr></thead>
+      <tbody>${savedReportsCache.map((rep,i) => `<tr><td>${new Date(rep.created_at).toLocaleString()}</td><td><span class="badge ${riskBadgeClass(rep.risk_level)}">${rep.risk_level}</span></td><td>${rep.risk_score}/100</td><td><button class="btn btn-outline btn-sm" onclick="viewSavedReport(${i})">${t('common.view','View')}</button></td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.no_previous_reports','No previous reports found.')}</td></tr>`}</tbody></table>
+    </div>
+    <div id="saved_report_detail"></div>`;
+}
+
+async function viewSavedReport(i) {
+  const rep = savedReportsCache[i];
+  const detailDiv = document.getElementById('saved_report_detail');
+  detailDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+  const display = await translateForDisplay(rep.report_data);
+  const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+  detailDiv.innerHTML = riskReportHtml(display, buttons);
 }
 
 // ── Intervention (Agent 2) ──
+let lastInterventionReport = null;
+let lastInterventionStudentId = null;
+let savedInterventionReportsCache = [];
+
 async function renderIntervention() {
   const content = document.getElementById('content');
   const students = await (await apiFetch('/students/')).json();
@@ -378,19 +648,13 @@ async function renderIntervention() {
         <select id="iv_student">${students.map(s => `<option value="${s.student_id}">${s.full_name} (${s.student_id})</option>`).join('')}</select>
       </div>
       <button class="btn btn-primary" onclick="runIntervention()">Run Agent 2: Intervention Plan</button>
+      <button class="btn btn-outline" style="margin-left:8px" onclick="viewPreviousInterventionReports()">${t('risk.view_previous_reports','View Previous Reports')}</button>
     </div>
     <div id="iv_result"></div>`;
 }
 
-async function runIntervention() {
-  const studentId = document.getElementById('iv_student').value;
-  const resultDiv = document.getElementById('iv_result');
-  resultDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
-  const params = new URLSearchParams({ school_name: auth.user.school_name || '', prepared_by: auth.user.name, language: currentLang() });
-  const res = await apiFetch(`/risk/${studentId}/intervene?${params}`);
-  if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
-  const p = await res.json();
-  resultDiv.innerHTML = `
+function interventionReportHtml(p, buttonsHtml) {
+  return `
     <div class="card">
       <h3>${p.student_name} — <span class="badge ${riskBadgeClass(p.risk_level)}">${p.risk_level}</span></h3>
       <p class="muted">Case: ${p.case_reference} · ${p.date} · Prepared by ${p.prepared_by}</p>
@@ -400,12 +664,94 @@ async function runIntervention() {
       <tbody>${p.strategies.map(s => `<tr><td>${s.area}</td><td>${s.strategy}</td><td>${s.responsible}</td><td>${s.frequency}</td></tr>`).join('')}</tbody></table>
       <h4>Counselor Recommendation</h4><p>${p.counselor_recommendation}</p>
       ${p.referral_recommended ? `<p style="color:#dc2626"><b>⚠ Referral recommended:</b> ${p.referral_reason || ''}</p>` : ''}
-      <a class="btn btn-outline" href="/risk/interventions/${p.intervention_id}/report?language=${currentLang()}" target="_blank">Download .docx Report</a>
+      <a class="btn btn-outline no-print" href="/risk/interventions/${p.intervention_id}/report?language=${currentLang()}" target="_blank">Download .docx Report</a>
       <div class="disclaimer">${p.disclaimer}</div>
+      <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
     </div>`;
 }
 
+async function runIntervention() {
+  const studentId = document.getElementById('iv_student').value;
+  const resultDiv = document.getElementById('iv_result');
+  resultDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+
+  const listRes = await apiFetch(`/risk/${studentId}/intervention-reports`);
+  if (listRes.ok) {
+    const reports = await listRes.json();
+    const todayStr = new Date().toDateString();
+    const todaysReport = reports.find(rep => new Date(rep.created_at).toDateString() === todayStr);
+    if (todaysReport) {
+      const display = await translateForDisplay(todaysReport.report_data);
+      const note = `<p class="muted">${t('risk.already_generated_today','A report for this student was already generated today — showing the saved report instead of recalculating.')}</p>`;
+      const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+      resultDiv.innerHTML = note + interventionReportHtml(display, buttons);
+      return;
+    }
+  }
+
+  const params = new URLSearchParams({ school_name: auth.user.school_name || '', prepared_by: auth.user.name, language: 'ms' });
+  const res = await apiFetch(`/risk/${studentId}/intervene?${params}`);
+  if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
+  const canonical = await res.json();
+  lastInterventionReport = canonical;
+  lastInterventionStudentId = studentId;
+  const display = await translateForDisplay(canonical);
+  const buttons = `
+    <button class="btn btn-primary" onclick="saveInterventionReport()">${t('common.save','Save')}</button>
+    <button class="btn btn-outline" onclick="discardInterventionReport()">${t('risk.discard','Discard')}</button>
+    <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+  resultDiv.innerHTML = interventionReportHtml(display, buttons);
+}
+
+async function saveInterventionReport() {
+  if (!lastInterventionReport || !lastInterventionStudentId) return;
+  const res = await apiFetch(`/risk/${lastInterventionStudentId}/intervention-reports`, { method: 'POST', body: JSON.stringify(lastInterventionReport) });
+  if (res.ok) {
+    alert(t('risk.report_saved','Report saved.'));
+    lastInterventionReport = null;
+    lastInterventionStudentId = null;
+  } else {
+    alert((await res.json()).detail);
+  }
+}
+
+function discardInterventionReport() {
+  document.getElementById('iv_result').innerHTML = '';
+  lastInterventionReport = null;
+  lastInterventionStudentId = null;
+}
+
+async function viewPreviousInterventionReports() {
+  const studentId = document.getElementById('iv_student').value;
+  const resultDiv = document.getElementById('iv_result');
+  resultDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+  const res = await apiFetch(`/risk/${studentId}/intervention-reports`);
+  if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
+  savedInterventionReportsCache = await res.json();
+  resultDiv.innerHTML = `
+    <div class="card">
+      <h3>${t('risk.previous_reports','Previous Reports')}</h3>
+      <table><thead><tr><th>${t('risk.timestamp','Timestamp')}</th><th>${t('risk.level','Risk Level')}</th><th></th></tr></thead>
+      <tbody>${savedInterventionReportsCache.map((rep,i) => `<tr><td>${new Date(rep.created_at).toLocaleString()}</td><td><span class="badge ${riskBadgeClass(rep.risk_level)}">${rep.risk_level}</span></td><td><button class="btn btn-outline btn-sm" onclick="viewSavedInterventionReport(${i})">${t('common.view','View')}</button></td></tr>`).join('') || `<tr><td colspan="3" class="muted">${t('risk.no_previous_reports','No previous reports found.')}</td></tr>`}</tbody></table>
+    </div>
+    <div id="saved_intervention_detail"></div>`;
+}
+
+async function viewSavedInterventionReport(i) {
+  const rep = savedInterventionReportsCache[i];
+  const detailDiv = document.getElementById('saved_intervention_detail');
+  detailDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+  const display = await translateForDisplay(rep.report_data);
+  const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+  detailDiv.innerHTML = interventionReportHtml(display, buttons);
+}
+
 // ── Referral (Agent 3) ──
+let lastReferralDocument = null;
+let lastReferralStudentId = null;
+let lastReferralAdditionalNotes = null;
+let savedReferralReportsCache = [];
+
 async function renderReferral() {
   const content = document.getElementById('content');
   const students = await (await apiFetch('/students/')).json();
@@ -423,31 +769,113 @@ async function renderReferral() {
         <div class="field" style="grid-column: span 2"><label>Additional Notes</label><textarea id="rf_notes" rows="2"></textarea></div>
       </div>
       <button class="btn btn-primary" onclick="runReferral()">Run Agent 3: Generate Referral</button>
+      <button class="btn btn-outline" style="margin-left:8px" onclick="viewPreviousReferralReports()">${t('risk.view_previous_reports','View Previous Reports')}</button>
     </div>
     <div id="rf_result"></div>`;
 }
 
+function referralReportHtml(doc, buttonsHtml) {
+  return `
+    <div class="card">
+      <h3>Referral Letter — ${doc.student_name}</h3>
+      <p class="muted">${doc.referral_type} · ${doc.referral_to} · Prepared by ${doc.prepared_by}</p>
+      <p style="white-space: pre-wrap">${doc.letter_content}</p>
+      <h4>Supporting Summary</h4>
+      <p style="white-space: pre-wrap">${doc.supporting_summary}</p>
+      <div class="disclaimer">${doc.disclaimer}</div>
+      <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
+    </div>`;
+}
+
 async function runReferral() {
+  const studentId = document.getElementById('rf_student').value;
+  const referralType = document.getElementById('rf_type').value;
+  const referralTo = document.getElementById('rf_to').value;
+  const additionalNotes = document.getElementById('rf_notes').value;
   const resultDiv = document.getElementById('rf_result');
   resultDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+
+  const listRes = await apiFetch(`/referrals/${studentId}/reports`);
+  if (listRes.ok) {
+    const reports = await listRes.json();
+    const existing = reports.find(rep => rep.referral_type === referralType && rep.referral_to === referralTo);
+    if (existing) {
+      const display = await translateForDisplay(existing.report_data);
+      const note = `<p class="muted">${t('risk.already_generated_for_referral','A referral letter for this referral type and recipient was already generated — showing the saved letter instead of recalculating.')}</p>`;
+      const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+      resultDiv.innerHTML = note + referralReportHtml(display, buttons);
+      return;
+    }
+  }
+
   const payload = {
-    student_id: document.getElementById('rf_student').value,
-    referral_type: document.getElementById('rf_type').value,
-    referral_to: document.getElementById('rf_to').value,
+    student_id: studentId,
+    referral_type: referralType,
+    referral_to: referralTo,
     prepared_by: auth.user.name,
-    additional_notes: document.getElementById('rf_notes').value,
+    additional_notes: additionalNotes,
+    language: 'ms',
   };
   const res = await apiFetch('/referrals/generate', { method: 'POST', body: JSON.stringify(payload) });
   if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
-  const doc = await res.json();
+  const canonical = await res.json();
+  lastReferralDocument = canonical;
+  lastReferralStudentId = studentId;
+  lastReferralAdditionalNotes = additionalNotes;
+  const display = await translateForDisplay(canonical);
+  const buttons = `
+    <button class="btn btn-primary" onclick="saveReferralReport()">${t('common.save','Save')}</button>
+    <button class="btn btn-outline" onclick="discardReferralReport()">${t('risk.discard','Discard')}</button>
+    <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+  resultDiv.innerHTML = referralReportHtml(display, buttons);
+}
+
+async function saveReferralReport() {
+  if (!lastReferralDocument || !lastReferralStudentId) return;
+  const res = await apiFetch(`/referrals/${lastReferralStudentId}/reports`, {
+    method: 'POST',
+    body: JSON.stringify({ document: lastReferralDocument, additional_notes: lastReferralAdditionalNotes || null }),
+  });
+  if (res.ok) {
+    alert(t('risk.report_saved','Report saved.'));
+    lastReferralDocument = null;
+    lastReferralStudentId = null;
+    lastReferralAdditionalNotes = null;
+  } else {
+    alert((await res.json()).detail);
+  }
+}
+
+function discardReferralReport() {
+  document.getElementById('rf_result').innerHTML = '';
+  lastReferralDocument = null;
+  lastReferralStudentId = null;
+  lastReferralAdditionalNotes = null;
+}
+
+async function viewPreviousReferralReports() {
+  const studentId = document.getElementById('rf_student').value;
+  const resultDiv = document.getElementById('rf_result');
+  resultDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+  const res = await apiFetch(`/referrals/${studentId}/reports`);
+  if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
+  savedReferralReportsCache = await res.json();
   resultDiv.innerHTML = `
     <div class="card">
-      <h3>Referral Letter — ${doc.student_name}</h3>
-      <p style="white-space: pre-wrap">${doc.letter_content}</p>
-      <h4>Supporting Summary</h4>
-      <p>${doc.supporting_summary}</p>
-      <div class="disclaimer">${doc.disclaimer}</div>
-    </div>`;
+      <h3>${t('risk.previous_reports','Previous Reports')}</h3>
+      <table><thead><tr><th>${t('risk.timestamp','Timestamp')}</th><th>Referral Type</th><th>Referral To</th><th></th></tr></thead>
+      <tbody>${savedReferralReportsCache.map((rep,i) => `<tr><td>${new Date(rep.created_at).toLocaleString()}</td><td>${rep.referral_type}</td><td>${rep.referral_to}</td><td><button class="btn btn-outline btn-sm" onclick="viewSavedReferralReport(${i})">${t('common.view','View')}</button></td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.no_previous_reports','No previous reports found.')}</td></tr>`}</tbody></table>
+    </div>
+    <div id="saved_referral_detail"></div>`;
+}
+
+async function viewSavedReferralReport(i) {
+  const rep = savedReferralReportsCache[i];
+  const detailDiv = document.getElementById('saved_referral_detail');
+  detailDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+  const display = await translateForDisplay(rep.report_data);
+  const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
+  detailDiv.innerHTML = referralReportHtml(display, buttons);
 }
 
 // ── Assessments ──

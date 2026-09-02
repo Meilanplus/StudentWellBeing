@@ -24,6 +24,8 @@ from app.constants import (
     TASK_FILL_STUDENT_RELATED_INFO,
     TASK_VIEW_EDIT_ALL_DATA_ANY_SCHOOL,
 )
+from app.schemas.risk import TranslateReportRequest
+from app.services.report_translator import translate_report_data
 
 router = APIRouter(prefix="/students", tags=["Students"])
 
@@ -45,6 +47,19 @@ def _get_student_or_404(student_id: str, user: User, db: Session) -> Student:
     if not _can_see_any_school(user, db) and student.school_id != user.school_id:
         raise HTTPException(status_code=403, detail="Student belongs to a different school.")
     return student
+
+
+@router.post("/translate-fields")
+def translate_student_fields(
+    payload: TranslateReportRequest,
+    requester: User = Depends(require_task(TASK_FILL_STUDENT_DETAIL, TASK_FILL_STUDENT_RELATED_INFO)),
+):
+    """Translates free-text record fields (e.g. attendance `reason`, behavior
+    `description`) for display, same on-demand pattern as risk report
+    translation. Scoped to the student-viewing tasks rather than the risk
+    agent task, since any role that can see a student's records should be
+    able to view them in their chosen language."""
+    return translate_report_data(payload.report, payload.target_language)
 
 
 @router.post("/", response_model=StudentOut, status_code=201)
