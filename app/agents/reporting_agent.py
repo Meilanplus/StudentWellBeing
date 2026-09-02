@@ -74,7 +74,11 @@ class ReportingAgent(BaseAgent):
         breakdown: dict[str, dict[str, int]] = {}
         for class_name, risk_level, count in active_by_risk_and_class:
             entry = breakdown.setdefault(class_name, {"low": 0, "moderate": 0, "high": 0})
-            key = risk_level.lower() if risk_level and risk_level.lower() in entry else None
+            # risk_level is stored as "Low Risk" / "Moderate Risk" / "High Risk" —
+            # take the first word so it matches entry's bare "low"/"moderate"/"high" keys.
+            key = risk_level.lower().split()[0] if risk_level else None
+            if key not in entry:
+                key = None
             if key:
                 entry[key] += count
 
