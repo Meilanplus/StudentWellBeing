@@ -2,7 +2,7 @@ import sys
 from logging.config import fileConfig
 from pathlib import Path
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import create_engine
 from sqlalchemy import pool
 
 from alembic import context
@@ -19,7 +19,13 @@ config = context.config
 database_url = settings.database_url
 if database_url.startswith("postgresql://"):
     database_url = database_url.replace("postgresql://", "postgresql+psycopg://", 1)
-config.set_main_option("sqlalchemy.url", database_url)
+
+# Stashed on config.attributes (a plain dict) rather than passed through
+# config.set_main_option(), which routes the value through ConfigParser's
+# %-style interpolation and raises "invalid interpolation syntax" on any
+# literal "%" in the URL — this project's DATABASE_URL carries one via its
+# url-encoded search_path query param (e.g. "...options=-c%20search_path...").
+config.attributes["sqlalchemy_url"] = database_url
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -46,7 +52,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = config.attributes["sqlalchemy_url"]
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -65,11 +71,7 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    connectable = create_engine(config.attributes["sqlalchemy_url"], poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
         context.configure(
