@@ -56,6 +56,10 @@ class RiskReport(Base):
     risk_level: Mapped[str] = mapped_column(String(20), nullable=False)
     risk_score: Mapped[int] = mapped_column(Integer, nullable=False)
     report_data: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    # Cache of on-demand translations, keyed by language code (e.g. {"en": {...}}),
+    # so viewing this report in a non-canonical language only pays the LLM
+    # translation cost once rather than on every view.
+    translations: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
 
     student: Mapped["Student"] = relationship(back_populates="risk_reports")
@@ -71,6 +75,7 @@ class InterventionReport(Base):
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
     risk_level: Mapped[str] = mapped_column(String(20), nullable=False)
     report_data: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    translations: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
 
     student: Mapped["Student"] = relationship(back_populates="intervention_reports")
@@ -91,6 +96,7 @@ class ReferralReport(Base):
     referral_to: Mapped[str] = mapped_column(String(100), nullable=False)
     additional_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
     report_data: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    translations: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
 
     student: Mapped["Student"] = relationship(back_populates="referral_reports")

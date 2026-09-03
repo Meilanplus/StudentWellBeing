@@ -119,6 +119,31 @@ def translate_report(
     return translate_report_data(payload.report, payload.target_language)
 
 
+@router.post("/reports/{report_id}/translate")
+def translate_saved_risk_report(
+    report_id: int,
+    language: str,
+    requester: User = Depends(require_task(TASK_INVOKE_AGENT1_RISK)),
+    db: Session = Depends(get_db),
+):
+    """Same translation as /reports/translate, but for an already-saved report —
+    cached per language on the row itself, so a given report/language pair is
+    only ever translated once, however many times it's viewed afterward."""
+    record = db.query(RiskReport).filter(RiskReport.id == report_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Risk report not found.")
+    if language == "ms":
+        return record.report_data
+    cached = record.translations.get(language)
+    if cached is not None:
+        return cached
+
+    translated = translate_report_data(record.report_data, language)
+    record.translations = {**record.translations, language: translated}
+    db.commit()
+    return translated
+
+
 @router.get("/{student_id}/intervene", response_model=InterventionRecommendation)
 def intervene(
     student_id: str,
@@ -212,6 +237,30 @@ def list_intervention_reports(
         .order_by(InterventionReport.created_at.desc())
         .all()
     )
+
+
+@router.post("/intervention-reports/{report_id}/translate")
+def translate_saved_intervention_report(
+    report_id: int,
+    language: str,
+    requester: User = Depends(require_task(TASK_INVOKE_AGENT2_INTERVENTION)),
+    db: Session = Depends(get_db),
+):
+    """Cached translation for a saved intervention plan — see
+    translate_saved_risk_report for the rationale."""
+    record = db.query(InterventionReport).filter(InterventionReport.id == report_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Intervention report not found.")
+    if language == "ms":
+        return record.report_data
+    cached = record.translations.get(language)
+    if cached is not None:
+        return cached
+
+    translated = translate_report_data(record.report_data, language)
+    record.translations = {**record.translations, language: translated}
+    db.commit()
+    return translated
 
 
 @router.get("/interventions/{intervention_id}/report")

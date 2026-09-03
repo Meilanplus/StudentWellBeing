@@ -10,6 +10,7 @@ from app.models.intervention import Referral, ReferralReport
 from app.schemas.risk import ReferralDocument, ReferralDocumentRequest, ReferralReportOut, ReferralReportSaveRequest
 from app.agents.referral_agent import ReferralAgent
 from app.services.i18n_lookup import get_language_display_name
+from app.services.report_translator import translate_report_data
 from app.permissions import require_task
 from app.constants import TASK_INVOKE_AGENT3_REFERRAL
 
@@ -106,6 +107,30 @@ def list_referral_reports(
         .order_by(ReferralReport.created_at.desc())
         .all()
     )
+
+
+@router.post("/reports/{report_id}/translate")
+def translate_saved_referral_report(
+    report_id: int,
+    language: str,
+    requester: User = Depends(require_task(TASK_INVOKE_AGENT3_REFERRAL)),
+    db: Session = Depends(get_db),
+):
+    """Cached translation for a saved referral letter — see
+    translate_saved_risk_report (app/api/risk.py) for the rationale."""
+    record = db.query(ReferralReport).filter(ReferralReport.id == report_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Referral report not found.")
+    if language == "ms":
+        return record.report_data
+    cached = record.translations.get(language)
+    if cached is not None:
+        return cached
+
+    translated = translate_report_data(record.report_data, language)
+    record.translations = {**record.translations, language: translated}
+    db.commit()
+    return translated
 
 
 @router.get("/{student_id}")

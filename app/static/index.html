@@ -233,6 +233,50 @@ async function translateForDisplay(reportData) {
   return await res.json();
 }
 
+// AI generation/translation calls can take anywhere from a few seconds to a
+// few minutes (the underlying model's hidden "thinking" cost is highly
+// variable) — this keeps a "Loading..." message from looking like the app
+// has hung by showing an elapsed-time counter for the duration of the call.
+let _aiWaitTimer = null;
+function startAiWait(container, message) {
+  const startedAt = Date.now();
+  const render = () => {
+    const secs = Math.floor((Date.now() - startedAt) / 1000);
+    container.innerHTML = `<p class="muted">${message} (${secs}s)</p>`;
+  };
+  render();
+  _aiWaitTimer = setInterval(render, 1000);
+}
+function stopAiWait() {
+  if (_aiWaitTimer) { clearInterval(_aiWaitTimer); _aiWaitTimer = null; }
+}
+
+// Same idea as translateForDisplay, but for an already-saved report (one
+// with a stable id) — checks the report's own cached translations first and
+// only calls the AI translator on a cache miss, so a given report/language
+// pair is translated at most once no matter how many times it's viewed.
+// "kind" selects which endpoint owns the report: risk_reports,
+// intervention_reports, or referral_reports.
+const _TRANSLATE_ENDPOINT = {
+  risk: (id) => `/risk/reports/${id}/translate`,
+  intervention: (id) => `/risk/intervention-reports/${id}/translate`,
+  referral: (id) => `/referrals/reports/${id}/translate`,
+};
+async function translateSavedReport(rep, kind, container) {
+  const lang = currentLang();
+  if (lang === 'ms') return rep.report_data;
+  const cached = rep.translations && rep.translations[lang];
+  if (cached) return cached;
+  if (container) startAiWait(container, t('risk.translating', 'Translating with AI — this can take a while the first time a report is viewed in this language.'));
+  try {
+    const res = await apiFetch(`${_TRANSLATE_ENDPOINT[kind](rep.id)}?language=${lang}`, { method: 'POST' });
+    if (!res.ok) return rep.report_data;
+    return await res.json();
+  } finally {
+    if (container) stopAiWait();
+  }
+}
+
 // Same idea as translateForDisplay, but for attendance/behavior record
 // free-text fields (reason, description), scoped to the student-viewing
 // permission rather than the risk-agent one. Returns display-only copies —
@@ -590,7 +634,7 @@ async function runRiskAssessment() {
     const todayStr = new Date().toDateString();
     const todaysReport = reports.find(rep => new Date(rep.created_at).toDateString() === todayStr);
     if (todaysReport) {
-      const display = await translateForDisplay(todaysReport.report_data);
+      const display = await translateSavedReport(todaysReport, 'risk', resultDiv);
       const note = `<p class="muted">${t('risk.already_generated_today','A report for this student was already generated today — showing the saved report instead of recalculating.')}</p>`;
       const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
       resultDiv.innerHTML = note + riskReportHtml(display, buttons);
@@ -598,7 +642,9 @@ async function runRiskAssessment() {
     }
   }
 
+  startAiWait(resultDiv, t('risk.generating', 'Agent 1 is analysing the student\'s records — this can take a few minutes.'));
   const res = await apiFetch(`/risk/${studentId}/assess?language=ms`);
+  stopAiWait();
   if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
   const canonical = await res.json();
   lastReport = canonical;
@@ -649,7 +695,7 @@ async function viewSavedReport(i) {
   const rep = savedReportsCache[i];
   const detailDiv = document.getElementById('saved_report_detail');
   detailDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
-  const display = await translateForDisplay(rep.report_data);
+  const display = await translateSavedReport(rep, 'risk', detailDiv);
   const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
   detailDiv.innerHTML = riskReportHtml(display, buttons);
 }
@@ -712,7 +758,7 @@ async function runIntervention() {
     const todayStr = new Date().toDateString();
     const todaysReport = reports.find(rep => new Date(rep.created_at).toDateString() === todayStr);
     if (todaysReport) {
-      const display = await translateForDisplay(todaysReport.report_data);
+      const display = await translateSavedReport(todaysReport, 'intervention', resultDiv);
       const note = `<p class="muted">${t('risk.already_generated_today','A report for this student was already generated today — showing the saved report instead of recalculating.')}</p>`;
       const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
       resultDiv.innerHTML = note + interventionReportHtml(display, buttons);
@@ -721,7 +767,9 @@ async function runIntervention() {
   }
 
   const params = new URLSearchParams({ school_name: auth.user.school_name || '', prepared_by: auth.user.name, language: 'ms' });
+  startAiWait(resultDiv, t('risk.generating_intervention', 'Agent 2 is preparing the intervention plan — this can take a few minutes.'));
   const res = await apiFetch(`/risk/${studentId}/intervene?${params}`);
+  stopAiWait();
   if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
   const canonical = await res.json();
   lastInterventionReport = canonical;
@@ -772,7 +820,7 @@ async function viewSavedInterventionReport(i) {
   const rep = savedInterventionReportsCache[i];
   const detailDiv = document.getElementById('saved_intervention_detail');
   detailDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
-  const display = await translateForDisplay(rep.report_data);
+  const display = await translateSavedReport(rep, 'intervention', detailDiv);
   const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
   detailDiv.innerHTML = interventionReportHtml(display, buttons);
 }
@@ -854,7 +902,7 @@ async function runReferral() {
     const reports = await listRes.json();
     const existing = reports.find(rep => rep.referral_type === referralType && rep.referral_to === referralTo);
     if (existing) {
-      const display = await translateForDisplay(existing.report_data);
+      const display = await translateSavedReport(existing, 'referral', resultDiv);
       const note = `<p class="muted">${t('risk.already_generated_for_referral','A referral letter for this referral type and recipient was already generated — showing the saved letter instead of recalculating.')}</p>`;
       const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
       resultDiv.innerHTML = note + referralReportHtml(display, buttons);
@@ -870,7 +918,9 @@ async function runReferral() {
     additional_notes: additionalNotes,
     language: 'ms',
   };
+  startAiWait(resultDiv, t('risk.generating_referral', 'Agent 3 is drafting the referral letter — this can take a few minutes.'));
   const res = await apiFetch('/referrals/generate', { method: 'POST', body: JSON.stringify(payload) });
+  stopAiWait();
   if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
   const canonical = await res.json();
   lastReferralDocument = canonical;
@@ -927,7 +977,7 @@ async function viewSavedReferralReport(i) {
   const rep = savedReferralReportsCache[i];
   const detailDiv = document.getElementById('saved_referral_detail');
   detailDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
-  const display = await translateForDisplay(rep.report_data);
+  const display = await translateSavedReport(rep, 'referral', detailDiv);
   const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
   detailDiv.innerHTML = referralReportHtml(display, buttons);
 }

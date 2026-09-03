@@ -51,6 +51,7 @@ class RiskReportOut(BaseModel):
     risk_level: str
     risk_score: int
     report_data: dict
+    translations: dict = {}
     created_at: datetime
 
 
@@ -97,6 +98,7 @@ class InterventionReportOut(BaseModel):
     student_id: int
     risk_level: str
     report_data: dict
+    translations: dict = {}
     created_at: datetime
 
 
@@ -133,4 +135,5 @@ class ReferralReportOut(BaseModel):
     referral_to: str
     additional_notes: str | None
     report_data: dict
+    translations: dict = {}
     created_at: datetime
