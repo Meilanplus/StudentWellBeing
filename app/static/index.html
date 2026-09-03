@@ -321,8 +321,10 @@ async function renderPage() {
 
 // ── Dashboard ──
 async function renderDashboard() {
-  const res = await apiFetch(`/reports/dashboard?language=${currentLang()}`);
   const content = document.getElementById('content');
+  startAiWait(content, t('risk.generating_dashboard', 'Agent 4 is generating the dashboard summary — this can take a few minutes.'));
+  const res = await apiFetch(`/reports/dashboard?language=${currentLang()}`);
+  stopAiWait();
   if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
   const d = await res.json();
   content.innerHTML = `
