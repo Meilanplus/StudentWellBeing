@@ -1,3 +1,4 @@
+import re
 from datetime import date, timedelta
 
 from sqlalchemy.orm import Session
@@ -77,26 +78,55 @@ sepenuhnya", "masalah mental", "gangguan mental", "masalah mental yang serius", 
 "kes yang serius", "psychiatric case", "severe emotional problems". Use the neutral \
 phrasing above instead, or its natural equivalent in the target language.
 
-Format (when writing in Bahasa Malaysia, follow official Malaysian government school \
-letter conventions — adapt equivalently for other target languages):
-- Formal letter opening: school name/address placeholder, date placeholder, reference \
-number placeholder, addressee.
-- Subject line ("PERKARA: ...").
-- Salutation ("Tuan/Puan,").
-- Body: brief student identification, school-based observations only, a summary of \
-interventions/monitoring/counselling already carried out, then the specific request \
-for professional assessment and recommendations.
-- Closing ("Sekian, terima kasih.", "Yang benar,").
-- Signature block naming the "prepared_by" person given in the prompt, with the title \
-"Penolong Kanan Hal Ehwal Murid" — unless the prompt indicates the head teacher is \
-signing, in which case use "Guru Besar" instead. Use exactly one of these two titles.
-- Keep the letter concise — approximately one page.
+When writing in Bahasa Malaysia, "letter_content" MUST reproduce this exact official \
+Malaysian government school letter template — copy every fixed line verbatim (including \
+"BERKHIDMAT UNTUK NEGARA" and "Yang menjalankan amanah,"), replacing only the bracketed \
+placeholders and the clause-3 sentence with content grounded in the data given. Do not \
+invent a different structure, do not add a student-specific subject line, and do not move \
+specific observations (attendance figures, incident details, screening results/instrument \
+names) into the letter body — those belong only in "supporting_summary" (clause 4 points \
+to it as the attachment). For other target languages, translate this same template \
+naturally while keeping its structure and clause order identical.
 
-"supporting_summary" must be structured, NOT a single paragraph. Use this layout \
+[KOP SURAT SEKOLAH]
+Ruj. Kami: [No. Rujukan]
+Tarikh: [Tarikh]
+Kepada:
+Doktor/Pakar
+Tuan/Puan,
+PERKARA: PERMOHONAN PENILAIAN DAN RUJUKAN MURID BAGI TUJUAN PEMERIKSAAN LANJUT
+Dengan segala hormatnya perkara di atas adalah dirujuk.
+
+2. Pihak sekolah ingin memohon jasa baik pihak tuan/puan untuk membuat penilaian lanjut terhadap murid berikut:
+
+Nama Murid: [nama penuh murid]
+No. MyKid/MyKad: [student_id murid, format MyKad/NRIC]
+Tahun/Kelas: [nama kelas murid]
+
+3. [Satu perenggan pendek, berdasarkan data yang diberikan, menyatakan pihak sekolah telah memberikan pemantauan dan sokongan, dan berpandangan murid berkenaan boleh mendapat manfaat daripada penilaian lanjut oleh pihak tuan/puan bagi membantu mengenal pasti keperluan murid dan mendapatkan cadangan sokongan yang bersesuaian — TANPA menyenaraikan pemerhatian khusus seperti angka kehadiran, butiran insiden, atau nama instrumen saringan.]
+4. Untuk maklumat lanjut, sila rujuk surat/laporan pemerhatian yang disediakan oleh Guru Kelas atau Guru Bimbingan dan Kaunseling yang dilampirkan bersama surat ini.
+5. Kerjasama dan pandangan profesional daripada pihak tuan/puan amat dihargai bagi membantu pihak sekolah dan ibu bapa/penjaga menyediakan sokongan yang bersesuaian untuk perkembangan dan kesejahteraan murid.
+
+Sekian, terima kasih.
+"BERKHIDMAT UNTUK NEGARA"
+Yang menjalankan amanah,
+............................................................
+( [prepared_by name] )
+Jawatan: [Guru Besar atau Penolong Kanan Hal Ehwal Murid — gunakan Penolong Kanan Hal Ehwal Murid secara lalai, melainkan maklumat yang diberikan menunjukkan Guru Besar yang menandatangani]
+Nama Sekolah: [nama sekolah]
+No. Telefon: [nombor telefon]
+E-mel: [e-mel]
+Lampiran: Surat/Laporan Pemerhatian Guru Kelas atau Guru Bimbingan dan Kaunseling
+
+Keep the letter body (clauses 1-5) concise — well under one page, since the supporting \
+detail lives in the attached report, not the letter.
+
+"supporting_summary" is the attached observation report referenced by the letter's \
+"Lampiran" line — it must be structured, NOT a single paragraph. Use this layout \
 (translated naturally into the target language), with each section header and each \
 bullet on its own line, bullets marked with "- ":
 
-Ringkasan Sokongan
+Lampiran: Laporan Pemerhatian Guru Kelas / Guru Bimbingan dan Kaunseling
 
 Intervensi Sekolah
 - (2-4 bullets, grounded in the actual intervention/counselling data given)
@@ -115,6 +145,20 @@ Respond with ONLY a JSON object matching this schema (no prose outside the JSON)
   "supporting_summary": "..."
 }
 """
+
+
+# Matches the template's fixed "No. MyKid/MyKad:" line regardless of what the model
+# put after the colon (left blank, echoed the placeholder literally, or even filled
+# it in correctly) — the model can't be trusted to copy this one field reliably
+# every time, but it's a plain deterministic value we already have, so it's applied
+# here rather than left to chance.
+_MYKAD_LINE_RE = re.compile(r"(No\.?\s*MyKid\s*/\s*MyKad\s*:)(.*)", re.IGNORECASE)
+
+
+def _fill_mykad_field(letter_content: str, student_id: str) -> str:
+    if not letter_content or not _MYKAD_LINE_RE.search(letter_content):
+        return letter_content
+    return _MYKAD_LINE_RE.sub(lambda m: f"{m.group(1)} {student_id}", letter_content, count=1)
 
 
 class ReferralAgent(BaseAgent):
@@ -203,6 +247,7 @@ class ReferralAgent(BaseAgent):
 Student information:
 - name: {student.full_name}
 - class: {student.class_name}
+- student_id (MyKad/NRIC format, use this for "No. MyKid/MyKad"): {student.student_id}
 
 Referral type: {referral_type}
 Referral to: {referral_to}
@@ -235,6 +280,8 @@ Produce the referral document JSON."""
                 "letter_content": "Unable to generate referral letter automatically. Please prepare manually using the student's history below.",
                 "supporting_summary": "Data unavailable due to an automated generation failure.",
             }
+        else:
+            data["letter_content"] = _fill_mykad_field(data.get("letter_content", ""), student.student_id)
 
         return ReferralDocument(
             student_id=student.student_id,
