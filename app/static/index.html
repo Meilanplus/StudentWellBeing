@@ -795,6 +795,29 @@ async function renderReferral() {
     <div id="rf_result"></div>`;
 }
 
+// Agent 3 writes "supporting_summary" as section headers followed by "- " bulleted
+// lines (see referral_agent.py's system prompt) — this renders that structure as
+// real headings and bullet lists instead of one flat pre-wrapped paragraph.
+function renderSupportingSummary(text) {
+  if (!text) return '<p class="muted">-</p>';
+  let html = '';
+  let inList = false;
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    const bulletMatch = line.match(/^[-*•]\s+(.*)$/);
+    if (bulletMatch) {
+      if (!inList) { html += '<ul style="margin:4px 0 14px; padding-left:22px;">'; inList = true; }
+      html += `<li>${bulletMatch[1]}</li>`;
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<h4 style="margin:14px 0 4px;">${line}</h4>`;
+    }
+  }
+  if (inList) html += '</ul>';
+  return html;
+}
+
 function referralReportHtml(doc, buttonsHtml) {
   return `
     <div class="card">
@@ -802,7 +825,7 @@ function referralReportHtml(doc, buttonsHtml) {
       <p class="muted">${doc.referral_type} · ${doc.referral_to} · Prepared by ${doc.prepared_by}</p>
       <p style="white-space: pre-wrap">${doc.letter_content}</p>
       <h4>Supporting Summary</h4>
-      <p style="white-space: pre-wrap">${doc.supporting_summary}</p>
+      ${renderSupportingSummary(doc.supporting_summary)}
       <div class="disclaimer">${doc.disclaimer}</div>
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
     </div>`;
