@@ -675,14 +675,24 @@ async function renderIntervention() {
 }
 
 function interventionReportHtml(p, buttonsHtml) {
+  const list = (items) => `<ul>${(items || []).map(i => `<li>${i}</li>`).join('') || '<li class="muted">-</li>'}</ul>`;
   return `
     <div class="card">
       <h3>${p.student_name} — <span class="badge ${riskBadgeClass(p.risk_level)}">${p.risk_level}</span></h3>
       <p class="muted">Case: ${p.case_reference} · ${p.date} · Prepared by ${p.prepared_by}</p>
-      <h4>Reason for Intervention</h4><ul>${p.reason_for_intervention.map(r => `<li>${r}</li>`).join('')}</ul>
+      <h4>Rationale</h4><p>${p.rationale}</p>
+      <h4>Reason for Intervention</h4>${list(p.reason_for_intervention)}
+      <h4>Intervention Objectives</h4>${list(p.intervention_objectives)}
       <h4>Strategies</h4>
-      <table><thead><tr><th>Area</th><th>Strategy</th><th>Responsible</th><th>Frequency</th></tr></thead>
-      <tbody>${p.strategies.map(s => `<tr><td>${s.area}</td><td>${s.strategy}</td><td>${s.responsible}</td><td>${s.frequency}</td></tr>`).join('')}</tbody></table>
+      <table><thead><tr><th>Area</th><th>Strategy</th><th>Responsible</th><th>Frequency</th><th>Success Indicator</th></tr></thead>
+      <tbody>${p.strategies.map(s => `<tr><td>${s.area}</td><td>${s.strategy}</td><td>${s.responsible}</td><td>${s.frequency}</td><td>${s.success_indicator}</td></tr>`).join('')}</tbody></table>
+      <h4>Recommended Tools</h4>${list(p.recommended_tools)}
+      <h4>Home Strategies</h4>${list(p.home_strategies)}
+      <h4>Expected Outcomes</h4>${list(p.expected_outcomes)}
+      <h4>Monitoring Checklist</h4>${list(p.monitoring_checklist)}
+      <h4>Action Items — Teacher</h4>${list(p.action_items_teacher)}
+      <h4>Action Items — Counselor</h4>${list(p.action_items_counselor)}
+      <h4>Action Items — Parent</h4>${list(p.action_items_parent)}
       <h4>Counselor Recommendation</h4><p>${p.counselor_recommendation}</p>
       ${p.referral_recommended ? `<p style="color:#dc2626"><b>⚠ Referral recommended:</b> ${p.referral_reason || ''}</p>` : ''}
       <a class="btn btn-outline no-print" href="/risk/interventions/${p.intervention_id}/report?language=${currentLang()}" target="_blank">Download .docx Report</a>
