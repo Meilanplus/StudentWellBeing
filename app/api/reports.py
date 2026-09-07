@@ -1,14 +1,17 @@
+from datetime import date
+
 from sqlalchemy.orm import Session
 from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
 from fastapi import APIRouter, Depends
 
 from app.database import get_db
 from app.models.user import User
 from app.models.student import Student
-from app.models.intervention import Intervention
+from app.models.intervention import Intervention, DashboardSummary
 from app.schemas.report import DashboardReport
 from app.agents.reporting_agent import ReportingAgent
-from app.services.i18n_lookup import get_language_display_name
+from app.services.report_translator import translate_report_data
 from app.permissions import require_task
 from app.constants import TASK_INVOKE_AGENT4_REPORTING
 
@@ -23,7 +26,44 @@ def dashboard(
     db: Session = Depends(get_db),
 ):
     agent = ReportingAgent(db)
-    return agent.generate_dashboard(period, language=get_language_display_name(language, db))
+    resolved_period = period or agent.default_period()
+    # KPIs are cheap DB aggregates — always recomputed live so numbers never
+    # go stale. Only the AI-written narrative is cached (by period), since
+    # that's the slow, expensive part; see DashboardSummary and the
+    # invalidation calls in risk.py/referrals.py for what can go stale it.
+    kpis, class_breakdown = agent.compute_kpis(resolved_period)
+
+    cached = db.query(DashboardSummary).filter(DashboardSummary.period == resolved_period).first()
+    if cached is None:
+        narrative = agent.generate_narrative(resolved_period, kpis, class_breakdown, language="Bahasa Malaysia")
+        cached = DashboardSummary(period=resolved_period, narrative=narrative)
+        db.add(cached)
+        try:
+            db.commit()
+            db.refresh(cached)
+        except IntegrityError:
+            # Another concurrent request for the same period won the race and
+            # committed first — use its row instead of erroring.
+            db.rollback()
+            cached = db.query(DashboardSummary).filter(DashboardSummary.period == resolved_period).first()
+
+    if language == "ms":
+        narrative = cached.narrative
+    else:
+        narrative = cached.translations.get(language)
+        if narrative is None:
+            narrative = translate_report_data(cached.narrative, language)
+            cached.translations = {**cached.translations, language: narrative}
+            db.commit()
+
+    return DashboardReport(
+        generated_at=date.today().isoformat(),
+        period=resolved_period,
+        school_kpis=kpis,
+        class_breakdown=class_breakdown,
+        top_risk_students=[],
+        **narrative,
+    )
 
 
 @router.get("/class-summary")

@@ -22,6 +22,7 @@ from app.services.risk_calculator import compute_pre_screen_score, compute_pre_s
 from app.services.i18n_lookup import get_translation, get_language_display_name
 from app.services.intervention_report import generate_intervention_docx
 from app.services.report_translator import translate_report_data
+from app.services.dashboard_cache import invalidate_dashboard_cache
 from app.agents.risk_detection_agent import RiskDetectionAgent
 from app.agents.intervention_agent import InterventionAgent
 from app.permissions import require_task
@@ -193,6 +194,7 @@ def intervene(
     db.commit()
     db.refresh(record)
     plan.intervention_id = record.id
+    invalidate_dashboard_cache(db)  # new Intervention changes dashboard KPIs
     return plan
 
 

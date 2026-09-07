@@ -11,6 +11,7 @@ from app.schemas.risk import ReferralDocument, ReferralDocumentRequest, Referral
 from app.agents.referral_agent import ReferralAgent
 from app.services.i18n_lookup import get_language_display_name
 from app.services.report_translator import translate_report_data
+from app.services.dashboard_cache import invalidate_dashboard_cache
 from app.permissions import require_task
 from app.constants import TASK_INVOKE_AGENT3_REFERRAL
 
@@ -53,6 +54,7 @@ def generate_referral(
     )
     db.add(record)
     db.commit()
+    invalidate_dashboard_cache(db)  # new Referral changes dashboard KPIs
     return document
 
 
@@ -165,4 +167,5 @@ def acknowledge_referral(
         raise HTTPException(status_code=404, detail="Referral not found.")
     referral.status = "acknowledged"
     db.commit()
+    invalidate_dashboard_cache(db)  # changes the referrals_acknowledged KPI
     return {"message": "Referral acknowledged.", "referral_id": referral_id}

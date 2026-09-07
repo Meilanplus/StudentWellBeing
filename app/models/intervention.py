@@ -100,3 +100,21 @@ class ReferralReport(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
 
     student: Mapped["Student"] = relationship(back_populates="referral_reports")
+
+
+class DashboardSummary(Base):
+    """Cached Agent 4 dashboard narrative, keyed by period. KPI numbers are
+    cheap DB aggregates and always recomputed live; only the AI-generated
+    narrative (trend_analysis/management_summary/recommendations) is cached
+    here, canonical in Bahasa Malaysia with on-demand translations cached
+    alongside it (mirrors RiskReport/InterventionReport/ReferralReport).
+    Invalidated (row deleted) whenever a write changes a KPI the narrative
+    could describe — see intervene()/generate_referral()/acknowledge_referral."""
+
+    __tablename__ = "dashboard_summaries"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    period: Mapped[str] = mapped_column(String(20), nullable=False, unique=True, index=True)
+    narrative: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    translations: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

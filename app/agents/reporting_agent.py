@@ -42,7 +42,7 @@ class ReportingAgent(BaseAgent):
         super().__init__()
         self.db = db
 
-    def _compute_kpis(self, period: str) -> tuple[MonthlyKPI, list[ClassRiskSummary]]:
+    def compute_kpis(self, period: str) -> tuple[MonthlyKPI, list[ClassRiskSummary]]:
         since_30 = date.today() - timedelta(days=30)
 
         total_students = self.db.query(Student).filter(Student.is_active.is_(True)).count()
@@ -112,10 +112,16 @@ class ReportingAgent(BaseAgent):
         )
         return kpis, class_breakdown
 
-    def generate_dashboard(self, period: str | None = None, language: str = "English") -> DashboardReport:
-        period = period or date.today().strftime("%B %Y")
-        kpis, class_breakdown = self._compute_kpis(period)
+    @staticmethod
+    def default_period() -> str:
+        return date.today().strftime("%B %Y")
 
+    def generate_narrative(
+        self, period: str, kpis: MonthlyKPI, class_breakdown: list[ClassRiskSummary], language: str = "English"
+    ) -> dict:
+        """The slow part (an LLM call) — split out from generate_dashboard so
+        callers can cache this by (period, language) and only call it on a
+        cache miss, while KPIs (cheap DB aggregates) stay always-fresh."""
         prompt = f"""Target language: {language}
 
 Monthly KPI data:
@@ -128,13 +134,18 @@ Write the narrative sections (trend_analysis, management_summary, recommendation
 
         raw = self.run(prompt)
         try:
-            data = extract_json(raw)
+            return extract_json(raw)
         except Exception:
-            data = {
+            return {
                 "trend_analysis": "Trend data unavailable due to an automated generation failure. Please review the KPI figures directly.",
                 "management_summary": "Automated summary unavailable. Raw KPI data is provided above for manual review.",
                 "recommendations": [],
             }
+
+    def generate_dashboard(self, period: str | None = None, language: str = "English") -> DashboardReport:
+        period = period or self.default_period()
+        kpis, class_breakdown = self.compute_kpis(period)
+        data = self.generate_narrative(period, kpis, class_breakdown, language=language)
 
         return DashboardReport(
             generated_at=date.today().isoformat(),
