@@ -768,10 +768,32 @@ function interventionReportHtml(p, buttonsHtml) {
       <h4>Action Items — Parent</h4>${list(p.action_items_parent)}
       <h4>Counselor Recommendation</h4><p>${p.counselor_recommendation}</p>
       ${p.referral_recommended ? `<p style="color:#dc2626"><b>⚠ Referral recommended:</b> ${p.referral_reason || ''}</p>` : ''}
-      <a class="btn btn-outline no-print" href="/risk/interventions/${p.intervention_id}/report?language=${currentLang()}" target="_blank">Download .docx Report</a>
+      <button class="btn btn-outline no-print" onclick="downloadInterventionReport(${p.intervention_id}, currentLang())">Download .docx Report</button>
       <div class="disclaimer">${p.disclaimer}</div>
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
     </div>`;
+}
+
+async function downloadInterventionReport(interventionId, language) {
+  // A plain <a href> can't carry the app's Bearer token, so the endpoint
+  // (auth-protected like every other API call) always rejected it with
+  // "Not authenticated." — fetch it through apiFetch() instead and turn
+  // the response into a client-side download.
+  const res = await apiFetch(`/risk/interventions/${interventionId}/report?language=${language}`);
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({ detail: res.statusText }));
+    alert(body.detail || 'Failed to download report.');
+    return;
+  }
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `intervention_plan_${interventionId}.docx`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 async function runIntervention() {
