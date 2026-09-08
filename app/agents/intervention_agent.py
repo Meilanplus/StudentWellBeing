@@ -3,7 +3,6 @@ from datetime import date
 from sqlalchemy.orm import Session
 
 from app.agents.base_agent import BaseAgent
-from app.agents.json_utils import extract_json
 from app.models.student import Student
 from app.models.intervention import Intervention
 from app.schemas.risk import RiskAssessment, InterventionRecommendation, InterventionAreaPlan
@@ -143,11 +142,7 @@ Existing active interventions for this student (avoid duplicating these):
 
 Produce the intervention plan JSON."""
 
-        raw = self.run(prompt)
-        try:
-            data = extract_json(raw)
-        except Exception:
-            data = _fallback_plan()
+        data = self.run_json(prompt) or _fallback_plan()
 
         _normalize_strategies(data)
         data["strategies"] = [InterventionAreaPlan(**s) for s in data["strategies"]]

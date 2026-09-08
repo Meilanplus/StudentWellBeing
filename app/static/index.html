@@ -320,13 +320,32 @@ async function renderPage() {
 }
 
 // ── Dashboard ──
+let lastDashboard = null;
+
+function dashboardNarrativeHtml(d) {
+  if (d.trend_analysis == null) {
+    return `<div class="card" id="dashboardNarrativeCard">
+      <p class="muted">${t('dashboard.narrative_not_generated', 'AI insights have not been generated yet for this period/language.')}</p>
+      <button class="btn btn-primary" onclick="generateDashboardNarrative()">${t('dashboard.generate_insights', 'Generate AI Insights')}</button>
+    </div>`;
+  }
+  return `<div class="card" id="dashboardNarrativeCard">
+    <h3>Trend Analysis</h3><p>${d.trend_analysis}</p>
+    <h3>Management Summary</h3><p>${d.management_summary}</p>
+    <h3>Recommendations</h3><ul>${d.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
+    <div class="disclaimer">${d.disclaimer}</div>
+  </div>`;
+}
+
 async function renderDashboard() {
   const content = document.getElementById('content');
-  startAiWait(content, t('risk.generating_dashboard', 'Agent 4 is generating the dashboard summary — this can take a few minutes.'));
+  // KPIs are always live and fast (plain DB aggregates) — this never calls
+  // Agent 4. The AI narrative is included only if already cached; otherwise
+  // a button lets the user trigger it explicitly (see generateDashboardNarrative).
   const res = await apiFetch(`/reports/dashboard?language=${currentLang()}`);
-  stopAiWait();
   if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
   const d = await res.json();
+  lastDashboard = d;
   content.innerHTML = `
     <h1 class="page-title">${t('dashboard.title', 'Dashboard Overview')} — ${d.period}</h1>
     <div class="grid">
@@ -340,12 +359,18 @@ async function renderDashboard() {
       <table><thead><tr><th>Class</th><th>Total</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
       <tbody>${d.class_breakdown.map(c => `<tr><td>${c.class_name}</td><td>${c.total_students}</td><td>${c.low_risk}</td><td>${c.moderate_risk}</td><td>${c.high_risk}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No data yet.</td></tr>'}</tbody></table>
     </div>
-    <div class="card">
-      <h3>Trend Analysis</h3><p>${d.trend_analysis}</p>
-      <h3>Management Summary</h3><p>${d.management_summary}</p>
-      <h3>Recommendations</h3><ul>${d.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
-      <div class="disclaimer">${d.disclaimer}</div>
-    </div>`;
+    ${dashboardNarrativeHtml(d)}`;
+}
+
+async function generateDashboardNarrative() {
+  const card = document.getElementById('dashboardNarrativeCard');
+  startAiWait(card, t('risk.generating_dashboard', 'Agent 4 is generating the dashboard summary — this can take a few minutes.'));
+  const res = await apiFetch(`/reports/dashboard/narrative?period=${encodeURIComponent(lastDashboard.period)}&language=${currentLang()}`, { method: 'POST' });
+  stopAiWait();
+  if (!res.ok) { card.innerHTML = await errorHtml(res); return; }
+  const narrative = await res.json();
+  lastDashboard = { ...lastDashboard, ...narrative };
+  document.getElementById('dashboardNarrativeCard').outerHTML = dashboardNarrativeHtml(lastDashboard);
 }
 
 // ── Students ──

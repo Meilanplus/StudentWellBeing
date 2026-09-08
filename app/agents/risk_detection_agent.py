@@ -3,7 +3,6 @@ from datetime import date, timedelta
 from sqlalchemy.orm import Session
 
 from app.agents.base_agent import BaseAgent
-from app.agents.json_utils import extract_json
 from app.models.student import Student, AttendanceRecord, BehaviorRecord, MentalHealthRecord
 from app.models.assessment import AssessmentResult
 from app.schemas.risk import RiskAssessment
@@ -194,9 +193,10 @@ Analyze the well-being risk for this student:
 
 Use the tools to gather attendance, behavior, and assessment data, then produce the JSON risk assessment."""
 
-        raw = self.run(prompt)
+        data = self.run_json(prompt)
         try:
-            data = extract_json(raw)
+            if data is None:
+                raise ValueError("no parseable JSON in response")
             return RiskAssessment(student_id=student.student_id, student_name=student.full_name, **data)
         except Exception:
             # Covers both unparseable JSON and JSON that parses but doesn't match

@@ -4,7 +4,6 @@ from datetime import date, timedelta
 from sqlalchemy.orm import Session
 
 from app.agents.base_agent import BaseAgent
-from app.agents.json_utils import extract_json
 from app.models.student import Student, AttendanceRecord, BehaviorRecord, MentalHealthRecord
 from app.models.intervention import Intervention
 from app.models.assessment import AssessmentResult
@@ -272,10 +271,8 @@ Emotional well-being screening:
 
 Produce the referral document JSON."""
 
-        raw = self.run(prompt)
-        try:
-            data = extract_json(raw)
-        except Exception:
+        data = self.run_json(prompt)
+        if data is None:
             data = {
                 "letter_content": "Unable to generate referral letter automatically. Please prepare manually using the student's history below.",
                 "supporting_summary": "Data unavailable due to an automated generation failure.",

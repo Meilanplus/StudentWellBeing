@@ -10,7 +10,10 @@ class Settings(BaseSettings):
     debug: bool = True
     app_base_url: str = "http://localhost:8000"
 
-    database_url: str = "postgresql+psycopg://swb_app:changeme@localhost:5432/studentwellbeing"
+    database_url: str = "sqlite:///./studentwellbeing.db"
+    # Used instead of SQLite when the primary (GCP) Postgres is unreachable
+    # in development — see resolve_database_url() in app/database.py.
+    fallback_database_url: str = "sqlite:///./studentwellbeing.db"
 
     deepseek_api_key: str = ""
     deepseek_base_url: str = "https://api.deepseek.com"

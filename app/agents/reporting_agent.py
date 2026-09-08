@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 
 from app.agents.base_agent import BaseAgent
-from app.agents.json_utils import extract_json
 from app.models.student import Student
 from app.models.intervention import Intervention, Referral
 from app.schemas.report import DashboardReport, MonthlyKPI, ClassRiskSummary
@@ -132,15 +131,11 @@ Class risk breakdown:
 
 Write the narrative sections (trend_analysis, management_summary, recommendations) as JSON."""
 
-        raw = self.run(prompt)
-        try:
-            return extract_json(raw)
-        except Exception:
-            return {
-                "trend_analysis": "Trend data unavailable due to an automated generation failure. Please review the KPI figures directly.",
-                "management_summary": "Automated summary unavailable. Raw KPI data is provided above for manual review.",
-                "recommendations": [],
-            }
+        return self.run_json(prompt) or {
+            "trend_analysis": "Trend data unavailable due to an automated generation failure. Please review the KPI figures directly.",
+            "management_summary": "Automated summary unavailable. Raw KPI data is provided above for manual review.",
+            "recommendations": [],
+        }
 
     def generate_dashboard(self, period: str | None = None, language: str = "English") -> DashboardReport:
         period = period or self.default_period()

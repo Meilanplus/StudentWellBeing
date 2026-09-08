@@ -33,7 +33,17 @@ class DashboardReport(BaseModel):
     school_kpis: MonthlyKPI
     class_breakdown: list[ClassRiskSummary]
     top_risk_students: list[dict] = []
+    # None when the AI narrative hasn't been generated yet for this
+    # period/language — KPIs are always live, but Agent 4 only runs when
+    # explicitly requested (see POST /reports/dashboard/narrative), never
+    # just because the dashboard is being displayed.
+    trend_analysis: str | None = None
+    management_summary: str | None = None
+    recommendations: list[str] | None = None
+    disclaimer: str = REPORT_DISCLAIMER
+
+
+class DashboardNarrative(BaseModel):
     trend_analysis: str
     management_summary: str
     recommendations: list[str]
-    disclaimer: str = REPORT_DISCLAIMER

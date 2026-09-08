@@ -9,7 +9,7 @@ from app.database import get_db
 from app.models.user import User
 from app.models.student import Student
 from app.models.intervention import Intervention, DashboardSummary
-from app.schemas.report import DashboardReport
+from app.schemas.report import DashboardReport, DashboardNarrative
 from app.agents.reporting_agent import ReportingAgent
 from app.services.report_translator import translate_report_data
 from app.permissions import require_task
@@ -25,12 +25,45 @@ def dashboard(
     requester: User = Depends(require_task(TASK_INVOKE_AGENT4_REPORTING)),
     db: Session = Depends(get_db),
 ):
+    """KPIs are cheap DB aggregates — always recomputed live. The AI narrative
+    is included ONLY if already cached for this period/language; displaying
+    the dashboard never triggers Agent 4 or a translation call. Generating
+    it (first time for a period, or a new language) is a separate, explicit
+    action — see POST /reports/dashboard/narrative."""
     agent = ReportingAgent(db)
     resolved_period = period or agent.default_period()
-    # KPIs are cheap DB aggregates — always recomputed live so numbers never
-    # go stale. Only the AI-written narrative is cached (by period), since
-    # that's the slow, expensive part; see DashboardSummary and the
-    # invalidation calls in risk.py/referrals.py for what can go stale it.
+    kpis, class_breakdown = agent.compute_kpis(resolved_period)
+
+    cached = db.query(DashboardSummary).filter(DashboardSummary.period == resolved_period).first()
+    narrative: dict = {}
+    if cached is not None:
+        if language == "ms":
+            narrative = cached.narrative
+        else:
+            narrative = cached.translations.get(language) or {}
+
+    return DashboardReport(
+        generated_at=date.today().isoformat(),
+        period=resolved_period,
+        school_kpis=kpis,
+        class_breakdown=class_breakdown,
+        top_risk_students=[],
+        **narrative,
+    )
+
+
+@router.post("/dashboard/narrative", response_model=DashboardNarrative)
+def generate_dashboard_narrative(
+    period: str | None = None,
+    language: str = "ms",
+    requester: User = Depends(require_task(TASK_INVOKE_AGENT4_REPORTING)),
+    db: Session = Depends(get_db),
+):
+    """Explicitly generates (or serves the cached) Agent 4 narrative for a
+    period/language — the only place that ever invokes Agent 4 or a
+    translation call, so the dashboard's default display never blocks on it."""
+    agent = ReportingAgent(db)
+    resolved_period = period or agent.default_period()
     kpis, class_breakdown = agent.compute_kpis(resolved_period)
 
     cached = db.query(DashboardSummary).filter(DashboardSummary.period == resolved_period).first()
@@ -56,14 +89,7 @@ def dashboard(
             cached.translations = {**cached.translations, language: narrative}
             db.commit()
 
-    return DashboardReport(
-        generated_at=date.today().isoformat(),
-        period=resolved_period,
-        school_kpis=kpis,
-        class_breakdown=class_breakdown,
-        top_risk_students=[],
-        **narrative,
-    )
+    return DashboardNarrative(**narrative)
 
 
 @router.get("/class-summary")
