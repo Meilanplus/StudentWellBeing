@@ -333,9 +333,9 @@ function dashboardNarrativeHtml(d) {
     </div>`;
   }
   return `<div class="card" id="dashboardNarrativeCard">
-    <h3>Trend Analysis</h3><p>${d.trend_analysis}</p>
-    <h3>Management Summary</h3><p>${d.management_summary}</p>
-    <h3>Recommendations</h3><ul>${d.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
+    <h3>${t('dashboard.trend_analysis','Trend Analysis')}</h3><p>${d.trend_analysis}</p>
+    <h3>${t('dashboard.management_summary','Management Summary')}</h3><p>${d.management_summary}</p>
+    <h3>${t('dashboard.recommendations','Recommendations')}</h3><ul>${d.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
     <div class="disclaimer">${d.disclaimer}</div>
   </div>`;
 }
@@ -359,7 +359,7 @@ async function renderDashboard() {
     </div>
     <div class="card">
       <h3>${t('nav.class_summary', 'Class Breakdown')}</h3>
-      <table><thead><tr><th>Class</th><th>Total</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
+      <table><thead><tr><th>${t('students.class_name','Class')}</th><th>${t('common.total','Total')}</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
       <tbody>${d.class_breakdown.map(c => `<tr><td>${c.class_name}</td><td>${c.total_students}</td><td>${c.low_risk}</td><td>${c.moderate_risk}</td><td>${c.high_risk}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No data yet.</td></tr>'}</tbody></table>
     </div>
     ${dashboardNarrativeHtml(d)}`;
@@ -633,7 +633,7 @@ async function renderEarlyDetection() {
   content.innerHTML = `
     <h1 class="page-title">${t('nav.early_detection', 'Early Detection')}</h1>
     <div class="card">
-      <div class="field"><label>Student</label>
+      <div class="field"><label>${t('common.student','Student')}</label>
         <select id="ed_student">${students.map(s => `<option value="${s.student_id}">${s.full_name} (${s.student_id})</option>`).join('')}</select>
       </div>
       <button class="btn btn-primary" onclick="runRiskAssessment()">${t('nav.invoke_agent1', 'Run Agent 1: Risk Detection')}</button>
@@ -744,7 +744,7 @@ async function renderIntervention() {
   content.innerHTML = `
     <h1 class="page-title no-print">${t('nav.intervention', 'Intervention')}</h1>
     <div class="card no-print">
-      <div class="field"><label>Student</label>
+      <div class="field"><label>${t('common.student','Student')}</label>
         <select id="iv_student">${students.map(s => `<option value="${s.student_id}">${s.full_name} (${s.student_id})</option>`).join('')}</select>
       </div>
       <button class="btn btn-primary" onclick="runIntervention()">Run Agent 2: Intervention Plan</button>
@@ -760,7 +760,7 @@ function interventionReportHtml(p, buttonsHtml) {
   const screenView = `
     <div class="screen-only">
       <h3>${p.student_name} (${p.student_id}) — <span class="badge ${riskBadgeClass(p.risk_level)}">${p.risk_level}</span></h3>
-      <p class="muted">Case: ${p.case_reference} · ${p.date} · Prepared by ${p.prepared_by}</p>
+      <p class="muted">Case: ${p.case_reference} · ${p.date} · ${t('common.prepared_by','Prepared by')} ${p.prepared_by}</p>
       <h4>Rationale</h4><p>${p.rationale}</p>
       <h4>Reason for Intervention</h4>${list(p.reason_for_intervention)}
       <h4>Intervention Objectives</h4>${list(p.intervention_objectives)}
@@ -940,16 +940,21 @@ async function renderReferral() {
     <h1 class="page-title">${t('nav.referral', 'Referral')}</h1>
     <div class="card">
       <div class="form-grid">
-        <div class="field"><label>Student</label>
+        <div class="field"><label>${t('common.student','Student')}</label>
           <select id="rf_student">${students.map(s => `<option value="${s.student_id}">${s.full_name} (${s.student_id})</option>`).join('')}</select>
         </div>
-        <div class="field"><label>Referral Type</label>
-          <select id="rf_type"><option value="psychologist">Psychologist</option><option value="psychiatrist">Psychiatrist</option><option value="healthcare">Healthcare Provider</option><option value="kementerian">Kementerian Kesihatan</option></select>
+        <div class="field"><label>${t('referral.type','Referral Type')}</label>
+          <select id="rf_type">
+            <option value="psychologist">${t('referral.type.psychologist','Psychologist')}</option>
+            <option value="psychiatrist">${t('referral.type.psychiatrist','Psychiatrist')}</option>
+            <option value="healthcare">${t('referral.type.healthcare','Healthcare Provider')}</option>
+            <option value="kementerian">${t('referral.type.kementerian','Kementerian Kesihatan')}</option>
+          </select>
         </div>
-        <div class="field"><label>Referral To</label><input id="rf_to" placeholder="e.g. Klinik Kesihatan Sentul" /></div>
-        <div class="field" style="grid-column: span 2"><label>Additional Notes</label><textarea id="rf_notes" rows="2"></textarea></div>
+        <div class="field"><label>${t('referral.to','Referral To')}</label><input id="rf_to" placeholder="${t('referral.to_placeholder','e.g. Klinik Kesihatan Sentul')}" /></div>
+        <div class="field" style="grid-column: span 2"><label>${t('referral.additional_notes','Additional Notes')}</label><textarea id="rf_notes" rows="2"></textarea></div>
       </div>
-      <button class="btn btn-primary" onclick="runReferral()">Run Agent 3: Generate Referral</button>
+      <button class="btn btn-primary" onclick="runReferral()">${t('referral.run_agent3','Run Agent 3: Generate Referral')}</button>
       <button class="btn btn-outline" style="margin-left:8px" onclick="viewPreviousReferralReports()">${t('risk.view_previous_reports','View Previous Reports')}</button>
     </div>
     <div id="rf_result"></div>`;
@@ -981,10 +986,10 @@ function renderSupportingSummary(text) {
 function referralReportHtml(doc, buttonsHtml) {
   return `
     <div class="card">
-      <h3>Referral Letter — ${doc.student_name}</h3>
-      <p class="muted">${doc.referral_type} · ${doc.referral_to} · Prepared by ${doc.prepared_by}</p>
+      <h3>${t('referral.letter_title','Referral Letter')} — ${doc.student_name}</h3>
+      <p class="muted">${doc.referral_type} · ${doc.referral_to} · ${t('common.prepared_by','Prepared by')} ${doc.prepared_by}</p>
       <p style="white-space: pre-wrap">${doc.letter_content}</p>
-      <h4>Supporting Summary</h4>
+      <h4>${t('referral.supporting_summary','Supporting Summary')}</h4>
       ${renderSupportingSummary(doc.supporting_summary)}
       <div class="disclaimer">${doc.disclaimer}</div>
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
@@ -1069,7 +1074,7 @@ async function viewPreviousReferralReports() {
   resultDiv.innerHTML = `
     <div class="card">
       <h3>${t('risk.previous_reports','Previous Reports')}</h3>
-      <table><thead><tr><th>${t('risk.timestamp','Timestamp')}</th><th>Referral Type</th><th>Referral To</th><th></th></tr></thead>
+      <table><thead><tr><th>${t('risk.timestamp','Timestamp')}</th><th>${t('referral.type','Referral Type')}</th><th>${t('referral.to','Referral To')}</th><th></th></tr></thead>
       <tbody>${savedReferralReportsCache.map((rep,i) => `<tr><td>${new Date(rep.created_at).toLocaleString()}</td><td>${rep.referral_type}</td><td>${rep.referral_to}</td><td><button class="btn btn-outline btn-sm" onclick="viewSavedReferralReport(${i})">${t('common.view','View')}</button></td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.no_previous_reports','No previous reports found.')}</td></tr>`}</tbody></table>
     </div>
     <div id="saved_referral_detail"></div>`;
@@ -1107,7 +1112,7 @@ async function renderClassSummary() {
   content.innerHTML = `
     <h1 class="page-title">${t('nav.class_summary', 'Class Summary')}</h1>
     <div class="card">
-      <table><thead><tr><th>Class</th><th>Total</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
+      <table><thead><tr><th>${t('students.class_name','Class')}</th><th>${t('common.total','Total')}</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
       <tbody>${rows.map(c => `<tr><td>${c.class_name}</td><td>${c.total_students}</td><td>${c.low_risk}</td><td>${c.moderate_risk}</td><td>${c.high_risk}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No data yet.</td></tr>'}</tbody></table>
     </div>`;
 }
