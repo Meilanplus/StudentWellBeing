@@ -164,6 +164,21 @@ def update_attendance(
     return record
 
 
+@router.delete("/{student_id}/attendance/{record_id}", status_code=204)
+def delete_attendance(
+    student_id: str,
+    record_id: int,
+    requester: User = Depends(require_task(TASK_FILL_STUDENT_RELATED_INFO)),
+    db: Session = Depends(get_db),
+):
+    student = _get_student_or_404(student_id, requester, db)
+    record = db.query(AttendanceRecord).filter(AttendanceRecord.id == record_id, AttendanceRecord.student_id == student.id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Attendance record not found.")
+    db.delete(record)
+    db.commit()
+
+
 @router.post("/{student_id}/behavior", response_model=BehaviorRecordOut, status_code=201)
 def add_behavior(
     student_id: str,

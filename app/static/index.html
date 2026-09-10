@@ -77,10 +77,13 @@
   .tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
   .muted { color: var(--muted); font-size: 0.85rem; }
   .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+  .print-only { display: none; }
   @media print {
     #sidebar, #topbar, .no-print { display: none !important; }
     #main { margin-left: 0; }
     body { background: #fff; }
+    .print-only { display: block !important; }
+    .screen-only { display: none !important; }
   }
 </style>
 </head>
@@ -525,6 +528,7 @@ function openAttendanceModal(id) {
       <div class="field"><label>Reason</label><input id="af_reason" value="${rec ? escAttr(rec.reason) : ''}" /></div>
       <div class="field"><label>Recorded By</label><input id="af_recorded_by" value="${rec ? escAttr(rec.recorded_by) : ''}" required /></div>
       <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
+      ${rec ? `<button class="btn btn-outline" type="button" style="margin-left:8px; color:#dc2626; border-color:#dc2626" onclick="deleteAttendanceRecord(${rec.id})">${t('common.delete','Delete')}</button>` : ''}
     </form>`);
 }
 
@@ -540,6 +544,12 @@ async function submitAttendanceForm(e, id) {
   const res = await apiFetch(url, { method: id ? 'PATCH' : 'POST', body: JSON.stringify(payload) });
   if (res.ok) { closeModal(); renderStudentDetail(); } else { alert((await res.json()).detail); }
   return false;
+}
+
+async function deleteAttendanceRecord(id) {
+  if (!confirm(t('students.confirm_delete_attendance', 'Delete this attendance record? This cannot be undone.'))) return;
+  const res = await apiFetch(`/students/${S.studentId}/attendance/${id}`, { method: 'DELETE' });
+  if (res.ok) { closeModal(); renderStudentDetail(); } else { alert((await res.json()).detail); }
 }
 
 // ── Behavior add/edit ──
@@ -736,8 +746,8 @@ async function renderIntervention() {
   const content = document.getElementById('content');
   const students = await (await apiFetch('/students/')).json();
   content.innerHTML = `
-    <h1 class="page-title">${t('nav.intervention', 'Intervention')}</h1>
-    <div class="card">
+    <h1 class="page-title no-print">${t('nav.intervention', 'Intervention')}</h1>
+    <div class="card no-print">
       <div class="field"><label>Student</label>
         <select id="iv_student">${students.map(s => `<option value="${s.student_id}">${s.full_name} (${s.student_id})</option>`).join('')}</select>
       </div>
@@ -749,9 +759,11 @@ async function renderIntervention() {
 
 function interventionReportHtml(p, buttonsHtml) {
   const list = (items) => `<ul>${(items || []).map(i => `<li>${i}</li>`).join('') || '<li class="muted">-</li>'}</ul>`;
-  return `
-    <div class="card">
-      <h3>${p.student_name} — <span class="badge ${riskBadgeClass(p.risk_level)}">${p.risk_level}</span></h3>
+
+  // On-screen interactive view — unchanged from before.
+  const screenView = `
+    <div class="screen-only">
+      <h3>${p.student_name} (${p.student_id}) — <span class="badge ${riskBadgeClass(p.risk_level)}">${p.risk_level}</span></h3>
       <p class="muted">Case: ${p.case_reference} · ${p.date} · Prepared by ${p.prepared_by}</p>
       <h4>Rationale</h4><p>${p.rationale}</p>
       <h4>Reason for Intervention</h4>${list(p.reason_for_intervention)}
@@ -768,8 +780,50 @@ function interventionReportHtml(p, buttonsHtml) {
       <h4>Action Items — Parent</h4>${list(p.action_items_parent)}
       <h4>Counselor Recommendation</h4><p>${p.counselor_recommendation}</p>
       ${p.referral_recommended ? `<p style="color:#dc2626"><b>⚠ Referral recommended:</b> ${p.referral_reason || ''}</p>` : ''}
+    </div>`;
+
+  // Print view — mirrors generate_intervention_docx() (app/services/intervention_report.py)
+  // section-for-section, so what comes out of the printer matches the downloadable .docx.
+  const printView = `
+    <div class="print-only">
+      <h1 style="color:#1A3AAD">School-Based Intervention Plan</h1>
+      <p style="font-style:italic; font-size:9pt">${p.disclaimer}</p>
+      <h2 style="color:#1A3AAD">Student Information</h2>
+      <table>
+        <tbody>
+          <tr><td><b>Student Name</b></td><td>${p.student_name}</td></tr>
+          <tr><td><b>Class</b></td><td>${p.class_name}</td></tr>
+          <tr><td><b>Age</b></td><td>${p.age ?? '-'}</td></tr>
+          <tr><td><b>Risk Level</b></td><td>${p.risk_level}</td></tr>
+          <tr><td><b>School</b></td><td>${p.school_name}</td></tr>
+          <tr><td><b>Case Reference</b></td><td>${p.case_reference}</td></tr>
+          <tr><td><b>Prepared By</b></td><td>${p.prepared_by}</td></tr>
+          <tr><td><b>Date</b></td><td>${p.date}</td></tr>
+        </tbody>
+      </table>
+      <h2 style="color:#1A3AAD">Reason for Intervention</h2>${list(p.reason_for_intervention)}
+      <h2 style="color:#1A3AAD">Intervention Objectives</h2>${list(p.intervention_objectives)}
+      <h2 style="color:#1A3AAD">AI Recommended Intervention Plan</h2>
+      <table><thead><tr><th>Area</th><th>Strategy</th><th>Responsible Person</th><th>Frequency</th><th>Success Indicator</th></tr></thead>
+      <tbody>${p.strategies.map(s => `<tr><td>${s.area}</td><td>${s.strategy}</td><td>${s.responsible}</td><td>${s.frequency}</td><td>${s.success_indicator}</td></tr>`).join('')}</tbody></table>
+      <h2 style="color:#1A3AAD">Recommended Tools</h2>${list(p.recommended_tools)}
+      <h2 style="color:#1A3AAD">Parent Support Guide</h2>${list(p.home_strategies)}
+      <h2 style="color:#1A3AAD">Expected Outcomes</h2>${list(p.expected_outcomes)}
+      <h2 style="color:#1A3AAD">Monitoring Checklist</h2>${list(p.monitoring_checklist)}
+      <h2 style="color:#1A3AAD">Counselor Recommendation</h2><p>${p.counselor_recommendation}</p>
+      ${p.referral_recommended ? `<h2 style="color:#1A3AAD">Referral Recommendation</h2><p>${p.referral_reason || 'Referral to Agent 3 recommended.'}</p>` : ''}
+      <h2 style="color:#1A3AAD">Action Items</h2>
+      <p><b>Teacher:</b></p>${list(p.action_items_teacher)}
+      <p><b>Counselor:</b></p>${list(p.action_items_counselor)}
+      <p><b>Parent:</b></p>${list(p.action_items_parent)}
+    </div>`;
+
+  return `
+    <div class="card">
+      ${screenView}
+      ${printView}
       <button class="btn btn-outline no-print" onclick="downloadInterventionReport(${p.intervention_id}, currentLang())">Download .docx Report</button>
-      <div class="disclaimer">${p.disclaimer}</div>
+      <div class="disclaimer no-print">${p.disclaimer}</div>
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
     </div>`;
 }
@@ -857,10 +911,13 @@ async function viewPreviousInterventionReports() {
   if (!res.ok) { resultDiv.innerHTML = await errorHtml(res); return; }
   savedInterventionReportsCache = await res.json();
   resultDiv.innerHTML = `
-    <div class="card">
+    <div class="card no-print">
       <h3>${t('risk.previous_reports','Previous Reports')}</h3>
-      <table><thead><tr><th>${t('risk.timestamp','Timestamp')}</th><th>${t('risk.level','Risk Level')}</th><th></th></tr></thead>
-      <tbody>${savedInterventionReportsCache.map((rep,i) => `<tr><td>${new Date(rep.created_at).toLocaleString()}</td><td><span class="badge ${riskBadgeClass(rep.risk_level)}">${rep.risk_level}</span></td><td><button class="btn btn-outline btn-sm" onclick="viewSavedInterventionReport(${i})">${t('common.view','View')}</button></td></tr>`).join('') || `<tr><td colspan="3" class="muted">${t('risk.no_previous_reports','No previous reports found.')}</td></tr>`}</tbody></table>
+      ${savedInterventionReportsCache.map((rep,i) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border)">
+          <div>${new Date(rep.created_at).toLocaleString()} · <span class="badge ${riskBadgeClass(rep.risk_level)}">${rep.risk_level}</span></div>
+          <button class="btn btn-outline btn-sm" onclick="viewSavedInterventionReport(${i})">${t('common.view','View')}</button>
+        </div>`).join('') || `<p class="muted">${t('risk.no_previous_reports','No previous reports found.')}</p>`}
     </div>
     <div id="saved_intervention_detail"></div>`;
 }
