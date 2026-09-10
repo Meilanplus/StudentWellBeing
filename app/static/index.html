@@ -101,8 +101,8 @@
   <div class="nav-item" data-page="referral" data-i18n="nav.referral">Referral</div>
   <div class="nav-item" data-page="reporting" data-i18n="nav.reporting">Reporting</div>
   <div class="nav-group-label" data-i18n="nav.forms_group">Forms</div>
-  <a class="nav-item" href="/static/forms/saringan_minda_sihat.html" target="_blank" data-i18n="nav.sms_form">SMS Form</a>
-  <a class="nav-item" href="/static/forms/nichq_vanderbilt.html" target="_blank" data-i18n="nav.nichq_form">NICHQ Form</a>
+  <a class="nav-item" id="smsFormLink" href="/static/forms/saringan_minda_sihat.html" target="_blank" data-i18n="nav.sms_form">SMS Form</a>
+  <a class="nav-item" id="nichqFormLink" href="/static/forms/nichq_vanderbilt.html" target="_blank" data-i18n="nav.nichq_form">NICHQ Form</a>
   <div class="nav-group-label">Tools</div>
   <div class="nav-item" data-page="assessments" data-i18n="nav.assessments">Assessment Instruments</div>
   <div class="nav-item" data-page="class_summary" data-i18n="nav.class_summary">Class Summary</div>
@@ -183,6 +183,8 @@ async function loadTranslations(code) {
   TRANSLATIONS = await res.json();
   applyTranslations();
   document.body.classList.toggle('lang-zh', code === 'zh');
+  document.getElementById('smsFormLink').href = `/static/forms/saringan_minda_sihat.html?lang=${code}`;
+  document.getElementById('nichqFormLink').href = `/static/forms/nichq_vanderbilt.html?lang=${code}`;
 }
 
 function currentLang() { return document.getElementById('langSelect').value; }

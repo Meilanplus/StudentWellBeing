@@ -17,6 +17,8 @@ hr{border:none;border-top:2px solid #000;margin:8px 0}
 hr.thin{border-top:1px solid #000}
 .form-title{text-align:center;font-size:15px;font-weight:700;text-decoration:underline;margin:12px 0 8px}
 .subtitle{text-align:center;font-size:12px;font-style:italic;margin-bottom:14px}
+.lang-bar{text-align:center;margin-bottom:14px}
+.lang-bar select{font-size:13px;padding:4px 8px}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;margin-bottom:14px}
 .info-row{display:flex;align-items:flex-end;gap:4px;font-size:12px;border-bottom:1px solid #000;padding-bottom:2px}
 .info-label{white-space:nowrap;font-weight:700;flex-shrink:0}
@@ -41,7 +43,7 @@ td.total-row{font-weight:700;background:#f0f0f0}
 @media print{
   body{padding:0}
   .page{border:none;padding:16px 20px}
-  .print-btn{display:none}
+  .print-btn,.lang-bar{display:none}
   @page{margin:1.2cm}
 }
 .print-btn{display:block;text-align:center;margin-bottom:16px}
@@ -50,186 +52,193 @@ td.total-row{font-weight:700;background:#f0f0f0}
 </head>
 <body>
 
-<div class="print-btn"><button onclick="window.print()">🖨️ Cetak / Print to PDF</button></div>
+<div class="print-btn"><button onclick="window.print()" data-i18n="print_btn">🖨️ Cetak / Print to PDF</button></div>
+<div class="lang-bar">
+  <select id="langPick" onchange="setLang(this.value)">
+    <option value="ms">Bahasa Malaysia</option>
+    <option value="en">English</option>
+    <option value="zh">中文</option>
+    <option value="ta">தமிழ்</option>
+  </select>
+</div>
 
 <div class="page">
   <!-- Header -->
   <div class="kpm-header">
     <div class="kpm-logo">KPM<br/>MOE</div>
     <div class="org-info">
-      <h1>KEMENTERIAN PENDIDIKAN MALAYSIA</h1>
-      <h2>BAHAGIAN PENGURUSAN SEKOLAH HARIAN</h2>
-      <p>Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI</p>
+      <h1 data-i18n="org1">KEMENTERIAN PENDIDIKAN MALAYSIA</h1>
+      <h2 data-i18n="org2">BAHAGIAN PENGURUSAN SEKOLAH HARIAN</h2>
+      <p data-i18n="org3">Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI</p>
     </div>
   </div>
   <hr/>
 
-  <div class="form-title">BORANG SARINGAN MINDA SIHAT (SMS)</div>
-  <div class="subtitle">Mental Health Screening Form · Untuk Kegunaan Kaunselor Sekolah Sahaja</div>
+  <div class="form-title" data-i18n="form_title">BORANG SARINGAN MINDA SIHAT (SMS)</div>
+  <div class="subtitle" data-i18n="form_subtitle">Mental Health Screening Form · Untuk Kegunaan Kaunselor Sekolah Sahaja</div>
 
   <!-- Student Info -->
   <div class="info-grid">
-    <div class="info-row"><span class="info-label">Nama Murid:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label">No. ID / Kad Pelajar:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label">Kelas:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label">Tahun:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label">Jantina:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label">Tarikh Lahir:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label">Nama Sekolah:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label">Tarikh Saringan:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.name">Nama Murid:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.id">No. ID / Kad Pelajar:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.class">Kelas:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.year">Tahun:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.gender">Jantina:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.dob">Tarikh Lahir:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.school">Nama Sekolah:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.screening_date">Tarikh Saringan:</span><span class="info-line">&nbsp;</span></div>
   </div>
   <hr class="thin"/>
 
   <!-- Instructions -->
-  <div class="section-title">ARAHAN / INSTRUCTIONS</div>
-  <div class="instr">
-    Baca setiap pernyataan di bawah dengan teliti. Tandakan (✓) dalam kotak yang paling menggambarkan perasaan atau keadaan murid dalam <strong>tempoh 2 minggu yang lalu</strong>.<br/>
-    <em>Read each statement carefully. Tick (✓) the box that best describes the student's feelings or condition over the <strong>past 2 weeks</strong>.</em>
+  <div class="section-title" data-i18n="instr_title">ARAHAN / INSTRUCTIONS</div>
+  <div class="instr" data-i18n="instr_text">
+    Baca setiap pernyataan di bawah dengan teliti. Tandakan (✓) dalam kotak yang paling menggambarkan perasaan atau keadaan murid dalam <strong>tempoh 2 minggu yang lalu</strong>.
   </div>
 
   <!-- Section A: Emosi -->
-  <div class="section-title">BAHAGIAN A — KESEJAHTERAAN EMOSI (Emotional Well-being)</div>
+  <div class="section-title" data-i18n="section.a_title">BAHAGIAN A — KESEJAHTERAAN EMOSI (Emotional Well-being)</div>
   <table>
     <thead>
       <tr>
-        <th class="no">Bil.</th>
-        <th class="item">Pernyataan / Statement</th>
-        <th class="score">Tidak Pernah<br/>(0)</th>
-        <th class="score">Kadang-<br/>kadang (1)</th>
-        <th class="score">Kerap<br/>(2)</th>
-        <th class="score">Sangat<br/>Kerap (3)</th>
+        <th class="no" data-i18n="th.no">Bil.</th>
+        <th class="item" data-i18n="th.statement">Pernyataan</th>
+        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
+        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
+        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
+        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td class="no">1</td><td>Saya berasa sedih atau murung / <em>I feel sad or depressed</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">2</td><td>Saya berasa bimbang atau cemas / <em>I feel worried or anxious</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">3</td><td>Saya berasa tidak berharga atau tidak berguna / <em>I feel worthless</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">4</td><td>Saya mengalami perubahan mood yang tiba-tiba / <em>I experience sudden mood changes</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">5</td><td>Saya berasa tertekan dan tidak dapat bersuka ria / <em>I feel stressed and unable to enjoy activities</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" class="total-row" style="text-align:right;font-weight:700">Jumlah Markah Bahagian A / Section A Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">1</td><td data-i18n="item.a1">Saya berasa sedih atau murung</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">2</td><td data-i18n="item.a2">Saya berasa bimbang atau cemas</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">3</td><td data-i18n="item.a3">Saya berasa tidak berharga atau tidak berguna</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">4</td><td data-i18n="item.a4">Saya mengalami perubahan mood yang tiba-tiba</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">5</td><td data-i18n="item.a5">Saya berasa tertekan dan tidak dapat bersuka ria</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" class="total-row" style="text-align:right;font-weight:700"><span data-i18n="total.a">Jumlah Markah Bahagian A:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
     </tbody>
   </table>
 
   <!-- Section B: Sosial -->
-  <div class="section-title">BAHAGIAN B — KESEJAHTERAAN SOSIAL (Social Well-being)</div>
+  <div class="section-title" data-i18n="section.b_title">BAHAGIAN B — KESEJAHTERAAN SOSIAL (Social Well-being)</div>
   <table>
     <thead>
       <tr>
-        <th class="no">Bil.</th>
-        <th class="item">Pernyataan / Statement</th>
-        <th class="score">Tidak Pernah<br/>(0)</th>
-        <th class="score">Kadang-<br/>kadang (1)</th>
-        <th class="score">Kerap<br/>(2)</th>
-        <th class="score">Sangat<br/>Kerap (3)</th>
+        <th class="no" data-i18n="th.no">Bil.</th>
+        <th class="item" data-i18n="th.statement">Pernyataan</th>
+        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
+        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
+        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
+        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td class="no">6</td><td>Saya mengasingkan diri daripada rakan-rakan / <em>I isolate myself from friends</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">7</td><td>Saya mengalami konflik dengan rakan sebaya / <em>I experience conflict with peers</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">8</td><td>Saya berasa sukar untuk berkomunikasi dengan orang lain / <em>I find it hard to communicate with others</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">9</td><td>Saya berasa dibuli atau diabaikan / <em>I feel bullied or ignored</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">10</td><td>Saya berasa keseorangan walaupun berada dalam kumpulan / <em>I feel lonely even in a group</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700">Jumlah Markah Bahagian B / Section B Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">6</td><td data-i18n="item.b6">Saya mengasingkan diri daripada rakan-rakan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">7</td><td data-i18n="item.b7">Saya mengalami konflik dengan rakan sebaya</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">8</td><td data-i18n="item.b8">Saya berasa sukar untuk berkomunikasi dengan orang lain</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">9</td><td data-i18n="item.b9">Saya berasa dibuli atau diabaikan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">10</td><td data-i18n="item.b10">Saya berasa keseorangan walaupun berada dalam kumpulan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700"><span data-i18n="total.b">Jumlah Markah Bahagian B:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
     </tbody>
   </table>
 
   <!-- Section C: Akademik -->
-  <div class="section-title">BAHAGIAN C — KESEJAHTERAAN AKADEMIK (Academic Well-being)</div>
+  <div class="section-title" data-i18n="section.c_title">BAHAGIAN C — KESEJAHTERAAN AKADEMIK (Academic Well-being)</div>
   <table>
     <thead>
       <tr>
-        <th class="no">Bil.</th>
-        <th class="item">Pernyataan / Statement</th>
-        <th class="score">Tidak Pernah<br/>(0)</th>
-        <th class="score">Kadang-<br/>kadang (1)</th>
-        <th class="score">Kerap<br/>(2)</th>
-        <th class="score">Sangat<br/>Kerap (3)</th>
+        <th class="no" data-i18n="th.no">Bil.</th>
+        <th class="item" data-i18n="th.statement">Pernyataan</th>
+        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
+        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
+        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
+        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td class="no">11</td><td>Saya sukar menumpukan perhatian di dalam kelas / <em>I have difficulty focusing in class</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">12</td><td>Saya tidak menyiapkan kerja sekolah / <em>I do not complete schoolwork</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">13</td><td>Saya berasa tertekan dengan peperiksaan / <em>I feel pressured by exams</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">14</td><td>Saya tidak berminat untuk belajar / <em>I have no interest in learning</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">15</td><td>Saya sering tidak hadir ke sekolah / <em>I am frequently absent from school</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700">Jumlah Markah Bahagian C / Section C Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">11</td><td data-i18n="item.c11">Saya sukar menumpukan perhatian di dalam kelas</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">12</td><td data-i18n="item.c12">Saya tidak menyiapkan kerja sekolah</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">13</td><td data-i18n="item.c13">Saya berasa tertekan dengan peperiksaan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">14</td><td data-i18n="item.c14">Saya tidak berminat untuk belajar</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">15</td><td data-i18n="item.c15">Saya sering tidak hadir ke sekolah</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700"><span data-i18n="total.c">Jumlah Markah Bahagian C:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
     </tbody>
   </table>
 
   <!-- Section D: Fizikal -->
-  <div class="section-title">BAHAGIAN D — KESEJAHTERAAN FIZIKAL (Physical Well-being)</div>
+  <div class="section-title" data-i18n="section.d_title">BAHAGIAN D — KESEJAHTERAAN FIZIKAL (Physical Well-being)</div>
   <table>
     <thead>
       <tr>
-        <th class="no">Bil.</th>
-        <th class="item">Pernyataan / Statement</th>
-        <th class="score">Tidak Pernah<br/>(0)</th>
-        <th class="score">Kadang-<br/>kadang (1)</th>
-        <th class="score">Kerap<br/>(2)</th>
-        <th class="score">Sangat<br/>Kerap (3)</th>
+        <th class="no" data-i18n="th.no">Bil.</th>
+        <th class="item" data-i18n="th.statement">Pernyataan</th>
+        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
+        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
+        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
+        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td class="no">16</td><td>Saya mengalami masalah tidur / <em>I experience sleep problems</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">17</td><td>Selera makan saya berkurangan / <em>My appetite has decreased</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">18</td><td>Saya sering merasa sakit kepala atau sakit badan / <em>I often have headaches or body pain</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">19</td><td>Saya berasa keletihan walaupun rehat yang cukup / <em>I feel tired even after adequate rest</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">20</td><td>Saya mengabaikan kebersihan diri / <em>I neglect personal hygiene</em></td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700">Jumlah Markah Bahagian D / Section D Total:</td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">16</td><td data-i18n="item.d16">Saya mengalami masalah tidur</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">17</td><td data-i18n="item.d17">Selera makan saya berkurangan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">18</td><td data-i18n="item.d18">Saya sering merasa sakit kepala atau sakit badan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">19</td><td data-i18n="item.d19">Saya berasa keletihan walaupun rehat yang cukup</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no">20</td><td data-i18n="item.d20">Saya mengabaikan kebersihan diri</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
+      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700"><span data-i18n="total.d">Jumlah Markah Bahagian D:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
     </tbody>
   </table>
 
   <!-- Scoring Summary -->
   <hr/>
-  <div class="section-title">RUMUSAN MARKAH / SCORING SUMMARY</div>
+  <div class="section-title" data-i18n="summary.title">RUMUSAN MARKAH / SCORING SUMMARY</div>
   <table>
-    <thead><tr><th>Bahagian</th><th>Markah Diperoleh</th><th>Markah Maksimum</th></tr></thead>
+    <thead><tr><th data-i18n="summary.section_col">Bahagian</th><th data-i18n="summary.score_col">Markah Diperoleh</th><th data-i18n="summary.max_col">Markah Maksimum</th></tr></thead>
     <tbody>
-      <tr><td>A — Kesejahteraan Emosi</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td>B — Kesejahteraan Sosial</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td>C — Kesejahteraan Akademik</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td>D — Kesejahteraan Fizikal</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td style="font-weight:700;background:#f0f0f0">JUMLAH KESELURUHAN / GRAND TOTAL</td><td style="text-align:center;font-weight:700;font-size:14px;background:#f0f0f0"></td><td style="text-align:center;font-weight:700;background:#f0f0f0">60</td></tr>
+      <tr><td data-i18n="summary.row_a">A — Kesejahteraan Emosi</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td data-i18n="summary.row_b">B — Kesejahteraan Sosial</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td data-i18n="summary.row_c">C — Kesejahteraan Akademik</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td data-i18n="summary.row_d">D — Kesejahteraan Fizikal</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
+      <tr><td style="font-weight:700;background:#f0f0f0" data-i18n="summary.grand_total">JUMLAH KESELURUHAN / GRAND TOTAL</td><td style="text-align:center;font-weight:700;font-size:14px;background:#f0f0f0"></td><td style="text-align:center;font-weight:700;background:#f0f0f0">60</td></tr>
     </tbody>
   </table>
 
   <!-- Interpretation -->
-  <div class="section-title">TAFSIRAN / INTERPRETATION</div>
+  <div class="section-title" data-i18n="interp.title">TAFSIRAN / INTERPRETATION</div>
   <table class="tahap-table">
     <thead>
-      <tr><th>Jumlah Markah</th><th>Tahap / Level</th><th>Tindakan / Action Required</th></tr>
+      <tr><th data-i18n="interp.score_col">Jumlah Markah</th><th data-i18n="interp.level_col">Tahap / Level</th><th data-i18n="interp.action_col">Tindakan / Action Required</th></tr>
     </thead>
     <tbody>
       <tr>
         <td style="text-align:center">0 – 15</td>
-        <td><strong>Tahap 1 — Baik</strong><br/><em>Level 1 — Good (No Risk)</em></td>
-        <td>Tiada intervensi khusus diperlukan. Kekalkan pemantauan biasa.</td>
+        <td data-i18n="interp.level1_title"><strong>Tahap 1 — Baik</strong><br/><em>Level 1 — Good (No Risk)</em></td>
+        <td data-i18n="interp.level1_action">Tiada intervensi khusus diperlukan. Kekalkan pemantauan biasa.</td>
       </tr>
       <tr>
         <td style="text-align:center">16 – 35</td>
-        <td><strong>Tahap 2 — Sederhana</strong><br/><em>Level 2 — Moderate (Low Risk)</em></td>
-        <td>Sesi kaunseling individu disyorkan. Maklumkan kepada ibu bapa / penjaga.</td>
+        <td data-i18n="interp.level2_title"><strong>Tahap 2 — Sederhana</strong><br/><em>Level 2 — Moderate (Low Risk)</em></td>
+        <td data-i18n="interp.level2_action">Sesi kaunseling individu disyorkan. Maklumkan kepada ibu bapa / penjaga.</td>
       </tr>
       <tr>
         <td style="text-align:center">36 – 60</td>
-        <td><strong>Tahap 3 — Membimbangkan</strong><br/><em>Level 3 — Concerning (High Risk)</em></td>
-        <td>Intervensi segera dan kemungkinan rujukan kepada pakar diperlukan.</td>
+        <td data-i18n="interp.level3_title"><strong>Tahap 3 — Membimbangkan</strong><br/><em>Level 3 — Concerning (High Risk)</em></td>
+        <td data-i18n="interp.level3_action">Intervensi segera dan kemungkinan rujukan kepada pakar diperlukan.</td>
       </tr>
     </tbody>
   </table>
 
   <!-- Interpretation box -->
   <div style="border:1px solid #000;padding:10px 14px;margin-bottom:14px">
-    <div style="font-weight:700;margin-bottom:6px">Keputusan Saringan / Screening Result:</div>
+    <div style="font-weight:700;margin-bottom:6px" data-i18n="result_box.title">Keputusan Saringan / Screening Result:</div>
     <div style="display:flex;gap:28px;flex-wrap:wrap;font-size:12px">
-      <label><span class="answer-box"></span> Tahap 1 — Baik</label>
-      <label><span class="answer-box"></span> Tahap 2 — Sederhana</label>
-      <label><span class="answer-box"></span> Tahap 3 — Membimbangkan</label>
+      <label><span class="answer-box"></span> <span data-i18n="result_box.level1">Tahap 1 — Baik</span></label>
+      <label><span class="answer-box"></span> <span data-i18n="result_box.level2">Tahap 2 — Sederhana</span></label>
+      <label><span class="answer-box"></span> <span data-i18n="result_box.level3">Tahap 3 — Membimbangkan</span></label>
     </div>
     <div style="margin-top:10px;border-bottom:1px solid #000;padding-bottom:4px">
-      <strong>Jumlah Markah Keseluruhan / Total Score: ___________</strong>
+      <strong data-i18n="result_box.total_label">Jumlah Markah Keseluruhan / Total Score: ___________</strong>
     </div>
-    <div style="margin-top:8px;font-size:12px">Catatan / Notes:</div>
+    <div style="margin-top:8px;font-size:12px" data-i18n="result_box.notes_label">Catatan / Notes:</div>
     <div style="border-bottom:1px solid #999;margin-top:26px"></div>
     <div style="border-bottom:1px solid #999;margin-top:20px"></div>
   </div>
@@ -238,26 +247,245 @@ td.total-row{font-weight:700;background:#f0f0f0}
   <div class="sig-grid">
     <div class="sig-box">
       <div class="sig-line"></div>
-      <div><strong>Tandatangan Kaunselor / Counselor's Signature</strong></div>
-      <div style="font-size:11px;margin-top:4px">Nama: _______________________________</div>
-      <div style="font-size:11px">No. Daftar BKM: ________________________</div>
-      <div style="font-size:11px">Tarikh: ________________________________</div>
+      <div><strong data-i18n="sig.counselor">Tandatangan Kaunselor / Counselor's Signature</strong></div>
+      <div style="font-size:11px;margin-top:4px"><span data-i18n="sig.name_label">Nama:</span> _______________________________</div>
+      <div style="font-size:11px"><span data-i18n="sig.reg_no_label">No. Daftar BKM:</span> ________________________</div>
+      <div style="font-size:11px"><span data-i18n="sig.date_label">Tarikh:</span> ________________________________</div>
     </div>
     <div class="sig-box">
       <div class="sig-line"></div>
-      <div><strong>Tandatangan Pengetua / Guru Besar</strong></div>
-      <div style="font-size:11px;margin-top:4px">Nama: _______________________________</div>
-      <div style="font-size:11px">Cop Sekolah:</div>
-      <div style="font-size:11px">Tarikh: ________________________________</div>
+      <div><strong data-i18n="sig.principal">Tandatangan Pengetua / Guru Besar</strong></div>
+      <div style="font-size:11px;margin-top:4px"><span data-i18n="sig.name_label">Nama:</span> _______________________________</div>
+      <div style="font-size:11px" data-i18n="sig.school_stamp">Cop Sekolah:</div>
+      <div style="font-size:11px"><span data-i18n="sig.date_label">Tarikh:</span> ________________________________</div>
     </div>
   </div>
 
   <div class="disclaimer">
-    <strong>SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA / CONFIDENTIAL — FOR INTERNAL USE ONLY</strong><br/>
-    Borang ini adalah alat saringan dan BUKAN diagnosis klinikal. Keputusan saringan mesti ditafsirkan oleh kaunselor sekolah yang berkelayakan. Keputusan yang membimbangkan hendaklah dirujuk kepada pakar yang bersesuaian. Simpan maklumat ini dengan selamat mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).<br/>
-    <em>This form is a screening tool and is NOT a clinical diagnosis. Results must be interpreted by a qualified school counselor. Concerning results should be referred to appropriate specialists. Store this information securely in compliance with the Personal Data Protection Act 2010.</em><br/>
-    Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia
+    <strong data-i18n="disclaimer.confidential">SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA / CONFIDENTIAL — FOR INTERNAL USE ONLY</strong><br/>
+    <span data-i18n="disclaimer.text">Borang ini adalah alat saringan dan BUKAN diagnosis klinikal. Keputusan saringan mesti ditafsirkan oleh kaunselor sekolah yang berkelayakan. Keputusan yang membimbangkan hendaklah dirujuk kepada pakar yang bersesuaian. Simpan maklumat ini dengan selamat mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).</span><br/>
+    <span data-i18n="disclaimer.footer">Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia</span>
   </div>
 </div>
+
+<script>
+const TRANSLATIONS = {
+  ms: {
+    print_btn: "🖨️ Cetak",
+    org1: "KEMENTERIAN PENDIDIKAN MALAYSIA",
+    org2: "BAHAGIAN PENGURUSAN SEKOLAH HARIAN",
+    org3: "Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI",
+    form_title: "BORANG SARINGAN MINDA SIHAT (SMS)",
+    form_subtitle: "Untuk Kegunaan Kaunselor Sekolah Sahaja",
+    "info.name": "Nama Murid:", "info.id": "No. ID / Kad Pelajar:", "info.class": "Kelas:", "info.year": "Tahun:",
+    "info.gender": "Jantina:", "info.dob": "Tarikh Lahir:", "info.school": "Nama Sekolah:", "info.screening_date": "Tarikh Saringan:",
+    instr_title: "ARAHAN",
+    instr_text: "Baca setiap pernyataan di bawah dengan teliti. Tandakan (✓) dalam kotak yang paling menggambarkan perasaan atau keadaan murid dalam <strong>tempoh 2 minggu yang lalu</strong>.",
+    "section.a_title": "BAHAGIAN A — KESEJAHTERAAN EMOSI", "section.b_title": "BAHAGIAN B — KESEJAHTERAAN SOSIAL",
+    "section.c_title": "BAHAGIAN C — KESEJAHTERAAN AKADEMIK", "section.d_title": "BAHAGIAN D — KESEJAHTERAAN FIZIKAL",
+    "th.no": "Bil.", "th.statement": "Pernyataan", "th.never": "Tidak Pernah<br/>(0)", "th.sometimes": "Kadang-<br/>kadang (1)",
+    "th.often": "Kerap<br/>(2)", "th.very_often": "Sangat<br/>Kerap (3)",
+    "item.a1": "Saya berasa sedih atau murung", "item.a2": "Saya berasa bimbang atau cemas",
+    "item.a3": "Saya berasa tidak berharga atau tidak berguna", "item.a4": "Saya mengalami perubahan mood yang tiba-tiba",
+    "item.a5": "Saya berasa tertekan dan tidak dapat bersuka ria",
+    "item.b6": "Saya mengasingkan diri daripada rakan-rakan", "item.b7": "Saya mengalami konflik dengan rakan sebaya",
+    "item.b8": "Saya berasa sukar untuk berkomunikasi dengan orang lain", "item.b9": "Saya berasa dibuli atau diabaikan",
+    "item.b10": "Saya berasa keseorangan walaupun berada dalam kumpulan",
+    "item.c11": "Saya sukar menumpukan perhatian di dalam kelas", "item.c12": "Saya tidak menyiapkan kerja sekolah",
+    "item.c13": "Saya berasa tertekan dengan peperiksaan", "item.c14": "Saya tidak berminat untuk belajar",
+    "item.c15": "Saya sering tidak hadir ke sekolah",
+    "item.d16": "Saya mengalami masalah tidur", "item.d17": "Selera makan saya berkurangan",
+    "item.d18": "Saya sering merasa sakit kepala atau sakit badan", "item.d19": "Saya berasa keletihan walaupun rehat yang cukup",
+    "item.d20": "Saya mengabaikan kebersihan diri",
+    "total.a": "Jumlah Markah Bahagian A:", "total.b": "Jumlah Markah Bahagian B:",
+    "total.c": "Jumlah Markah Bahagian C:", "total.d": "Jumlah Markah Bahagian D:",
+    "summary.title": "RUMUSAN MARKAH", "summary.section_col": "Bahagian", "summary.score_col": "Markah Diperoleh", "summary.max_col": "Markah Maksimum",
+    "summary.row_a": "A — Kesejahteraan Emosi", "summary.row_b": "B — Kesejahteraan Sosial",
+    "summary.row_c": "C — Kesejahteraan Akademik", "summary.row_d": "D — Kesejahteraan Fizikal",
+    "summary.grand_total": "JUMLAH KESELURUHAN",
+    "interp.title": "TAFSIRAN", "interp.score_col": "Jumlah Markah", "interp.level_col": "Tahap", "interp.action_col": "Tindakan Diperlukan",
+    "interp.level1_title": "<strong>Tahap 1 — Baik</strong><br/><em>(Tiada Risiko)</em>",
+    "interp.level1_action": "Tiada intervensi khusus diperlukan. Kekalkan pemantauan biasa.",
+    "interp.level2_title": "<strong>Tahap 2 — Sederhana</strong><br/><em>(Risiko Rendah)</em>",
+    "interp.level2_action": "Sesi kaunseling individu disyorkan. Maklumkan kepada ibu bapa / penjaga.",
+    "interp.level3_title": "<strong>Tahap 3 — Membimbangkan</strong><br/><em>(Risiko Tinggi)</em>",
+    "interp.level3_action": "Intervensi segera dan kemungkinan rujukan kepada pakar diperlukan.",
+    "result_box.title": "Keputusan Saringan:", "result_box.level1": "Tahap 1 — Baik", "result_box.level2": "Tahap 2 — Sederhana",
+    "result_box.level3": "Tahap 3 — Membimbangkan", "result_box.total_label": "Jumlah Markah Keseluruhan: ___________",
+    "result_box.notes_label": "Catatan:",
+    "sig.counselor": "Tandatangan Kaunselor", "sig.name_label": "Nama:", "sig.reg_no_label": "No. Daftar BKM:", "sig.date_label": "Tarikh:",
+    "sig.principal": "Tandatangan Pengetua / Guru Besar", "sig.school_stamp": "Cop Sekolah:",
+    "disclaimer.confidential": "SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA",
+    "disclaimer.text": "Borang ini adalah alat saringan dan BUKAN diagnosis klinikal. Keputusan saringan mesti ditafsirkan oleh kaunselor sekolah yang berkelayakan. Keputusan yang membimbangkan hendaklah dirujuk kepada pakar yang bersesuaian. Simpan maklumat ini dengan selamat mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).",
+    "disclaimer.footer": "Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia",
+  },
+  en: {
+    print_btn: "🖨️ Print to PDF",
+    org1: "MINISTRY OF EDUCATION MALAYSIA",
+    org2: "SCHOOL MANAGEMENT DIVISION",
+    org3: "Student Well-Being Early Detection System — Agentic AI",
+    form_title: "MENTAL HEALTH SCREENING FORM (SMS)",
+    form_subtitle: "For School Counselor Use Only",
+    "info.name": "Student Name:", "info.id": "ID / Student Card No.:", "info.class": "Class:", "info.year": "Year:",
+    "info.gender": "Gender:", "info.dob": "Date of Birth:", "info.school": "School Name:", "info.screening_date": "Screening Date:",
+    instr_title: "INSTRUCTIONS",
+    instr_text: "Read each statement below carefully. Tick (✓) the box that best describes the student's feelings or condition over the <strong>past 2 weeks</strong>.",
+    "section.a_title": "SECTION A — EMOTIONAL WELL-BEING", "section.b_title": "SECTION B — SOCIAL WELL-BEING",
+    "section.c_title": "SECTION C — ACADEMIC WELL-BEING", "section.d_title": "SECTION D — PHYSICAL WELL-BEING",
+    "th.no": "No.", "th.statement": "Statement", "th.never": "Never<br/>(0)", "th.sometimes": "Sometimes<br/>(1)",
+    "th.often": "Often<br/>(2)", "th.very_often": "Very<br/>Often (3)",
+    "item.a1": "I feel sad or depressed", "item.a2": "I feel worried or anxious",
+    "item.a3": "I feel worthless or useless", "item.a4": "I experience sudden mood changes",
+    "item.a5": "I feel stressed and unable to enjoy activities",
+    "item.b6": "I isolate myself from friends", "item.b7": "I experience conflict with peers",
+    "item.b8": "I find it hard to communicate with others", "item.b9": "I feel bullied or ignored",
+    "item.b10": "I feel lonely even in a group",
+    "item.c11": "I have difficulty focusing in class", "item.c12": "I do not complete schoolwork",
+    "item.c13": "I feel pressured by exams", "item.c14": "I have no interest in learning",
+    "item.c15": "I am frequently absent from school",
+    "item.d16": "I experience sleep problems", "item.d17": "My appetite has decreased",
+    "item.d18": "I often have headaches or body pain", "item.d19": "I feel tired even after adequate rest",
+    "item.d20": "I neglect personal hygiene",
+    "total.a": "Section A Total:", "total.b": "Section B Total:", "total.c": "Section C Total:", "total.d": "Section D Total:",
+    "summary.title": "SCORING SUMMARY", "summary.section_col": "Section", "summary.score_col": "Score Obtained", "summary.max_col": "Maximum Score",
+    "summary.row_a": "A — Emotional Well-being", "summary.row_b": "B — Social Well-being",
+    "summary.row_c": "C — Academic Well-being", "summary.row_d": "D — Physical Well-being",
+    "summary.grand_total": "GRAND TOTAL",
+    "interp.title": "INTERPRETATION", "interp.score_col": "Total Score", "interp.level_col": "Level", "interp.action_col": "Action Required",
+    "interp.level1_title": "<strong>Level 1 — Good</strong><br/><em>(No Risk)</em>",
+    "interp.level1_action": "No specific intervention needed. Continue routine monitoring.",
+    "interp.level2_title": "<strong>Level 2 — Moderate</strong><br/><em>(Low Risk)</em>",
+    "interp.level2_action": "Individual counseling session recommended. Inform parents/guardian.",
+    "interp.level3_title": "<strong>Level 3 — Concerning</strong><br/><em>(High Risk)</em>",
+    "interp.level3_action": "Immediate intervention required and possible referral to a specialist.",
+    "result_box.title": "Screening Result:", "result_box.level1": "Level 1 — Good", "result_box.level2": "Level 2 — Moderate",
+    "result_box.level3": "Level 3 — Concerning", "result_box.total_label": "Total Score: ___________",
+    "result_box.notes_label": "Notes:",
+    "sig.counselor": "Counselor's Signature", "sig.name_label": "Name:", "sig.reg_no_label": "BKM Registration No.:", "sig.date_label": "Date:",
+    "sig.principal": "Principal / Headmaster's Signature", "sig.school_stamp": "School Stamp:",
+    "disclaimer.confidential": "CONFIDENTIAL — FOR INTERNAL USE ONLY",
+    "disclaimer.text": "This form is a screening tool and is NOT a clinical diagnosis. Results must be interpreted by a qualified school counselor. Concerning results should be referred to appropriate specialists. Store this information securely in compliance with the Personal Data Protection Act 2010 (PDPA).",
+    "disclaimer.footer": "Student Well-Being Early Detection System — Agentic AI · Ministry of Education Malaysia",
+  },
+  zh: {
+    print_btn: "🖨️ 打印为PDF",
+    org1: "马来西亚教育部",
+    org2: "学校管理组",
+    org3: "学生福祉早期预警系统 — 智能代理AI",
+    form_title: "心理健康筛查表（SMS）",
+    form_subtitle: "仅供学校辅导老师使用",
+    "info.name": "学生姓名：", "info.id": "身份证／学生证号码：", "info.class": "班级：", "info.year": "年级：",
+    "info.gender": "性别：", "info.dob": "出生日期：", "info.school": "学校名称：", "info.screening_date": "筛查日期：",
+    instr_title: "说明",
+    instr_text: "请仔细阅读以下每项陈述。在最能描述学生<strong>过去两周内</strong>感受或状况的格子中打勾（✓）。",
+    "section.a_title": "A部分 — 情绪福祉", "section.b_title": "B部分 — 社交福祉",
+    "section.c_title": "C部分 — 学业福祉", "section.d_title": "D部分 — 生理福祉",
+    "th.no": "编号", "th.statement": "陈述", "th.never": "从不<br/>(0)", "th.sometimes": "偶尔<br/>(1)",
+    "th.often": "经常<br/>(2)", "th.very_often": "非常<br/>经常 (3)",
+    "item.a1": "我感到悲伤或抑郁", "item.a2": "我感到担忧或焦虑",
+    "item.a3": "我感到自己毫无价值或无用", "item.a4": "我的情绪经常突然波动",
+    "item.a5": "我感到压力大，无法享受活动",
+    "item.b6": "我与朋友疏远", "item.b7": "我与同侪发生冲突",
+    "item.b8": "我觉得难以与他人沟通", "item.b9": "我感到被欺凌或被忽视",
+    "item.b10": "即使在群体中我也感到孤单",
+    "item.c11": "我在课堂上难以集中注意力", "item.c12": "我没有完成学校作业",
+    "item.c13": "我因考试而感到压力", "item.c14": "我对学习不感兴趣",
+    "item.c15": "我经常缺席学校",
+    "item.d16": "我有睡眠问题", "item.d17": "我的食欲减退",
+    "item.d18": "我经常头痛或身体疼痛", "item.d19": "即使休息充足我仍感到疲倦",
+    "item.d20": "我忽略个人卫生",
+    "total.a": "A部分总分：", "total.b": "B部分总分：", "total.c": "C部分总分：", "total.d": "D部分总分：",
+    "summary.title": "评分总结", "summary.section_col": "部分", "summary.score_col": "所得分数", "summary.max_col": "最高分数",
+    "summary.row_a": "A — 情绪福祉", "summary.row_b": "B — 社交福祉",
+    "summary.row_c": "C — 学业福祉", "summary.row_d": "D — 生理福祉",
+    "summary.grand_total": "总分",
+    "interp.title": "结果解读", "interp.score_col": "总分", "interp.level_col": "等级", "interp.action_col": "所需行动",
+    "interp.level1_title": "<strong>第1级 — 良好</strong><br/><em>（无风险）</em>",
+    "interp.level1_action": "无需特别介入。维持常规监测。",
+    "interp.level2_title": "<strong>第2级 — 中等</strong><br/><em>（低风险）</em>",
+    "interp.level2_action": "建议进行个别辅导。通知家长／监护人。",
+    "interp.level3_title": "<strong>第3级 — 令人担忧</strong><br/><em>（高风险）</em>",
+    "interp.level3_action": "需要立即介入，并可能需要转介至专科医生。",
+    "result_box.title": "筛查结果：", "result_box.level1": "第1级 — 良好", "result_box.level2": "第2级 — 中等",
+    "result_box.level3": "第3级 — 令人担忧", "result_box.total_label": "总分：___________",
+    "result_box.notes_label": "备注：",
+    "sig.counselor": "辅导老师签名", "sig.name_label": "姓名：", "sig.reg_no_label": "BKM注册编号：", "sig.date_label": "日期：",
+    "sig.principal": "校长签名", "sig.school_stamp": "学校印章：",
+    "disclaimer.confidential": "机密 — 仅供内部使用",
+    "disclaimer.text": "本表格为筛查工具，并非临床诊断。筛查结果必须由合格的学校辅导老师解读。令人担忧的结果应转介给适当的专科医生。请根据《2010年个人资料保护法》（PDPA）妥善保存此信息。",
+    "disclaimer.footer": "学生福祉早期预警系统 — 智能代理AI · 马来西亚教育部",
+  },
+  ta: {
+    print_btn: "🖨️ PDF ஆக அச்சிடு",
+    org1: "மலேசியா கல்வி அமைச்சு",
+    org2: "பள்ளி மேலாண்மைப் பிரிவு",
+    org3: "மாணவர் நல்வாழ்வு முன்கூட்டிய கண்டறிதல் அமைப்பு — Agentic AI",
+    form_title: "மனநல ஸ்கிரீனிங் படிவம் (SMS)",
+    form_subtitle: "பள்ளி ஆலோசகர் பயன்பாட்டிற்கு மட்டும்",
+    "info.name": "மாணவர் பெயர்:", "info.id": "அடையாள எண் / மாணவர் அட்டை எண்:", "info.class": "வகுப்பு:", "info.year": "ஆண்டு:",
+    "info.gender": "பாலினம்:", "info.dob": "பிறந்த தேதி:", "info.school": "பள்ளி பெயர்:", "info.screening_date": "ஸ்கிரீனிங் தேதி:",
+    instr_title: "வழிமுறைகள்",
+    instr_text: "கீழே உள்ள ஒவ்வொரு கூற்றையும் கவனமாகப் படிக்கவும். கடந்த <strong>2 வாரங்களில்</strong> மாணவரின் உணர்வு அல்லது நிலையை சிறப்பாக விவரிக்கும் பெட்டியில் (✓) குறியிடவும்.",
+    "section.a_title": "பகுதி A — உணர்ச்சி நல்வாழ்வு", "section.b_title": "பகுதி B — சமூக நல்வாழ்வு",
+    "section.c_title": "பகுதி C — கல்வி நல்வாழ்வு", "section.d_title": "பகுதி D — உடல் நல்வாழ்வு",
+    "th.no": "எண்.", "th.statement": "கூற்று", "th.never": "ஒருபோதும்<br/>இல்லை (0)", "th.sometimes": "சில<br/>சமயம் (1)",
+    "th.often": "அடிக்கடி<br/>(2)", "th.very_often": "மிக<br/>அடிக்கடி (3)",
+    "item.a1": "நான் சோகமாக அல்லது மனச்சோர்வாக உணர்கிறேன்", "item.a2": "நான் கவலையாக அல்லது பதற்றமாக உணர்கிறேன்",
+    "item.a3": "நான் பயனற்றவனாக/பயனற்றவளாக உணர்கிறேன்", "item.a4": "எனக்கு திடீர் மனநிலை மாற்றங்கள் ஏற்படுகின்றன",
+    "item.a5": "நான் மன அழுத்தமாக உணர்கிறேன், செயல்பாடுகளை அனுபவிக்க முடியவில்லை",
+    "item.b6": "நான் நண்பர்களிடமிருந்து என்னைத் தனிமைப்படுத்திக் கொள்கிறேன்", "item.b7": "எனக்கு சக மாணவர்களுடன் மோதல் ஏற்படுகிறது",
+    "item.b8": "மற்றவர்களுடன் தொடர்பு கொள்வது எனக்குக் கடினமாக உள்ளது", "item.b9": "நான் கொடுமைப்படுத்தப்படுவதாக அல்லது புறக்கணிக்கப்படுவதாக உணர்கிறேன்",
+    "item.b10": "குழுவில் இருந்தாலும் நான் தனிமையாக உணர்கிறேன்",
+    "item.c11": "வகுப்பில் கவனம் செலுத்துவது எனக்குக் கடினமாக உள்ளது", "item.c12": "நான் பள்ளி வேலைகளை முடிக்கவில்லை",
+    "item.c13": "தேர்வுகளால் நான் அழுத்தமாக உணர்கிறேன்", "item.c14": "படிப்பதில் எனக்கு ஆர்வம் இல்லை",
+    "item.c15": "நான் அடிக்கடி பள்ளிக்கு வராமல் இருக்கிறேன்",
+    "item.d16": "எனக்கு தூக்கப் பிரச்சினைகள் உள்ளன", "item.d17": "என் பசி குறைந்துவிட்டது",
+    "item.d18": "எனக்கு அடிக்கடி தலைவலி அல்லது உடல் வலி ஏற்படுகிறது", "item.d19": "போதுமான ஓய்வு எடுத்தாலும் நான் சோர்வாக உணர்கிறேன்",
+    "item.d20": "நான் தனிப்பட்ட சுகாதாரத்தை புறக்கணிக்கிறேன்",
+    "total.a": "பகுதி A மொத்த மதிப்பெண்:", "total.b": "பகுதி B மொத்த மதிப்பெண்:",
+    "total.c": "பகுதி C மொத்த மதிப்பெண்:", "total.d": "பகுதி D மொத்த மதிப்பெண்:",
+    "summary.title": "மதிப்பெண் சுருக்கம்", "summary.section_col": "பகுதி", "summary.score_col": "பெறப்பட்ட மதிப்பெண்", "summary.max_col": "அதிகபட்ச மதிப்பெண்",
+    "summary.row_a": "A — உணர்ச்சி நல்வாழ்வு", "summary.row_b": "B — சமூக நல்வாழ்வு",
+    "summary.row_c": "C — கல்வி நல்வாழ்வு", "summary.row_d": "D — உடல் நல்வாழ்வு",
+    "summary.grand_total": "மொத்தத் தொகை",
+    "interp.title": "விளக்கம்", "interp.score_col": "மொத்த மதிப்பெண்", "interp.level_col": "நிலை", "interp.action_col": "தேவையான நடவடிக்கை",
+    "interp.level1_title": "<strong>நிலை 1 — நல்லது</strong><br/><em>(அபாயம் இல்லை)</em>",
+    "interp.level1_action": "குறிப்பிட்ட தலையீடு தேவையில்லை. வழக்கமான கண்காணிப்பைத் தொடரவும்.",
+    "interp.level2_title": "<strong>நிலை 2 — மிதமான</strong><br/><em>(குறைந்த அபாயம்)</em>",
+    "interp.level2_action": "தனிப்பட்ட ஆலோசனை அமர்வு பரிந்துரைக்கப்படுகிறது. பெற்றோர்/பாதுகாவலரிடம் தெரிவிக்கவும்.",
+    "interp.level3_title": "<strong>நிலை 3 — கவலைக்குரியது</strong><br/><em>(அதிக அபாயம்)</em>",
+    "interp.level3_action": "உடனடி தலையீடு மற்றும் நிபுணரிடம் பரிந்துரைக்கப்பட வேண்டியிருக்கலாம்.",
+    "result_box.title": "ஸ்கிரீனிங் முடிவு:", "result_box.level1": "நிலை 1 — நல்லது", "result_box.level2": "நிலை 2 — மிதமான",
+    "result_box.level3": "நிலை 3 — கவலைக்குரியது", "result_box.total_label": "மொத்த மதிப்பெண்: ___________",
+    "result_box.notes_label": "குறிப்புகள்:",
+    "sig.counselor": "ஆலோசகரின் கையொப்பம்", "sig.name_label": "பெயர்:", "sig.reg_no_label": "BKM பதிவு எண்:", "sig.date_label": "தேதி:",
+    "sig.principal": "அதிபர் கையொப்பம்", "sig.school_stamp": "பள்ளி முத்திரை:",
+    "disclaimer.confidential": "இரகசியம் — உள் பயன்பாட்டிற்கு மட்டும்",
+    "disclaimer.text": "இந்தப் படிவம் ஒரு ஸ்கிரீனிங் கருவி, மருத்துவ நோய் கண்டறிதல் அல்ல. முடிவுகள் தகுதி வாய்ந்த பள்ளி ஆலோசகரால் விளக்கப்பட வேண்டும். கவலைக்குரிய முடிவுகள் பொருத்தமான நிபுணர்களிடம் பரிந்துரைக்கப்பட வேண்டும். 2010ஆம் ஆண்டு தனிநபர் தரவுப் பாதுகாப்புச் சட்டத்தின் (PDPA) படி இந்தத் தகவலைப் பாதுகாப்பாக சேமிக்கவும்.",
+    "disclaimer.footer": "மாணவர் நல்வாழ்வு முன்கூட்டிய கண்டறிதல் அமைப்பு — Agentic AI · மலேசியா கல்வி அமைச்சு",
+  },
+};
+
+function setLang(lang) {
+  // Malay is the canonical/official wording and is always shown; a non-Malay
+  // selection is shown alongside it (Malay/Mandarin, Malay/Tamil, Malay/English)
+  // rather than replacing it, mirroring the form's original bilingual design.
+  const msDict = TRANSLATIONS.ms;
+  const dict = TRANSLATIONS[lang] || msDict;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (msDict[key] == null) return;
+    el.innerHTML = (lang === 'ms' || dict[key] == null) ? msDict[key] : `${msDict[key]} / ${dict[key]}`;
+  });
+  document.getElementById('langPick').value = lang;
+  const url = new URL(window.location);
+  url.searchParams.set('lang', lang);
+  window.history.replaceState({}, '', url);
+}
+
+const initialLang = new URLSearchParams(window.location.search).get('lang') || 'ms';
+setLang(TRANSLATIONS[initialLang] ? initialLang : 'ms');
+</script>
 </body>
 </html>
