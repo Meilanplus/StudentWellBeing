@@ -481,7 +481,7 @@ async function renderStudentDetail() {
   const { attendance: attendanceDisplay, behavior: behaviorDisplay } = await translateRecordFields(attendanceCache, behaviorCache);
 
   content.innerHTML = `
-    <button class="btn btn-outline" onclick="navigate('students')">← Back to Students</button>
+    <button class="btn btn-outline" onclick="navigate('students')">← ${t('common.back_to_students','Back to Students')}</button>
     <div class="card">
       <div class="toolbar">
         <div class="field" style="margin:0; flex:1"><input id="search_id" placeholder="Search ID" onkeydown="if(event.key==='Enter') filterStudents()" /></div>
@@ -495,25 +495,25 @@ async function renderStudentDetail() {
     </div>
     <h1 class="page-title">${s.full_name} <span class="muted">(${s.student_id})</span></h1>
     <div class="grid">
-      <div class="card"><b>${t('students.class_name','Class')}:</b> ${s.class_name}<br/><b>${t('students.school_year','Year')}:</b> ${s.school_year}<br/><b>Gender:</b> ${s.gender}</div>
+      <div class="card"><b>${t('students.class_name','Class')}:</b> ${s.class_name}<br/><b>${t('students.school_year','Year')}:</b> ${s.school_year}<br/><b>${t('students.gender','Gender')}:</b> ${s.gender}</div>
       <div class="card"><b>${t('students.guardian_name','Guardian')}:</b> ${s.guardian_name || '-'}<br/><b>${t('students.guardian_contact','Contact')}:</b> ${s.guardian_contact || '-'}</div>
     </div>
     <div class="card">
-      <div class="toolbar"><h3 style="margin:0">Attendance</h3><button class="btn btn-primary btn-sm" onclick="openAttendanceModal()">+ Add</button></div>
-      <table><thead><tr><th>Date</th><th>Attendance percentage</th><th>Reason</th><th></th></tr></thead>
+      <div class="toolbar"><h3 style="margin:0">${t('attendance.section_title','Attendance')}</h3><button class="btn btn-primary btn-sm" onclick="openAttendanceModal()">+ ${t('common.add','Add')}</button></div>
+      <table><thead><tr><th>${t('common.date','Date')}</th><th>${t('attendance.percentage','Attendance %')}</th><th>${t('common.reason','Reason')}</th><th></th></tr></thead>
       <tbody>${attendanceDisplay.slice(0,10).map(a => `<tr><td>${a.record_date}</td><td>${a.att_per}</td><td>${a.reason||'-'}</td><td><button class="btn btn-outline btn-sm" onclick="openAttendanceModal(${a.id})">${t('common.edit','Edit')}</button></td></tr>`).join('') || '<tr><td colspan="4" class="muted">No records.</td></tr>'}</tbody></table>
     </div>
     <div class="card">
-      <div class="toolbar"><h3 style="margin:0">Behavior</h3><button class="btn btn-primary btn-sm" onclick="openBehaviorModal()">+ Add</button></div>
-      <table><thead><tr><th>Date</th><th>Type</th><th>Description</th><th></th></tr></thead>
+      <div class="toolbar"><h3 style="margin:0">${t('behavior.section_title','Behavior')}</h3><button class="btn btn-primary btn-sm" onclick="openBehaviorModal()">+ ${t('common.add','Add')}</button></div>
+      <table><thead><tr><th>${t('common.date','Date')}</th><th>${t('common.type','Type')}</th><th>${t('common.description','Description')}</th><th></th></tr></thead>
       <tbody>${behaviorDisplay.slice(0,10).map(b => `<tr><td>${b.incident_date}</td><td>${translateCategory('behavior.incident_type', b.incident_type)}</td><td>${b.description}</td><td><button class="btn btn-outline btn-sm" onclick="openBehaviorModal(${b.id})">${t('common.edit','Edit')}</button></td></tr>`).join('') || '<tr><td colspan="4" class="muted">No records.</td></tr>'}</tbody></table>
     </div>
     <div class="card">
-      <div class="toolbar"><h3 style="margin:0">Mental Health</h3><button class="btn btn-primary btn-sm" onclick="openMentalHealthModal()">+ Add</button></div>
-      <table><thead><tr><th>Semester</th><th>Year</th><th>WHOOLEY</th><th>GAD-2 Score</th><th>GAD-2 Status</th><th></th></tr></thead>
+      <div class="toolbar"><h3 style="margin:0">${t('mental_health.section_title','Mental Health')}</h3><button class="btn btn-primary btn-sm" onclick="openMentalHealthModal()">+ ${t('common.add','Add')}</button></div>
+      <table><thead><tr><th>${t('common.semester','Semester')}</th><th>${t('common.year','Year')}</th><th>${t('mental_health.whooley','WHOOLEY')}</th><th>${t('mental_health.gad2_score','GAD-2 Score')}</th><th>${t('mental_health.gad2_status','GAD-2 Status')}</th><th></th></tr></thead>
       <tbody>${mentalHealthCache.map(m => `<tr><td>${m.semester}</td><td>${m.year}</td><td>${m.whooley}</td><td>${m.gad2_score}</td><td>${m.gad2_status}</td><td><button class="btn btn-outline btn-sm" onclick="openMentalHealthModal(${m.id})">${t('common.edit','Edit')}</button></td></tr>`).join('') || '<tr><td colspan="6" class="muted">No records.</td></tr>'}</tbody></table>
     </div>
-    <button class="btn btn-outline" onclick="navigate('students')">← Back to Students</button>`;
+    <button class="btn btn-outline" onclick="navigate('students')">← ${t('common.back_to_students','Back to Students')}</button>`;
 }
 
 // ── Attendance add/edit ──
@@ -521,12 +521,12 @@ function openAttendanceModal(id) {
   const rec = id ? findById(attendanceCache, id) : null;
   openModal(`
     <button class="close-btn" onclick="closeModal()">✕</button>
-    <h3>Attendance Record</h3>
+    <h3>${t('attendance.record_title','Attendance Record')}</h3>
     <form onsubmit="return submitAttendanceForm(event, ${rec ? rec.id : 'null'})">
-      <div class="field"><label>Date</label><input type="date" id="af_date" value="${rec ? escAttr(rec.record_date) : ''}" required /></div>
-      <div class="field"><label>Attendance %</label><input id="af_att_per" value="${rec ? escAttr(rec.att_per) : ''}" required /></div>
-      <div class="field"><label>Reason</label><input id="af_reason" value="${rec ? escAttr(rec.reason) : ''}" /></div>
-      <div class="field"><label>Recorded By</label><input id="af_recorded_by" value="${rec ? escAttr(rec.recorded_by) : ''}" required /></div>
+      <div class="field"><label>${t('common.date','Date')}</label><input type="date" id="af_date" value="${rec ? escAttr(rec.record_date) : ''}" required /></div>
+      <div class="field"><label>${t('attendance.percentage','Attendance %')}</label><input id="af_att_per" value="${rec ? escAttr(rec.att_per) : ''}" required /></div>
+      <div class="field"><label>${t('common.reason','Reason')}</label><input id="af_reason" value="${rec ? escAttr(rec.reason) : ''}" /></div>
+      <div class="field"><label>${t('attendance.recorded_by','Recorded By')}</label><input id="af_recorded_by" value="${rec ? escAttr(rec.recorded_by) : ''}" required /></div>
       <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
       ${rec ? `<button class="btn btn-outline" type="button" style="margin-left:8px; color:#dc2626; border-color:#dc2626" onclick="deleteAttendanceRecord(${rec.id})">${t('common.delete','Delete')}</button>` : ''}
     </form>`);
@@ -557,22 +557,18 @@ function openBehaviorModal(id) {
   const rec = id ? findById(behaviorCache, id) : null;
   openModal(`
     <button class="close-btn" onclick="closeModal()">✕</button>
-    <h3>Behavior Record</h3>
+    <h3>${t('behavior.record_title','Behavior Record')}</h3>
     <form onsubmit="return submitBehaviorForm(event, ${rec ? rec.id : 'null'})">
-      <div class="field"><label>Date</label><input type="date" id="bf_date" value="${rec ? escAttr(rec.incident_date) : ''}" required /></div>
-      <div class="field"><label>Incident Type</label><input id="bf_incident_type" value="${rec ? escAttr(rec.incident_type) : ''}" required /></div>
+      <div class="field"><label>${t('common.date','Date')}</label><input type="date" id="bf_date" value="${rec ? escAttr(rec.incident_date) : ''}" required /></div>
+      <div class="field"><label>${t('behavior.incident_type_label','Incident Type')}</label><input id="bf_incident_type" value="${rec ? escAttr(rec.incident_type) : ''}" required /></div>
       <div class="field">
-        <label>Severity</label>
+        <label>${t('risk.severity','Severity')}</label>
         <input id="bf_severity" value="${rec ? escAttr(rec.severity) : ''}" required />
-        <div class="muted" style="margin-top:4px; font-size:0.78rem; line-height:1.4;">
-          <b>Ringan</b>/Minor — one-off, no harm, easily corrected in the moment.
-          <b>Sederhana</b>/Moderate — disrupts others or breaches a rule, no safety risk.
-          <b>Berat</b>/Serious — actual or credible risk to safety (weapon, injury, violence).
-        </div>
+        <div class="muted" style="margin-top:4px; font-size:0.78rem; line-height:1.4;">${t('behavior.severity_hint', '<b>Ringan</b>/Minor — one-off, no harm, easily corrected in the moment.<br><b>Sederhana</b>/Moderate — disrupts others or breaches a rule, no safety risk.<br><b>Berat</b>/Serious — actual or credible risk to safety (weapon, injury, violence).')}</div>
       </div>
-      <div class="field"><label>Description</label><textarea id="bf_description" required>${rec ? escAttr(rec.description) : ''}</textarea></div>
-      <div class="field"><label>Action Taken</label><textarea id="bf_action_taken">${rec ? escAttr(rec.action_taken) : ''}</textarea></div>
-      <div class="field"><label>Reported By</label><input id="bf_reported_by" value="${rec ? escAttr(rec.reported_by) : ''}" required /></div>
+      <div class="field"><label>${t('common.description','Description')}</label><textarea id="bf_description" required>${rec ? escAttr(rec.description) : ''}</textarea></div>
+      <div class="field"><label>${t('behavior.action_taken','Action Taken')}</label><textarea id="bf_action_taken">${rec ? escAttr(rec.action_taken) : ''}</textarea></div>
+      <div class="field"><label>${t('behavior.reported_by','Reported By')}</label><input id="bf_reported_by" value="${rec ? escAttr(rec.reported_by) : ''}" required /></div>
       <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
     </form>`);
 }
@@ -598,14 +594,14 @@ function openMentalHealthModal(id) {
   const rec = id ? findById(mentalHealthCache, id) : null;
   openModal(`
     <button class="close-btn" onclick="closeModal()">✕</button>
-    <h3>Mental Health Record</h3>
+    <h3>${t('mental_health.record_title','Mental Health Record')}</h3>
     <form onsubmit="return submitMentalHealthForm(event, ${rec ? rec.id : 'null'})">
       <div class="form-grid">
-        <div class="field"><label>Semester</label><input type="number" min="0" max="9" id="mf_semester" value="${rec ? rec.semester : ''}" required /></div>
-        <div class="field"><label>Year</label><input type="number" min="1000" max="9999" id="mf_year" value="${rec ? rec.year : new Date().getFullYear()}" required /></div>
-        <div class="field"><label>WHOOLEY</label><input id="mf_whooley" value="${rec ? escAttr(rec.whooley) : ''}" required /></div>
-        <div class="field"><label>GAD-2 Score</label><input type="number" min="0" max="9" id="mf_gad2_score" value="${rec ? rec.gad2_score : ''}" required /></div>
-        <div class="field"><label>GAD-2 Status</label><input id="mf_gad2_status" value="${rec ? escAttr(rec.gad2_status) : ''}" required /></div>
+        <div class="field"><label>${t('common.semester','Semester')}</label><input type="number" min="0" max="9" id="mf_semester" value="${rec ? rec.semester : ''}" required /></div>
+        <div class="field"><label>${t('common.year','Year')}</label><input type="number" min="1000" max="9999" id="mf_year" value="${rec ? rec.year : new Date().getFullYear()}" required /></div>
+        <div class="field"><label>${t('mental_health.whooley','WHOOLEY')}</label><input id="mf_whooley" value="${rec ? escAttr(rec.whooley) : ''}" required /></div>
+        <div class="field"><label>${t('mental_health.gad2_score','GAD-2 Score')}</label><input type="number" min="0" max="9" id="mf_gad2_score" value="${rec ? rec.gad2_score : ''}" required /></div>
+        <div class="field"><label>${t('mental_health.gad2_status','GAD-2 Status')}</label><input id="mf_gad2_status" value="${rec ? escAttr(rec.gad2_status) : ''}" required /></div>
       </div>
       <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
     </form>`);

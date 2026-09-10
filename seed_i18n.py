@@ -190,6 +190,47 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "behavior.severity.berat": {
         "en": "Serious", "ms": "Berat", "zh": "严重", "ta": "கடுமையான",
     },
+    "common.edit": {"en": "Edit", "ms": "Sunting", "zh": "编辑", "ta": "திருத்து"},
+    "common.delete": {"en": "Delete", "ms": "Padam", "zh": "删除", "ta": "நீக்கு"},
+    "common.add": {"en": "Add", "ms": "Tambah", "zh": "添加", "ta": "சேர்"},
+    "common.date": {"en": "Date", "ms": "Tarikh", "zh": "日期", "ta": "தேதி"},
+    "common.type": {"en": "Type", "ms": "Jenis", "zh": "类型", "ta": "வகை"},
+    "common.description": {"en": "Description", "ms": "Penerangan", "zh": "描述", "ta": "விளக்கம்"},
+    "common.reason": {"en": "Reason", "ms": "Sebab", "zh": "原因", "ta": "காரணம்"},
+    "common.year": {"en": "Year", "ms": "Tahun", "zh": "年份", "ta": "ஆண்டு"},
+    "common.semester": {"en": "Semester", "ms": "Semester", "zh": "学期", "ta": "செமஸ்டர்"},
+    "common.back_to_students": {"en": "Back to Students", "ms": "Kembali ke Pelajar", "zh": "返回学生列表", "ta": "மாணவர்களுக்குத் திரும்பு"},
+    "students.gender": {"en": "Gender", "ms": "Jantina", "zh": "性别", "ta": "பாலினம்"},
+
+    "attendance.section_title": {"en": "Attendance", "ms": "Kehadiran", "zh": "出勤", "ta": "வருகை"},
+    "attendance.record_title": {"en": "Attendance Record", "ms": "Rekod Kehadiran", "zh": "出勤记录", "ta": "வருகைப் பதிவு"},
+    "attendance.percentage": {"en": "Attendance %", "ms": "Peratus Kehadiran", "zh": "出勤率", "ta": "வருகை %"},
+    "attendance.recorded_by": {"en": "Recorded By", "ms": "Direkodkan Oleh", "zh": "记录人", "ta": "பதிவு செய்தவர்"},
+    "students.confirm_delete_attendance": {
+        "en": "Delete this attendance record? This cannot be undone.",
+        "ms": "Padam rekod kehadiran ini? Tindakan ini tidak boleh dibuat asal.",
+        "zh": "确定要删除此出勤记录吗？此操作无法撤销。",
+        "ta": "இந்த வருகைப் பதிவை நீக்கவா? இதை மீட்டெடுக்க முடியாது.",
+    },
+
+    "behavior.section_title": {"en": "Behavior", "ms": "Tingkah Laku", "zh": "行为", "ta": "நடத்தை"},
+    "behavior.record_title": {"en": "Behavior Record", "ms": "Rekod Tingkah Laku", "zh": "行为记录", "ta": "நடத்தைப் பதிவு"},
+    "behavior.incident_type_label": {"en": "Incident Type", "ms": "Jenis Insiden", "zh": "事件类型", "ta": "சம்பவ வகை"},
+    "behavior.severity_hint": {
+        "en": "<b>Ringan</b>/Minor — one-off, no harm, easily corrected in the moment.<br><b>Sederhana</b>/Moderate — disrupts others or breaches a rule, no safety risk.<br><b>Berat</b>/Serious — actual or credible risk to safety (weapon, injury, violence).",
+        "ms": "<b>Ringan</b> — insiden sekali sahaja, tiada kemudaratan, mudah dibetulkan pada masa itu.<br><b>Sederhana</b> — mengganggu orang lain atau melanggar peraturan, tiada risiko keselamatan.<br><b>Berat</b> — risiko sebenar atau munasabah terhadap keselamatan (senjata, kecederaan, keganasan).",
+        "zh": "<b>轻微</b>——一次性事件，无伤害，当场可轻易纠正。<br><b>中等</b>——干扰他人或违反规则，无安全风险。<br><b>严重</b>——对安全构成实际或可信的风险（武器、伤害、暴力）。",
+        "ta": "<b>ஒல்லியான</b> — ஒரே முறை, தீங்கு இல்லை, உடனடியாக சரிசெய்யக்கூடியது.<br><b>மிதமான</b> — மற்றவர்களைத் தொந்தரவு செய்கிறது அல்லது விதியை மீறுகிறது, பாதுகாப்பு அபாயம் இல்லை.<br><b>கடுமையான</b> — பாதுகாப்புக்கு உண்மையான அல்லது நம்பகமான அபாயம் (ஆயுதம், காயம், வன்முறை).",
+    },
+    "behavior.action_taken": {"en": "Action Taken", "ms": "Tindakan Diambil", "zh": "已采取的行动", "ta": "எடுக்கப்பட்ட நடவடிக்கை"},
+    "behavior.reported_by": {"en": "Reported By", "ms": "Dilaporkan Oleh", "zh": "报告人", "ta": "புகாரளித்தவர்"},
+
+    "mental_health.section_title": {"en": "Mental Health", "ms": "Kesihatan Mental", "zh": "心理健康", "ta": "மனநலம்"},
+    "mental_health.record_title": {"en": "Mental Health Record", "ms": "Rekod Kesihatan Mental", "zh": "心理健康记录", "ta": "மனநலப் பதிவு"},
+    "mental_health.whooley": {"en": "WHOOLEY", "ms": "WHOOLEY", "zh": "WHOOLEY", "ta": "WHOOLEY"},
+    "mental_health.gad2_score": {"en": "GAD-2 Score", "ms": "Skor GAD-2", "zh": "GAD-2 评分", "ta": "GAD-2 மதிப்பெண்"},
+    "mental_health.gad2_status": {"en": "GAD-2 Status", "ms": "Status GAD-2", "zh": "GAD-2 状态", "ta": "GAD-2 நிலை"},
+
     "report.disclaimer": {
         "en": "This is an AI-assisted decision-support document. It does NOT constitute a clinical diagnosis and must be reviewed by a qualified school counselor before use.",
         "ms": "Ini adalah dokumen sokongan keputusan berbantukan AI. Ia BUKAN diagnosis klinikal dan mesti disemak oleh kaunselor sekolah yang bertauliah sebelum digunakan.",
