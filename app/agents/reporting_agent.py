@@ -6,7 +6,7 @@ from sqlalchemy import func
 from app.agents.base_agent import BaseAgent
 from app.models.student import Student
 from app.models.intervention import Intervention, Referral
-from app.schemas.report import DashboardReport, MonthlyKPI, ClassRiskSummary
+from app.schemas.report import MonthlyKPI, ClassRiskSummary
 
 SYSTEM_PROMPT = """You are Agent 4 of the Agentic AI Student Well-Being System — a \
 school well-being reporting specialist producing management dashboards for \
@@ -136,17 +136,3 @@ Write the narrative sections (trend_analysis, management_summary, recommendation
             "management_summary": "Automated summary unavailable. Raw KPI data is provided above for manual review.",
             "recommendations": [],
         }
-
-    def generate_dashboard(self, period: str | None = None, language: str = "English") -> DashboardReport:
-        period = period or self.default_period()
-        kpis, class_breakdown = self.compute_kpis(period)
-        data = self.generate_narrative(period, kpis, class_breakdown, language=language)
-
-        return DashboardReport(
-            generated_at=date.today().isoformat(),
-            period=period,
-            school_kpis=kpis,
-            class_breakdown=class_breakdown,
-            top_risk_students=[],
-            **data,
-        )

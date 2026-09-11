@@ -315,7 +315,7 @@ async function renderPage() {
     if (S.page === 'early_detection') return renderEarlyDetection();
     if (S.page === 'intervention') return renderIntervention();
     if (S.page === 'referral') return renderReferral();
-    if (S.page === 'reporting') return renderDashboard();
+    if (S.page === 'reporting') return renderReporting();
     if (S.page === 'assessments') return renderAssessments();
     if (S.page === 'class_summary') return renderClassSummary();
     if (S.page === 'api_docs') { window.open('/docs', '_blank'); navigate('dashboard'); return; }
@@ -324,35 +324,9 @@ async function renderPage() {
   }
 }
 
-// ── Dashboard ──
-let lastDashboard = null;
-
-function dashboardNarrativeHtml(d) {
-  if (d.trend_analysis == null) {
-    return `<div class="card" id="dashboardNarrativeCard">
-      <p class="muted">${t('dashboard.narrative_not_generated', 'AI insights have not been generated yet for this period/language.')}</p>
-      <button class="btn btn-primary" onclick="generateDashboardNarrative()">${t('dashboard.generate_insights', 'Generate AI Insights')}</button>
-    </div>`;
-  }
-  return `<div class="card" id="dashboardNarrativeCard">
-    <h3>${t('dashboard.trend_analysis','Trend Analysis')}</h3><p>${d.trend_analysis}</p>
-    <h3>${t('dashboard.management_summary','Management Summary')}</h3><p>${d.management_summary}</p>
-    <h3>${t('dashboard.recommendations','Recommendations')}</h3><ul>${d.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
-    <div class="disclaimer">${d.disclaimer}</div>
-  </div>`;
-}
-
-async function renderDashboard() {
-  const content = document.getElementById('content');
-  // KPIs are always live and fast (plain DB aggregates) — this never calls
-  // Agent 4. The AI narrative is included only if already cached; otherwise
-  // a button lets the user trigger it explicitly (see generateDashboardNarrative).
-  const res = await apiFetch(`/reports/dashboard?language=${currentLang()}`);
-  if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
-  const d = await res.json();
-  lastDashboard = d;
-  content.innerHTML = `
-    <h1 class="page-title">${t('dashboard.title', 'Dashboard Overview')} — ${d.period}</h1>
+// ── Dashboard (pure KPI overview — no AI, nothing identifiable) ──
+function kpiOverviewHtml(d) {
+  return `
     <div class="grid">
       <div class="card kpi"><div class="value">${d.school_kpis.total_students}</div><div class="label">${t('dashboard.total_students', 'Total Students')}</div></div>
       <div class="card kpi"><div class="value">${d.school_kpis.active_interventions}</div><div class="label">${t('dashboard.active_interventions', 'Active Interventions')}</div></div>
@@ -363,19 +337,86 @@ async function renderDashboard() {
       <h3>${t('nav.class_summary', 'Class Breakdown')}</h3>
       <table><thead><tr><th>${t('students.class_name','Class')}</th><th>${t('common.total','Total')}</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
       <tbody>${d.class_breakdown.map(c => `<tr><td>${c.class_name}</td><td>${c.total_students}</td><td>${c.low_risk}</td><td>${c.moderate_risk}</td><td>${c.high_risk}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No data yet.</td></tr>'}</tbody></table>
-    </div>
-    ${dashboardNarrativeHtml(d)}`;
+    </div>`;
 }
 
-async function generateDashboardNarrative() {
-  const card = document.getElementById('dashboardNarrativeCard');
+async function renderDashboard() {
+  const content = document.getElementById('content');
+  const res = await apiFetch(`/reports/dashboard?language=${currentLang()}`);
+  if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
+  const d = await res.json();
+  content.innerHTML = `
+    <h1 class="page-title">${t('dashboard.title', 'Dashboard Overview')} — ${d.period}</h1>
+    ${kpiOverviewHtml(d)}`;
+}
+
+// ── Reporting (Agent 4) — separate from Dashboard: carries the AI narrative
+// and the identifiable Student Cases list, restricted to leadership roles by
+// the same TASK_INVOKE_AGENT4_REPORTING permission as the rest of this page. ──
+let lastReportingData = null;
+
+function reportingNarrativeHtml(d) {
+  if (d.trend_analysis == null) {
+    return `<div class="card" id="reportingNarrativeCard">
+      <p class="muted">${t('dashboard.narrative_not_generated', 'AI insights have not been generated yet for this period/language.')}</p>
+      <button class="btn btn-primary no-print" onclick="generateReportingNarrative()">${t('dashboard.generate_insights', 'Generate AI Insights')}</button>
+    </div>`;
+  }
+  return `<div class="card" id="reportingNarrativeCard">
+    <h3>${t('dashboard.trend_analysis','Trend Analysis')}</h3><p>${d.trend_analysis}</p>
+    <h3>${t('dashboard.management_summary','Management Summary')}</h3><p>${d.management_summary}</p>
+    <h3>${t('dashboard.recommendations','Recommendations')}</h3><ul>${d.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
+    <div class="disclaimer">${d.disclaimer}</div>
+  </div>`;
+}
+
+function caseListHtml(cases) {
+  if (!cases.length) {
+    return `<div class="card"><h3>${t('reporting.student_cases','Student Cases')}</h3><p class="muted">${t('reporting.no_cases','No active cases this period.')}</p></div>`;
+  }
+  return `<div class="card">
+    <h3>${t('reporting.student_cases','Student Cases')}</h3>
+    <table><thead><tr>
+      <th>${t('students.full_name','Name')}</th><th>ID</th><th>${t('students.class_name','Class')}</th>
+      <th>${t('risk.level','Risk Level')}</th><th>${t('reporting.intervention_status','Intervention')}</th><th>${t('reporting.referral_status','Referral')}</th>
+    </tr></thead>
+    <tbody>${cases.map(c => `<tr>
+      <td>${c.name}</td><td>${c.student_id}</td><td>${c.class_name}</td>
+      <td>${c.risk_level ? `<span class="badge ${riskBadgeClass(c.risk_level)}">${c.risk_level}</span>` : '-'}</td>
+      <td>${c.intervention_status || '-'}</td><td>${c.referral_status || '-'}</td>
+    </tr>`).join('')}</tbody></table>
+  </div>`;
+}
+
+async function renderReporting() {
+  const content = document.getElementById('content');
+  const [dashRes, casesRes] = await Promise.all([
+    apiFetch(`/reports/dashboard?language=${currentLang()}`),
+    apiFetch('/reports/dashboard/cases'),
+  ]);
+  if (!dashRes.ok) { content.innerHTML = await errorHtml(dashRes); return; }
+  const d = await dashRes.json();
+  const cases = casesRes.ok ? await casesRes.json() : [];
+  lastReportingData = d;
+  content.innerHTML = `
+    <h1 class="page-title">${t('nav.reporting', 'Reporting')} — ${d.period}</h1>
+    ${kpiOverviewHtml(d)}
+    ${caseListHtml(cases)}
+    ${reportingNarrativeHtml(d)}
+    <div class="toolbar no-print" style="margin-top:16px">
+      <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>
+    </div>`;
+}
+
+async function generateReportingNarrative() {
+  const card = document.getElementById('reportingNarrativeCard');
   startAiWait(card, t('risk.generating_dashboard', 'Agent 4 is generating the dashboard summary — this can take a few minutes.'));
-  const res = await apiFetch(`/reports/dashboard/narrative?period=${encodeURIComponent(lastDashboard.period)}&language=${currentLang()}`, { method: 'POST' });
+  const res = await apiFetch(`/reports/dashboard/narrative?period=${encodeURIComponent(lastReportingData.period)}&language=${currentLang()}`, { method: 'POST' });
   stopAiWait();
   if (!res.ok) { card.innerHTML = await errorHtml(res); return; }
   const narrative = await res.json();
-  lastDashboard = { ...lastDashboard, ...narrative };
-  document.getElementById('dashboardNarrativeCard').outerHTML = dashboardNarrativeHtml(lastDashboard);
+  lastReportingData = { ...lastReportingData, ...narrative };
+  document.getElementById('reportingNarrativeCard').outerHTML = reportingNarrativeHtml(lastReportingData);
 }
 
 // ── Students ──

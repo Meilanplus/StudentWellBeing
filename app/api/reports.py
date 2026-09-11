@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -8,8 +8,8 @@ from fastapi import APIRouter, Depends
 from app.database import get_db
 from app.models.user import User
 from app.models.student import Student
-from app.models.intervention import Intervention, DashboardSummary
-from app.schemas.report import DashboardReport, DashboardNarrative
+from app.models.intervention import Intervention, Referral, DashboardSummary
+from app.schemas.report import DashboardReport, DashboardNarrative, StudentCase
 from app.agents.reporting_agent import ReportingAgent
 from app.services.report_translator import translate_report_data
 from app.permissions import require_task
@@ -47,7 +47,6 @@ def dashboard(
         period=resolved_period,
         school_kpis=kpis,
         class_breakdown=class_breakdown,
-        top_risk_students=[],
         **narrative,
     )
 
@@ -90,6 +89,55 @@ def generate_dashboard_narrative(
             db.commit()
 
     return DashboardNarrative(**narrative)
+
+
+@router.get("/dashboard/cases", response_model=list[StudentCase])
+def dashboard_cases(
+    requester: User = Depends(require_task(TASK_INVOKE_AGENT4_REPORTING)),
+    db: Session = Depends(get_db),
+):
+    """The actual students behind the KPI counts — full names, queried
+    directly from the DB (never passed through Agent 4), so leadership gets
+    the real current case list rather than an AI paraphrase of it. Kept off
+    the shared /dashboard response so the plain Dashboard page never carries
+    identifiable data; only the Reporting page calls this."""
+    since_30 = date.today() - timedelta(days=30)
+    cases: dict[int, StudentCase] = {}
+
+    active_interventions = (
+        db.query(Intervention, Student)
+        .join(Student, Student.id == Intervention.student_id)
+        .filter(Intervention.status == "active")
+        .all()
+    )
+    for interv, student in active_interventions:
+        cases[student.id] = StudentCase(
+            student_id=student.student_id,
+            name=student.full_name,
+            class_name=student.class_name,
+            risk_level=interv.risk_level,
+            intervention_status=interv.status,
+        )
+
+    recent_referrals = (
+        db.query(Referral, Student)
+        .join(Student, Student.id == Referral.student_id)
+        .filter(Referral.created_at >= since_30)
+        .all()
+    )
+    for referral, student in recent_referrals:
+        existing = cases.get(student.id)
+        if existing:
+            existing.referral_status = referral.status
+        else:
+            cases[student.id] = StudentCase(
+                student_id=student.student_id,
+                name=student.full_name,
+                class_name=student.class_name,
+                referral_status=referral.status,
+            )
+
+    return sorted(cases.values(), key=lambda c: c.name)
 
 
 @router.get("/class-summary")

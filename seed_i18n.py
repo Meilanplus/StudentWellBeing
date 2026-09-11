@@ -152,6 +152,13 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "zh": "Agent 4 正在生成仪表板摘要——这可能需要几分钟。",
         "ta": "Agent 4 டாஷ்போர்டு சுருக்கத்தை உருவாக்குகிறது — இதற்கு சில நிமிடங்கள் ஆகலாம்.",
     },
+    "reporting.student_cases": {"en": "Student Cases", "ms": "Kes Pelajar", "zh": "学生个案", "ta": "மாணவர் வழக்குகள்"},
+    "reporting.no_cases": {
+        "en": "No active cases this period.", "ms": "Tiada kes aktif bagi tempoh ini.",
+        "zh": "本期无活跃个案。", "ta": "இந்த காலகட்டத்தில் செயலில் உள்ள வழக்குகள் இல்லை.",
+    },
+    "reporting.intervention_status": {"en": "Intervention", "ms": "Intervensi", "zh": "干预", "ta": "தலையீடு"},
+    "reporting.referral_status": {"en": "Referral", "ms": "Rujukan", "zh": "转介", "ta": "பரிந்துரை"},
     "common.total": {"en": "Total", "ms": "Jumlah", "zh": "总计", "ta": "மொத்தம்"},
     "common.student": {"en": "Student", "ms": "Pelajar", "zh": "学生", "ta": "மாணவர்"},
     "common.prepared_by": {"en": "Prepared by", "ms": "Disediakan oleh", "zh": "编制人", "ta": "தயாரித்தவர்"},
