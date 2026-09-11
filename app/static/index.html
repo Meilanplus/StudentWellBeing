@@ -336,7 +336,8 @@ function kpiOverviewHtml(d) {
     <div class="card">
       <h3>${t('nav.class_summary', 'Class Breakdown')}</h3>
       <table><thead><tr><th>${t('students.class_name','Class')}</th><th>${t('common.total','Total')}</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
-      <tbody>${d.class_breakdown.map(c => `<tr><td>${c.class_name}</td><td>${c.total_students}</td><td>${c.low_risk}</td><td>${c.moderate_risk}</td><td>${c.high_risk}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No data yet.</td></tr>'}</tbody></table>
+      <tbody>${d.class_breakdown.map(c => `<tr><td>${c.class_name}</td><td>${c.total_students}</td><td>${c.low_risk}</td><td>${c.moderate_risk}</td><td>${c.high_risk}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No data yet.</td></tr>'}
+      ${d.class_breakdown.length ? `<tr style="font-weight:700"><td>${t('common.total','Total')}</td><td>${d.class_breakdown.reduce((s,c) => s+c.total_students, 0)}</td><td>${d.class_breakdown.reduce((s,c) => s+c.low_risk, 0)}</td><td>${d.class_breakdown.reduce((s,c) => s+c.moderate_risk, 0)}</td><td>${d.class_breakdown.reduce((s,c) => s+c.high_risk, 0)}</td></tr>` : ''}</tbody></table>
     </div>`;
 }
 
