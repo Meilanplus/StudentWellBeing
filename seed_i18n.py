@@ -159,6 +159,10 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     },
     "reporting.intervention_status": {"en": "Intervention", "ms": "Intervensi", "zh": "干预", "ta": "தலையீடு"},
     "reporting.referral_status": {"en": "Referral", "ms": "Rujukan", "zh": "转介", "ta": "பரிந்துரை"},
+    "reporting.back_to_current": {
+        "en": "Back to Current Period", "ms": "Kembali ke Tempoh Semasa",
+        "zh": "返回当前期间", "ta": "தற்போதைய காலகட்டத்திற்குத் திரும்பு",
+    },
     "common.total": {"en": "Total", "ms": "Jumlah", "zh": "总计", "ta": "மொத்தம்"},
     "common.student": {"en": "Student", "ms": "Pelajar", "zh": "学生", "ta": "மாணவர்"},
     "common.prepared_by": {"en": "Prepared by", "ms": "Disediakan oleh", "zh": "编制人", "ta": "தயாரித்தவர்"},

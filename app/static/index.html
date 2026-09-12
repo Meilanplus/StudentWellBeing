@@ -106,8 +106,6 @@
   <div class="nav-group-label">Tools</div>
   <div class="nav-item" data-page="assessments" data-i18n="nav.assessments">Assessment Instruments</div>
   <div class="nav-item" data-page="class_summary" data-i18n="nav.class_summary">Class Summary</div>
-  <div class="nav-group-label">System</div>
-  <div class="nav-item" data-page="api_docs" data-i18n="nav.api_docs">API Docs</div>
   <div class="footer">v1.0.0 · MoE 2027 Aligned<br/>PDPA Compliant</div>
 </div>
 
@@ -318,7 +316,6 @@ async function renderPage() {
     if (S.page === 'reporting') return renderReporting();
     if (S.page === 'assessments') return renderAssessments();
     if (S.page === 'class_summary') return renderClassSummary();
-    if (S.page === 'api_docs') { window.open('/docs', '_blank'); navigate('dashboard'); return; }
   } catch (err) {
     content.innerHTML = `<p style="color:#dc2626">${err.message}</p>`;
   }
@@ -389,11 +386,12 @@ function caseListHtml(cases) {
   </div>`;
 }
 
-async function renderReporting() {
+async function renderReporting(period) {
   const content = document.getElementById('content');
+  const periodQuery = period ? `&period=${encodeURIComponent(period)}` : '';
   const [dashRes, casesRes] = await Promise.all([
-    apiFetch(`/reports/dashboard?language=${currentLang()}`),
-    apiFetch('/reports/dashboard/cases'),
+    apiFetch(`/reports/dashboard?language=${currentLang()}${periodQuery}`),
+    apiFetch(`/reports/dashboard/cases${period ? `?period=${encodeURIComponent(period)}` : ''}`),
   ]);
   if (!dashRes.ok) { content.innerHTML = await errorHtml(dashRes); return; }
   const d = await dashRes.json();
@@ -401,11 +399,34 @@ async function renderReporting() {
   lastReportingData = d;
   content.innerHTML = `
     <h1 class="page-title">${t('nav.reporting', 'Reporting')} — ${d.period}</h1>
+    <div class="toolbar no-print">
+      ${period
+        ? `<button class="btn btn-outline" onclick="renderReporting()">${t('reporting.back_to_current','Back to Current Period')}</button>`
+        : `<button class="btn btn-outline" onclick="viewPreviousDashboardReports()">${t('risk.view_previous_reports','View Previous Reports')}</button>`}
+    </div>
+    <div id="reporting_previous_list"></div>
     ${kpiOverviewHtml(d)}
     ${caseListHtml(cases)}
     ${reportingNarrativeHtml(d)}
     <div class="toolbar no-print" style="margin-top:16px">
       <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>
+    </div>`;
+}
+
+async function viewPreviousDashboardReports() {
+  const listDiv = document.getElementById('reporting_previous_list');
+  listDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
+  const res = await apiFetch('/reports/dashboard/periods');
+  if (!res.ok) { listDiv.innerHTML = await errorHtml(res); return; }
+  const periods = await res.json();
+  listDiv.innerHTML = `
+    <div class="card">
+      <h3>${t('risk.previous_reports','Previous Reports')}</h3>
+      ${periods.map(p => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border)">
+          <div>${p.period}</div>
+          <button class="btn btn-outline btn-sm" onclick='renderReporting(${JSON.stringify(p.period)})'>${t('common.view','View')}</button>
+        </div>`).join('') || `<p class="muted">${t('risk.no_previous_reports','No previous reports found.')}</p>`}
     </div>`;
 }
 

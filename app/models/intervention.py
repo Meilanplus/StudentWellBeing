@@ -103,13 +103,19 @@ class ReferralReport(Base):
 
 
 class DashboardSummary(Base):
-    """Cached Agent 4 dashboard narrative, keyed by period. KPI numbers are
-    cheap DB aggregates and always recomputed live; only the AI-generated
-    narrative (trend_analysis/management_summary/recommendations) is cached
-    here, canonical in Bahasa Malaysia with on-demand translations cached
-    alongside it (mirrors RiskReport/InterventionReport/ReferralReport).
-    Invalidated (row deleted) whenever a write changes a KPI the narrative
-    could describe — see intervene()/generate_referral()/acknowledge_referral."""
+    """A generated Agent 4 monthly report, keyed by period — a locked
+    historical snapshot once created. The narrative (trend_analysis/
+    management_summary/recommendations) is canonical in Bahasa Malaysia, with
+    on-demand translations cached alongside it (mirrors RiskReport/
+    InterventionReport/ReferralReport). school_kpis/class_breakdown/
+    student_cases are frozen at the moment the report is first generated for
+    that period, so reopening a past month later shows exactly what was true
+    then — not today's numbers under an old label. The current (not yet
+    generated) period has no row here at all and is computed live; see
+    dashboard()/dashboard_cases() in app/api/reports.py. Invalidated (row
+    deleted) only for the *current* period whenever a write changes a KPI it
+    could describe — see intervene()/generate_referral()/acknowledge_referral
+    — never for an already-generated past period, which stays locked."""
 
     __tablename__ = "dashboard_summaries"
 
@@ -117,4 +123,7 @@ class DashboardSummary(Base):
     period: Mapped[str] = mapped_column(String(20), nullable=False, unique=True, index=True)
     narrative: Mapped[dict] = mapped_column(JSONB, nullable=False)
     translations: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    school_kpis: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    class_breakdown: Mapped[list | None] = mapped_column(JSONB, nullable=True)
+    student_cases: Mapped[list | None] = mapped_column(JSONB, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
