@@ -37,7 +37,11 @@ class Referral(Base):
     reason: Mapped[str] = mapped_column(Text, nullable=False)
     document_content: Mapped[str | None] = mapped_column(Text, nullable=True)
     supporting_data: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
-    status: Mapped[str] = mapped_column(String(20), default="pending")  # pending/sent/acknowledged
+    # The school hands this letter to the parent for the parent to take to
+    # the specialist — there's no acknowledgement loop back from the
+    # receiving professional to track, so this just marks whether the
+    # letter has been handed over yet.
+    status: Mapped[str] = mapped_column(String(20), default="pending")  # pending/sent
     prepared_by: Mapped[str] = mapped_column(String(100), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 

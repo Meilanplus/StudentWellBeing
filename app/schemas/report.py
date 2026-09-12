@@ -39,7 +39,6 @@ class MonthlyKPI(BaseModel):
     high_risk_count: int
     active_interventions: int
     referrals_made: int
-    referrals_acknowledged: int
     counseling_sessions: int
 
 

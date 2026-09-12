@@ -47,11 +47,6 @@ class ReportingAgent(BaseAgent):
         total_students = self.db.query(Student).filter(Student.is_active.is_(True)).count()
         active_interventions = self.db.query(Intervention).filter(Intervention.status == "active").count()
         referrals_made = self.db.query(Referral).filter(Referral.created_at >= since_30).count()
-        referrals_acknowledged = (
-            self.db.query(Referral)
-            .filter(Referral.status == "acknowledged", Referral.created_at >= since_30)
-            .count()
-        )
         counseling_sessions = (
             self.db.query(Intervention)
             .filter(Intervention.intervention_type == "counseling", Intervention.created_at >= since_30)
@@ -106,7 +101,6 @@ class ReportingAgent(BaseAgent):
             high_risk_count=high_total,
             active_interventions=active_interventions,
             referrals_made=referrals_made,
-            referrals_acknowledged=referrals_acknowledged,
             counseling_sessions=counseling_sessions,
         )
         return kpis, class_breakdown

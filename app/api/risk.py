@@ -181,6 +181,15 @@ def intervene(
         language=lang_name,
     )
 
+    # A student has at most one active intervention at a time — superseding
+    # the previous one here keeps active_interventions meaning "students
+    # currently under an intervention," not "every plan ever generated."
+    (
+        db.query(Intervention)
+        .filter(Intervention.student_id == student.id, Intervention.status == "active")
+        .update({"status": "completed", "end_date": date.today()})
+    )
+
     record = Intervention(
         student_id=student.id,
         risk_level=risk_assessment.risk_level,

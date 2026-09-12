@@ -154,18 +154,3 @@ def list_referrals(
         }
         for r in referrals
     ]
-
-
-@router.patch("/{referral_id}/acknowledge")
-def acknowledge_referral(
-    referral_id: int,
-    requester: User = Depends(require_task(TASK_INVOKE_AGENT3_REFERRAL)),
-    db: Session = Depends(get_db),
-):
-    referral = db.query(Referral).filter(Referral.id == referral_id).first()
-    if not referral:
-        raise HTTPException(status_code=404, detail="Referral not found.")
-    referral.status = "acknowledged"
-    db.commit()
-    invalidate_dashboard_cache(db)  # changes the referrals_acknowledged KPI
-    return {"message": "Referral acknowledged.", "referral_id": referral_id}
