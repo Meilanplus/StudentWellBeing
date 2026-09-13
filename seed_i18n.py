@@ -226,14 +226,20 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "en": "Truancy", "ms": "Ponteng", "zh": "逃学", "ta": "பள்ளி புறக்கணிப்பு",
     },
     # Behavior/risk-factor severity categories (fixed vocabulary, same
-    # slugify convention). Keyed by BOTH the Malay and English spelling since
-    # Agent 1 is instructed to emit this enum in fixed English but doesn't
-    # always comply — covering both means the display still resolves to the
-    # currently-selected language either way.
+    # slugify convention). Keyed by every spelling Agent 1 has actually been
+    # observed to emit — it's told to use a fixed English enum but doesn't
+    # always comply, and even when it does it sometimes reaches for
+    # High/Moderate/Low (echoing risk_level's wording) instead of
+    # Minor/Moderate/Serious. Covering all variants means the display still
+    # resolves to the currently-selected language regardless of which the
+    # model picked.
     "behavior.severity.ringan": {
         "en": "Minor", "ms": "Ringan", "zh": "轻微", "ta": "இலேசான",
     },
     "behavior.severity.minor": {
+        "en": "Minor", "ms": "Ringan", "zh": "轻微", "ta": "இலேசான",
+    },
+    "behavior.severity.low": {
         "en": "Minor", "ms": "Ringan", "zh": "轻微", "ta": "இலேசான",
     },
     "behavior.severity.sederhana": {
@@ -246,6 +252,9 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "en": "Serious", "ms": "Berat", "zh": "严重", "ta": "கடுமையான",
     },
     "behavior.severity.serious": {
+        "en": "Serious", "ms": "Berat", "zh": "严重", "ta": "கடுமையான",
+    },
+    "behavior.severity.high": {
         "en": "Serious", "ms": "Berat", "zh": "严重", "ta": "கடுமையான",
     },
     "common.edit": {"en": "Edit", "ms": "Sunting", "zh": "编辑", "ta": "திருத்து"},
