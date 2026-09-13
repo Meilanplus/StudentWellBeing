@@ -1,6 +1,8 @@
 from datetime import date
+import io
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -11,6 +13,7 @@ from app.schemas.risk import ReferralDocument, ReferralDocumentRequest, Referral
 from app.agents.referral_agent import ReferralAgent
 from app.services.i18n_lookup import get_language_display_name
 from app.services.report_translator import translate_report_data
+from app.services.referral_report import generate_referral_docx
 from app.services.dashboard_cache import invalidate_dashboard_cache
 from app.permissions import require_task
 from app.constants import TASK_INVOKE_AGENT3_REFERRAL
@@ -133,6 +136,35 @@ def translate_saved_referral_report(
     record.translations = {**record.translations, language: translated}
     db.commit()
     return translated
+
+
+@router.get("/reports/{report_id}/report")
+def download_referral_report(
+    report_id: int,
+    language: str = "ms",
+    requester: User = Depends(require_task(TASK_INVOKE_AGENT3_REFERRAL)),
+    db: Session = Depends(get_db),
+):
+    record = db.query(ReferralReport).filter(ReferralReport.id == report_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Referral report not found.")
+
+    if language == "ms":
+        data = record.report_data
+    else:
+        data = record.translations.get(language)
+        if data is None:
+            data = translate_report_data(record.report_data, language)
+            record.translations = {**record.translations, language: data}
+            db.commit()
+
+    referral_doc = ReferralDocument(**data)
+    docx_bytes = generate_referral_docx(referral_doc, language, db)
+    return StreamingResponse(
+        io.BytesIO(docx_bytes),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={"Content-Disposition": f'attachment; filename="referral_letter_{referral_doc.student_id}.docx"'},
+    )
 
 
 @router.get("/{student_id}")

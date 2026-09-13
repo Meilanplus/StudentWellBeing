@@ -1050,7 +1050,7 @@ function renderSupportingSummary(text) {
   return html;
 }
 
-function referralReportHtml(doc, buttonsHtml) {
+function referralReportHtml(doc, buttonsHtml, reportId) {
   return `
     <div class="card">
       <h3>${t('referral.letter_title','Referral Letter')} — ${doc.student_name}</h3>
@@ -1059,8 +1059,30 @@ function referralReportHtml(doc, buttonsHtml) {
       <h4>${t('referral.supporting_summary','Supporting Summary')}</h4>
       ${renderSupportingSummary(doc.supporting_summary)}
       <div class="disclaimer">${doc.disclaimer}</div>
+      ${reportId ? `<button class="btn btn-outline no-print" onclick="downloadReferralReport(${reportId}, currentLang())">Download .docx Report</button>` : ''}
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
     </div>`;
+}
+
+async function downloadReferralReport(reportId, language) {
+  // Same reasoning as downloadInterventionReport(): a plain <a href> can't
+  // carry the app's Bearer token, so fetch it through apiFetch() and turn
+  // the response into a client-side download.
+  const res = await apiFetch(`/referrals/reports/${reportId}/report?language=${language}`);
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({ detail: res.statusText }));
+    alert(body.detail || 'Failed to download report.');
+    return;
+  }
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `referral_letter_${reportId}.docx`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 async function runReferral() {
@@ -1079,7 +1101,7 @@ async function runReferral() {
       const display = await translateSavedReport(existing, 'referral', resultDiv);
       const note = `<p class="muted">${t('risk.already_generated_for_referral','A referral letter for this referral type and recipient was already generated — showing the saved letter instead of recalculating.')}</p>`;
       const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
-      resultDiv.innerHTML = note + referralReportHtml(display, buttons);
+      resultDiv.innerHTML = note + referralReportHtml(display, buttons, existing.id);
       return;
     }
   }
@@ -1153,7 +1175,7 @@ async function viewSavedReferralReport(i) {
   detailDiv.innerHTML = '<p class="muted">' + t('common.loading','Loading...') + '</p>';
   const display = await translateSavedReport(rep, 'referral', detailDiv);
   const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
-  detailDiv.innerHTML = referralReportHtml(display, buttons);
+  detailDiv.innerHTML = referralReportHtml(display, buttons, rep.id);
 }
 
 // ── Assessments ──
