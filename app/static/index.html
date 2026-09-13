@@ -713,7 +713,7 @@ function riskReportHtml(r, buttonsHtml) {
       <p>${r.summary}</p>
       <h4>${t('risk.factors_heading','Risk Factors')}</h4>
       <table><thead><tr><th>${t('risk.category','Category')}</th><th>${t('risk.indicator','Indicator')}</th><th>${t('risk.severity','Severity')}</th><th>${t('risk.evidence','Evidence')}</th></tr></thead>
-      <tbody>${r.risk_factors.map(f => `<tr><td>${f.category}</td><td>${f.indicator}</td><td>${f.severity}</td><td>${f.evidence}</td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.none_flagged','None flagged.')}</td></tr>`}</tbody></table>
+      <tbody>${r.risk_factors.map(f => `<tr><td>${f.category}</td><td>${f.indicator}</td><td>${translateCategory('behavior.severity', f.severity)}</td><td>${f.evidence}</td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.none_flagged','None flagged.')}</td></tr>`}</tbody></table>
       <h4>${t('risk.recommended_actions','Recommended Actions')}</h4><ul>${r.recommended_actions.map(a => `<li>${a}</li>`).join('')}</ul>
       <div class="disclaimer">${r.disclaimer}</div>
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>

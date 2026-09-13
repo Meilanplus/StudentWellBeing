@@ -225,14 +225,27 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "behavior.incident_type.ponteng": {
         "en": "Truancy", "ms": "Ponteng", "zh": "逃学", "ta": "பள்ளி புறக்கணிப்பு",
     },
-    # Behavior severity categories (fixed vocabulary, same slugify convention)
+    # Behavior/risk-factor severity categories (fixed vocabulary, same
+    # slugify convention). Keyed by BOTH the Malay and English spelling since
+    # Agent 1 is instructed to emit this enum in fixed English but doesn't
+    # always comply — covering both means the display still resolves to the
+    # currently-selected language either way.
     "behavior.severity.ringan": {
+        "en": "Minor", "ms": "Ringan", "zh": "轻微", "ta": "இலேசான",
+    },
+    "behavior.severity.minor": {
         "en": "Minor", "ms": "Ringan", "zh": "轻微", "ta": "இலேசான",
     },
     "behavior.severity.sederhana": {
         "en": "Moderate", "ms": "Sederhana", "zh": "中等", "ta": "மிதமான",
     },
+    "behavior.severity.moderate": {
+        "en": "Moderate", "ms": "Sederhana", "zh": "中等", "ta": "மிதமான",
+    },
     "behavior.severity.berat": {
+        "en": "Serious", "ms": "Berat", "zh": "严重", "ta": "கடுமையான",
+    },
+    "behavior.severity.serious": {
         "en": "Serious", "ms": "Berat", "zh": "严重", "ta": "கடுமையான",
     },
     "common.edit": {"en": "Edit", "ms": "Sunting", "zh": "编辑", "ta": "திருத்து"},
