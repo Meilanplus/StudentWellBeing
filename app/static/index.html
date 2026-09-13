@@ -15,6 +15,9 @@
   a { color: inherit; }
   body.lang-zh, body.lang-zh input, body.lang-zh select, body.lang-zh textarea, body.lang-zh button {
     font-family: KaiTi, "Kaiti SC", STKaiti, "AR PL KaitiM GB", "TW-Kai", cursive, serif;
+    /* KaiTi's glyphs render visibly larger than the sans-serif Latin font at
+       the same declared size — scale down to match the other languages. */
+    font-size: 0.88em;
   }
 
   #sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 240px; background: var(--blue-dark); color: #fff; display: flex; flex-direction: column; padding: 20px 0; overflow-y: auto; overflow-x: hidden; }
