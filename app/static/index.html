@@ -244,6 +244,99 @@ function categoryOptionsHtml(prefix, options, currentValue) {
   return html;
 }
 
+// Attendance reason taxonomy — matches the MOE's official "Senarai Kategori
+// & Sebab Ketidakhadiran Murid (IDME Terkini)" reference list exactly, so a
+// cascading Category -> Sub-reason dropdown mirrors it rather than exposing
+// a single 45-item flat list. Values are stored/looked-up as the canonical
+// Malay sub-reason text (same convention as INCIDENT_TYPE_OPTIONS); the
+// category itself is a UI grouping only and isn't persisted separately.
+const ATTENDANCE_REASON_TAXONOMY = [
+  { category: 'Aktiviti Luar Sekolah', items: ['Wakil sekolah'] },
+  { category: 'Ancaman Keselamatan', items: [
+    'Binatang liar / buas / berbisa', 'Diculik', 'Gangguan mistik / makhluk halus',
+    'Gangguan kongsi gelap', 'Kebakaran', 'Penganas', 'Lanun',
+    'Ugutan daripada pihak luar', 'Rusuhan di luar kawasan sekolah',
+    'Mangsa buli', 'Mangsa seksual', 'Tidak dapat dikesan / hilang',
+  ]},
+  { category: 'Bencana Alam', items: [
+    'Jerebu', 'Kemalangan', 'Banjir', 'Gempa bumi', 'Hujan lebat / ribut taufan',
+    'Pencemaran udara', 'Kemarau', 'Cuaca panas (El Nino)', 'Pencemaran sisa kimia',
+    'Pencemaran alam', 'Tanah runtuh',
+  ]},
+  { category: 'Digantung Sekolah', items: ['Digantung sekolah'] },
+  { category: 'Masalah Keluarga', items: [
+    'Bekerja', 'Berpindah-randah', 'Perebutan hak penjagaan anak',
+    'Mengikut keluarga bercuti / berkursus', 'Menjaga / menguruskan ahli keluarga',
+    'Menjaga ahli keluarga sakit', 'Kematian keluarga terdekat',
+    'Kemiskinan / kesempitan hidup', 'Masalah pengangkutan',
+    'Menziarahi keluarga sakit', 'Balik kampung', 'Berpindah ke luar negara',
+    'Krisis keluarga', 'Lari dari rumah',
+  ]},
+  { category: 'Masalah Peribadi', items: ['Tekanan perasaan / trauma', 'Kesakitan akibat haid / permulaan haid'] },
+  { category: 'PDPR', items: ['Pembelajaran di rumah'] },
+  { category: 'Penggiliran Peperiksaan', items: ['Urusan peperiksaan'] },
+  { category: 'Kebenaran Pengetua / Guru Besar', items: ['Haji / Umrah / kegiatan agama'] },
+];
+
+function attendanceSubReasonOptionsHtml(categoryName, currentValue) {
+  const norm = v => (v || '').trim().toLowerCase();
+  const cat = ATTENDANCE_REASON_TAXONOMY.find(c => c.category === categoryName);
+  if (!cat) return '';
+  return cat.items.map(item =>
+    `<option value="${escAttr(item)}"${norm(item) === norm(currentValue) ? ' selected' : ''}>${t(`attendance.reason.${slugify(item)}`, item)}</option>`
+  ).join('');
+}
+
+// Rebuilds the sub-reason dropdown whenever the category changes; "Other"
+// swaps in the free-text box instead (see attendanceReasonFieldHtml).
+function onAttendanceReasonCategoryChange() {
+  const category = document.getElementById('af_reason_category').value;
+  const subSelect = document.getElementById('af_reason_sub');
+  const otherInput = document.getElementById('af_reason_other');
+  if (category === '__other__') {
+    subSelect.style.display = 'none';
+    subSelect.innerHTML = '';
+    otherInput.style.display = '';
+  } else if (category) {
+    subSelect.style.display = '';
+    subSelect.innerHTML = attendanceSubReasonOptionsHtml(category, '');
+    otherInput.style.display = 'none';
+    otherInput.value = '';
+  } else {
+    subSelect.style.display = 'none';
+    subSelect.innerHTML = '';
+    otherInput.style.display = 'none';
+  }
+}
+
+// Older/free-text reason values that don't match any known sub-reason (e.g.
+// existing "Health problems" data, which predates this taxonomy and isn't
+// covered by it at all) route to "Other" with the original text preserved.
+function attendanceReasonFieldHtml(currentValue) {
+  const norm = v => (v || '').trim().toLowerCase();
+  let matchedCategory = null;
+  for (const cat of ATTENDANCE_REASON_TAXONOMY) {
+    if (cat.items.some(i => norm(i) === norm(currentValue))) { matchedCategory = cat.category; break; }
+  }
+  const isOther = !!currentValue && !matchedCategory;
+  const selectedCategory = matchedCategory || (isOther ? '__other__' : '');
+
+  const categoryOptsHtml = ATTENDANCE_REASON_TAXONOMY.map(cat =>
+    `<option value="${escAttr(cat.category)}"${cat.category === selectedCategory ? ' selected' : ''}>${t(`attendance.reason_category.${slugify(cat.category)}`, cat.category)}</option>`
+  ).join('');
+
+  return `
+    <select id="af_reason_category" onchange="onAttendanceReasonCategoryChange()">
+      <option value="">${t('common.none', 'None')}</option>
+      ${categoryOptsHtml}
+      <option value="__other__"${selectedCategory === '__other__' ? ' selected' : ''}>${t('common.other_specify', 'Other (specify)')}</option>
+    </select>
+    <select id="af_reason_sub" style="margin-top:6px; display:${matchedCategory ? '' : 'none'}">
+      ${matchedCategory ? attendanceSubReasonOptionsHtml(matchedCategory, currentValue) : ''}
+    </select>
+    <input id="af_reason_other" placeholder="${t('common.other_specify', 'Other (specify)')}" style="margin-top:6px; display:${isOther ? '' : 'none'}" value="${isOther ? escAttr(currentValue) : ''}" />`;
+}
+
 const INCIDENT_TYPE_OPTIONS = [
   'Kenakalan', 'Tingkah laku jenayah', 'Vandalisme', 'Ponteng',
   'Buli', 'Pergaduhan', 'Isu Emosi', 'Isu Sosial', 'Isu Akademik',
@@ -643,7 +736,7 @@ function openAttendanceModal(id) {
     <form onsubmit="return submitAttendanceForm(event, ${rec ? rec.id : 'null'})">
       <div class="field"><label>${t('common.date','Date')}</label><input type="date" id="af_date" value="${rec ? escAttr(rec.record_date) : ''}" required /></div>
       <div class="field"><label>${t('attendance.percentage','Attendance %')}</label><input id="af_att_per" value="${rec ? escAttr(rec.att_per) : ''}" required /></div>
-      <div class="field"><label>${t('common.reason','Reason')}</label><input id="af_reason" value="${rec ? escAttr(rec.reason) : ''}" /></div>
+      <div class="field"><label>${t('common.reason','Reason')}</label>${attendanceReasonFieldHtml(rec ? rec.reason : '')}</div>
       <div class="field"><label>${t('attendance.recorded_by','Recorded By')}</label><input id="af_recorded_by" value="${rec ? escAttr(rec.recorded_by) : ''}" required /></div>
       <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
       ${rec ? `<button class="btn btn-outline" type="button" style="margin-left:8px; color:#dc2626; border-color:#dc2626" onclick="deleteAttendanceRecord(${rec.id})">${t('common.delete','Delete')}</button>` : ''}
@@ -652,10 +745,15 @@ function openAttendanceModal(id) {
 
 async function submitAttendanceForm(e, id) {
   e.preventDefault();
+  const reasonCategory = document.getElementById('af_reason_category').value;
+  const reasonSub = document.getElementById('af_reason_sub');
+  const reason = reasonCategory === '__other__'
+    ? document.getElementById('af_reason_other').value
+    : (reasonSub ? reasonSub.value : '');
   const payload = {
     record_date: document.getElementById('af_date').value,
     att_per: document.getElementById('af_att_per').value,
-    reason: document.getElementById('af_reason').value || null,
+    reason: reason || null,
     recorded_by: document.getElementById('af_recorded_by').value,
   };
   const url = id ? `/students/${S.studentId}/attendance/${id}` : `/students/${S.studentId}/attendance`;

@@ -294,6 +294,170 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "zh": "确定要删除此出勤记录吗？此操作无法撤销。",
         "ta": "இந்த வருகைப் பதிவை நீக்கவா? இதை மீட்டெடுக்க முடியாது.",
     },
+    # Attendance reason taxonomy — mirrors the MOE's official "Senarai
+    # Kategori & Sebab Ketidakhadiran Murid (IDME Terkini)" reference list.
+    # Categories (attendance.reason_category.*) group the cascading dropdown;
+    # sub-reasons (attendance.reason.*) are the actual stored/selected values,
+    # same slugify convention as behavior.incident_type.*.
+    "attendance.reason_category.aktiviti_luar_sekolah": {
+        "en": "Outside School Activity", "ms": "Aktiviti Luar Sekolah", "zh": "校外活动", "ta": "பள்ளிக்கு வெளியே செயல்பாடு",
+    },
+    "attendance.reason_category.ancaman_keselamatan": {
+        "en": "Safety Threat", "ms": "Ancaman Keselamatan", "zh": "安全威胁", "ta": "பாதுகாப்பு அச்சுறுத்தல்",
+    },
+    "attendance.reason_category.bencana_alam": {
+        "en": "Natural Disaster", "ms": "Bencana Alam", "zh": "自然灾害", "ta": "இயற்கை பேரிடர்",
+    },
+    "attendance.reason_category.digantung_sekolah": {
+        "en": "Suspended from School", "ms": "Digantung Sekolah", "zh": "被学校停学", "ta": "பள்ளியிலிருந்து இடைநிறுத்தம்",
+    },
+    "attendance.reason_category.masalah_keluarga": {
+        "en": "Family Problem", "ms": "Masalah Keluarga", "zh": "家庭问题", "ta": "குடும்பப் பிரச்சினை",
+    },
+    "attendance.reason_category.masalah_peribadi": {
+        "en": "Personal Problem", "ms": "Masalah Peribadi", "zh": "个人问题", "ta": "தனிப்பட்ட பிரச்சினை",
+    },
+    "attendance.reason_category.pdpr": {
+        "en": "Home-Based Learning (PDPR)", "ms": "PDPR", "zh": "居家学习（PDPR）", "ta": "வீட்டில் கற்றல் (PDPR)",
+    },
+    "attendance.reason_category.penggiliran_peperiksaan": {
+        "en": "Examination Rotation", "ms": "Penggiliran Peperiksaan", "zh": "考试轮值安排", "ta": "தேர்வு சுழற்சி",
+    },
+    "attendance.reason_category.kebenaran_pengetua_guru_besar": {
+        "en": "Principal/Headmaster's Permission", "ms": "Kebenaran Pengetua / Guru Besar", "zh": "校长准假", "ta": "அதிபர்/தலைமை ஆசிரியர் அனுமதி",
+    },
+    "attendance.reason.wakil_sekolah": {
+        "en": "School Representative", "ms": "Wakil sekolah", "zh": "学校代表", "ta": "பள்ளி பிரதிநிதி",
+    },
+    "attendance.reason.binatang_liar_buas_berbisa": {
+        "en": "Wild/Venomous Animal", "ms": "Binatang liar / buas / berbisa", "zh": "野生/毒性动物", "ta": "காட்டு/விஷ விலங்கு",
+    },
+    "attendance.reason.diculik": {
+        "en": "Kidnapped", "ms": "Diculik", "zh": "被绑架", "ta": "கடத்தப்பட்டது",
+    },
+    "attendance.reason.gangguan_mistik_makhluk_halus": {
+        "en": "Mystical/Supernatural Disturbance", "ms": "Gangguan mistik / makhluk halus", "zh": "灵异干扰", "ta": "மாய/ஆவி தொல்லை",
+    },
+    "attendance.reason.gangguan_kongsi_gelap": {
+        "en": "Secret Society Disturbance", "ms": "Gangguan kongsi gelap", "zh": "黑社会骚扰", "ta": "இரகசிய சங்கத் தொல்லை",
+    },
+    "attendance.reason.kebakaran": {
+        "en": "Fire", "ms": "Kebakaran", "zh": "火灾", "ta": "தீ விபத்து",
+    },
+    "attendance.reason.penganas": {
+        "en": "Terrorist", "ms": "Penganas", "zh": "恐怖分子", "ta": "பயங்கரவாதி",
+    },
+    "attendance.reason.lanun": {
+        "en": "Pirate/Kidnapper (Lanun)", "ms": "Lanun", "zh": "海盗", "ta": "கடல் கொள்ளையர்",
+    },
+    "attendance.reason.ugutan_daripada_pihak_luar": {
+        "en": "Threat from Outside Party", "ms": "Ugutan daripada pihak luar", "zh": "外部威胁", "ta": "வெளிக் கட்சியிடமிருந்து மிரட்டல்",
+    },
+    "attendance.reason.rusuhan_di_luar_kawasan_sekolah": {
+        "en": "Riot Outside School Area", "ms": "Rusuhan di luar kawasan sekolah", "zh": "校外骚乱", "ta": "பள்ளிக்கு வெளியே கலவரம்",
+    },
+    "attendance.reason.mangsa_buli": {
+        "en": "Bullying Victim", "ms": "Mangsa buli", "zh": "欺凌受害者", "ta": "கொடுமைப்படுத்தலுக்கு ஆளானவர்",
+    },
+    "attendance.reason.mangsa_seksual": {
+        "en": "Sexual Abuse Victim", "ms": "Mangsa seksual", "zh": "性侵受害者", "ta": "பாலியல் துன்புறுத்தலுக்கு ஆளானவர்",
+    },
+    "attendance.reason.tidak_dapat_dikesan_hilang": {
+        "en": "Untraceable/Missing", "ms": "Tidak dapat dikesan / hilang", "zh": "失踪/无法追踪", "ta": "காணவில்லை/கண்டறிய முடியவில்லை",
+    },
+    "attendance.reason.jerebu": {
+        "en": "Haze", "ms": "Jerebu", "zh": "烟霾", "ta": "புகைமூட்டம்",
+    },
+    "attendance.reason.kemalangan": {
+        "en": "Accident", "ms": "Kemalangan", "zh": "意外事故", "ta": "விபத்து",
+    },
+    "attendance.reason.banjir": {
+        "en": "Flood", "ms": "Banjir", "zh": "水灾", "ta": "வெள்ளம்",
+    },
+    "attendance.reason.gempa_bumi": {
+        "en": "Earthquake", "ms": "Gempa bumi", "zh": "地震", "ta": "நிலநடுக்கம்",
+    },
+    "attendance.reason.hujan_lebat_ribut_taufan": {
+        "en": "Heavy Rain/Storm", "ms": "Hujan lebat / ribut taufan", "zh": "暴雨/风暴", "ta": "கனமழை/புயல்",
+    },
+    "attendance.reason.pencemaran_udara": {
+        "en": "Air Pollution", "ms": "Pencemaran udara", "zh": "空气污染", "ta": "காற்று மாசுபாடு",
+    },
+    "attendance.reason.kemarau": {
+        "en": "Drought", "ms": "Kemarau", "zh": "干旱", "ta": "வறட்சி",
+    },
+    "attendance.reason.cuaca_panas_el_nino": {
+        "en": "Hot Weather (El Nino)", "ms": "Cuaca panas (El Nino)", "zh": "高温天气（厄尔尼诺）", "ta": "வெப்பமான வானிலை (எல் நினோ)",
+    },
+    "attendance.reason.pencemaran_sisa_kimia": {
+        "en": "Chemical Waste Pollution", "ms": "Pencemaran sisa kimia", "zh": "化学废料污染", "ta": "இரசாயன கழிவு மாசுபாடு",
+    },
+    "attendance.reason.pencemaran_alam": {
+        "en": "Environmental Pollution", "ms": "Pencemaran alam", "zh": "环境污染", "ta": "சுற்றுச்சூழல் மாசுபாடு",
+    },
+    "attendance.reason.tanah_runtuh": {
+        "en": "Landslide", "ms": "Tanah runtuh", "zh": "山体滑坡", "ta": "நிலச்சரிவு",
+    },
+    "attendance.reason.digantung_sekolah": {
+        "en": "Suspended from School", "ms": "Digantung sekolah", "zh": "被学校停学", "ta": "பள்ளியிலிருந்து இடைநிறுத்தப்பட்டது",
+    },
+    "attendance.reason.bekerja": {
+        "en": "Work", "ms": "Bekerja", "zh": "工作", "ta": "வேலை",
+    },
+    "attendance.reason.berpindah_randah": {
+        "en": "Frequent Relocation", "ms": "Berpindah-randah", "zh": "经常搬迁", "ta": "அடிக்கடி இடம்பெயர்வு",
+    },
+    "attendance.reason.perebutan_hak_penjagaan_anak": {
+        "en": "Child Custody Dispute", "ms": "Perebutan hak penjagaan anak", "zh": "子女监护权争夺", "ta": "குழந்தை பாதுகாப்பு உரிமைத் தகராறு",
+    },
+    "attendance.reason.mengikut_keluarga_bercuti_berkursus": {
+        "en": "Accompanying Family on Vacation/Course", "ms": "Mengikut keluarga bercuti / berkursus", "zh": "陪同家人度假/上课", "ta": "குடும்பத்துடன் விடுமுறை/பயிற்சிக்குச் செல்லுதல்",
+    },
+    "attendance.reason.menjaga_menguruskan_ahli_keluarga": {
+        "en": "Caring for/Managing Family Member", "ms": "Menjaga / menguruskan ahli keluarga", "zh": "照顾/处理家庭成员事务", "ta": "குடும்ப உறுப்பினரை கவனித்தல்/நிர்வகித்தல்",
+    },
+    "attendance.reason.menjaga_ahli_keluarga_sakit": {
+        "en": "Caring for Sick Family Member", "ms": "Menjaga ahli keluarga sakit", "zh": "照顾生病的家庭成员", "ta": "நோய்வாய்ப்பட்ட குடும்ப உறுப்பினரைப் பராமரித்தல்",
+    },
+    "attendance.reason.kematian_keluarga_terdekat": {
+        "en": "Death of Immediate Family Member", "ms": "Kematian keluarga terdekat", "zh": "近亲去世", "ta": "நெருங்கிய குடும்ப உறுப்பினரின் மரணம்",
+    },
+    "attendance.reason.kemiskinan_kesempitan_hidup": {
+        "en": "Poverty/Financial Hardship", "ms": "Kemiskinan / kesempitan hidup", "zh": "贫困/生活拮据", "ta": "வறுமை/பொருளாதார சிரமம்",
+    },
+    "attendance.reason.masalah_pengangkutan": {
+        "en": "Transport Problem", "ms": "Masalah pengangkutan", "zh": "交通问题", "ta": "போக்குவரத்துப் பிரச்சினை",
+    },
+    "attendance.reason.menziarahi_keluarga_sakit": {
+        "en": "Visiting Sick Family Member", "ms": "Menziarahi keluarga sakit", "zh": "探望生病的家人", "ta": "நோய்வாய்ப்பட்ட குடும்ப உறுப்பினரை சந்திக்கச் செல்லுதல்",
+    },
+    "attendance.reason.balik_kampung": {
+        "en": "Returning to Hometown", "ms": "Balik kampung", "zh": "回乡", "ta": "சொந்த ஊருக்குச் செல்லுதல்",
+    },
+    "attendance.reason.berpindah_ke_luar_negara": {
+        "en": "Moving Abroad", "ms": "Berpindah ke luar negara", "zh": "移居国外", "ta": "வெளிநாட்டிற்கு இடம்பெயர்தல்",
+    },
+    "attendance.reason.krisis_keluarga": {
+        "en": "Family Crisis", "ms": "Krisis keluarga", "zh": "家庭危机", "ta": "குடும்ப நெருக்கடி",
+    },
+    "attendance.reason.lari_dari_rumah": {
+        "en": "Ran Away from Home", "ms": "Lari dari rumah", "zh": "离家出走", "ta": "வீட்டை விட்டு ஓடிவிட்டது",
+    },
+    "attendance.reason.tekanan_perasaan_trauma": {
+        "en": "Emotional Stress/Trauma", "ms": "Tekanan perasaan / trauma", "zh": "情绪压力/创伤", "ta": "உணர்ச்சி அழுத்தம்/அதிர்ச்சி",
+    },
+    "attendance.reason.kesakitan_akibat_haid_permulaan_haid": {
+        "en": "Menstrual Pain/Onset of Menstruation", "ms": "Kesakitan akibat haid / permulaan haid", "zh": "经痛/月经初潮", "ta": "மாதவிடாய் வலி/முதல் மாதவிடாய்",
+    },
+    "attendance.reason.pembelajaran_di_rumah": {
+        "en": "Home-Based Learning", "ms": "Pembelajaran di rumah", "zh": "居家学习", "ta": "வீட்டில் கற்றல்",
+    },
+    "attendance.reason.urusan_peperiksaan": {
+        "en": "Examination Matters", "ms": "Urusan peperiksaan", "zh": "考试事务", "ta": "தேர்வு விவகாரங்கள்",
+    },
+    "attendance.reason.haji_umrah_kegiatan_agama": {
+        "en": "Hajj/Umrah/Religious Activity", "ms": "Haji / Umrah / kegiatan agama", "zh": "朝觐/副朝/宗教活动", "ta": "ஹஜ்/உம்ரா/மத நடவடிக்கை",
+    },
 
     "behavior.section_title": {"en": "Behavior", "ms": "Tingkah Laku", "zh": "行为", "ta": "நடத்தை"},
     "behavior.record_title": {"en": "Behavior Record", "ms": "Rekod Tingkah Laku", "zh": "行为记录", "ta": "நடத்தைப் பதிவு"},
