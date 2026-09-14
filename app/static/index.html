@@ -228,6 +228,57 @@ function translateCategory(prefix, value) {
   }).join(', ');
 }
 
+// Builds <option> tags for a fixed-vocabulary dropdown (see translateCategory):
+// each entry's own text is both the stored value and the slugify key suffix.
+// If currentValue doesn't match any known entry (e.g. older free-text data),
+// it's kept as an extra selected option instead of being silently discarded.
+function categoryOptionsHtml(prefix, options, currentValue) {
+  const norm = v => (v || '').trim().toLowerCase();
+  const matched = options.some(o => norm(o) === norm(currentValue));
+  let html = options.map(o =>
+    `<option value="${escAttr(o)}"${norm(o) === norm(currentValue) ? ' selected' : ''}>${t(`${prefix}.${slugify(o)}`, o)}</option>`
+  ).join('');
+  if (currentValue && !matched) {
+    html = `<option value="${escAttr(currentValue)}" selected>${escAttr(currentValue)}</option>` + html;
+  }
+  return html;
+}
+
+const INCIDENT_TYPE_OPTIONS = [
+  'Kenakalan', 'Tingkah laku jenayah', 'Vandalisme', 'Ponteng',
+  'Buli', 'Pergaduhan', 'Isu Emosi', 'Isu Sosial', 'Isu Akademik',
+];
+const SEVERITY_OPTIONS = ['Ringan', 'Sederhana', 'Berat'];
+
+// Action Taken dropdown + "Other (specify)" free-text fallback: unlike
+// incident_type/severity, this field's older data is often a hand-written
+// sentence, so anything not matching a known option routes to Other with
+// the original text preserved in the reveal box rather than lost.
+const ACTION_TAKEN_OPTIONS = [
+  'Amaran Lisan Diberikan',
+  'Ibu Bapa/Penjaga Dimaklumkan',
+  'Sesi Kaunseling Dijadualkan',
+  'Dirujuk kepada Guru Kelas',
+  'Dirujuk kepada Kaunselor Sekolah',
+  'Detensi Dikenakan',
+  'Kes Dinaikkan kepada Pentadbiran',
+];
+function actionTakenFieldHtml(currentValue) {
+  const norm = v => (v || '').trim().toLowerCase();
+  const matched = ACTION_TAKEN_OPTIONS.some(o => norm(o) === norm(currentValue));
+  const isOther = !!currentValue && !matched;
+  const optsHtml = ACTION_TAKEN_OPTIONS.map(o =>
+    `<option value="${escAttr(o)}"${norm(o) === norm(currentValue) ? ' selected' : ''}>${t(`behavior.action.${slugify(o)}`, o)}</option>`
+  ).join('');
+  return `
+    <select id="bf_action_taken_select" onchange="document.getElementById('bf_action_taken_other').style.display = this.value === '__other__' ? '' : 'none'">
+      <option value="">${t('common.none', 'None')}</option>
+      ${optsHtml}
+      <option value="__other__"${isOther ? ' selected' : ''}>${t('common.other_specify', 'Other (specify)')}</option>
+    </select>
+    <input id="bf_action_taken_other" placeholder="${t('common.other_specify', 'Other (specify)')}" style="margin-top:6px; display:${isOther ? '' : 'none'}" value="${isOther ? escAttr(currentValue) : ''}" />`;
+}
+
 // Reports are always generated/stored in Bahasa Malaysia (the canonical
 // language); this translates the free-text fields for whatever language is
 // currently selected. No-op (and no API call) when already viewing in ms.
@@ -627,14 +678,22 @@ function openBehaviorModal(id) {
     <h3>${t('behavior.record_title','Behavior Record')}</h3>
     <form onsubmit="return submitBehaviorForm(event, ${rec ? rec.id : 'null'})">
       <div class="field"><label>${t('common.date','Date')}</label><input type="date" id="bf_date" value="${rec ? escAttr(rec.incident_date) : ''}" required /></div>
-      <div class="field"><label>${t('behavior.incident_type_label','Incident Type')}</label><input id="bf_incident_type" value="${rec ? escAttr(rec.incident_type) : ''}" required /></div>
+      <div class="field"><label>${t('behavior.incident_type_label','Incident Type')}</label>
+        <select id="bf_incident_type" required>
+          <option value="">${t('common.none','None')}</option>
+          ${categoryOptionsHtml('behavior.incident_type', INCIDENT_TYPE_OPTIONS, rec ? rec.incident_type : '')}
+        </select>
+      </div>
       <div class="field">
         <label>${t('risk.severity','Severity')}</label>
-        <input id="bf_severity" value="${rec ? escAttr(rec.severity) : ''}" required />
+        <select id="bf_severity" required>
+          <option value="">${t('common.none','None')}</option>
+          ${categoryOptionsHtml('behavior.severity', SEVERITY_OPTIONS, rec ? rec.severity : '')}
+        </select>
         <div class="muted" style="margin-top:4px; font-size:0.78rem; line-height:1.4;">${t('behavior.severity_hint', '<b>Ringan</b>/Minor — one-off, no harm, easily corrected in the moment.<br><b>Sederhana</b>/Moderate — disrupts others or breaches a rule, no safety risk.<br><b>Berat</b>/Serious — actual or credible risk to safety (weapon, injury, violence).')}</div>
       </div>
       <div class="field"><label>${t('common.description','Description')}</label><textarea id="bf_description" required>${rec ? escAttr(rec.description) : ''}</textarea></div>
-      <div class="field"><label>${t('behavior.action_taken','Action Taken')}</label><textarea id="bf_action_taken">${rec ? escAttr(rec.action_taken) : ''}</textarea></div>
+      <div class="field"><label>${t('behavior.action_taken','Action Taken')}</label>${actionTakenFieldHtml(rec ? rec.action_taken : '')}</div>
       <div class="field"><label>${t('behavior.reported_by','Reported By')}</label><input id="bf_reported_by" value="${rec ? escAttr(rec.reported_by) : ''}" required /></div>
       <button class="btn btn-primary" type="submit">${t('common.save','Save')}</button>
     </form>`);
@@ -642,12 +701,16 @@ function openBehaviorModal(id) {
 
 async function submitBehaviorForm(e, id) {
   e.preventDefault();
+  const actionTakenSelect = document.getElementById('bf_action_taken_select').value;
+  const actionTaken = actionTakenSelect === '__other__'
+    ? document.getElementById('bf_action_taken_other').value
+    : actionTakenSelect;
   const payload = {
     incident_date: document.getElementById('bf_date').value,
     incident_type: document.getElementById('bf_incident_type').value,
     severity: document.getElementById('bf_severity').value,
     description: document.getElementById('bf_description').value,
-    action_taken: document.getElementById('bf_action_taken').value || null,
+    action_taken: actionTaken || null,
     reported_by: document.getElementById('bf_reported_by').value,
   };
   const url = id ? `/students/${S.studentId}/behavior/${id}` : `/students/${S.studentId}/behavior`;

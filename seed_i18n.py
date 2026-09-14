@@ -225,6 +225,21 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "behavior.incident_type.ponteng": {
         "en": "Truancy", "ms": "Ponteng", "zh": "逃学", "ta": "பள்ளி புறக்கணிப்பு",
     },
+    "behavior.incident_type.buli": {
+        "en": "Bullying", "ms": "Buli", "zh": "欺凌", "ta": "கொடுமைப்படுத்துதல்",
+    },
+    "behavior.incident_type.pergaduhan": {
+        "en": "Fighting", "ms": "Pergaduhan", "zh": "打架", "ta": "சண்டை",
+    },
+    "behavior.incident_type.isu_emosi": {
+        "en": "Emotional Issue", "ms": "Isu Emosi", "zh": "情绪问题", "ta": "உணர்ச்சிச் சிக்கல்",
+    },
+    "behavior.incident_type.isu_sosial": {
+        "en": "Social/Peer Issue", "ms": "Isu Sosial", "zh": "社交问题", "ta": "சமூகச் சிக்கல்",
+    },
+    "behavior.incident_type.isu_akademik": {
+        "en": "Academic Issue", "ms": "Isu Akademik", "zh": "学业问题", "ta": "கல்விச் சிக்கல்",
+    },
     # Behavior/risk-factor severity categories (fixed vocabulary, same
     # slugify convention). Keyed by every spelling Agent 1 has actually been
     # observed to emit — it's told to use a fixed English enum but doesn't
@@ -291,6 +306,33 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     },
     "behavior.action_taken": {"en": "Action Taken", "ms": "Tindakan Diambil", "zh": "已采取的行动", "ta": "எடுக்கப்பட்ட நடவடிக்கை"},
     "behavior.reported_by": {"en": "Reported By", "ms": "Dilaporkan Oleh", "zh": "报告人", "ta": "புகாரளித்தவர்"},
+    # Action-taken categories (fixed vocabulary, same convention as
+    # incident_type: value entered/stored as the Malay term, keys slugified
+    # from it). "Other" is handled separately in the UI (reveals a free-text
+    # box) rather than being a translated category itself.
+    "behavior.action.amaran_lisan_diberikan": {
+        "en": "Verbal Warning Given", "ms": "Amaran Lisan Diberikan", "zh": "已给予口头警告", "ta": "வாய்மொழி எச்சரிக்கை வழங்கப்பட்டது",
+    },
+    "behavior.action.ibu_bapa_penjaga_dimaklumkan": {
+        "en": "Parent/Guardian Notified", "ms": "Ibu Bapa/Penjaga Dimaklumkan", "zh": "已通知家长/监护人", "ta": "பெற்றோர்/பாதுகாவலருக்குத் தெரிவிக்கப்பட்டது",
+    },
+    "behavior.action.sesi_kaunseling_dijadualkan": {
+        "en": "Counseling Session Scheduled", "ms": "Sesi Kaunseling Dijadualkan", "zh": "已安排辅导会谈", "ta": "ஆலோசனை அமர்வு திட்டமிடப்பட்டது",
+    },
+    "behavior.action.dirujuk_kepada_guru_kelas": {
+        "en": "Referred to Class Teacher", "ms": "Dirujuk kepada Guru Kelas", "zh": "已转介给班主任", "ta": "வகுப்பு ஆசிரியரிடம் பரிந்துரைக்கப்பட்டது",
+    },
+    "behavior.action.dirujuk_kepada_kaunselor_sekolah": {
+        "en": "Referred to School Counselor", "ms": "Dirujuk kepada Kaunselor Sekolah", "zh": "已转介给学校辅导员", "ta": "பள்ளி ஆலோசகரிடம் பரிந்துரைக்கப்பட்டது",
+    },
+    "behavior.action.detensi_dikenakan": {
+        "en": "Detention Assigned", "ms": "Detensi Dikenakan", "zh": "已安排留堂", "ta": "தடுப்புக் காவல் வழங்கப்பட்டது",
+    },
+    "behavior.action.kes_dinaikkan_kepada_pentadbiran": {
+        "en": "Case Escalated to Administration", "ms": "Kes Dinaikkan kepada Pentadbiran", "zh": "个案已上报行政部门", "ta": "வழக்கு நிர்வாகத்திற்கு உயர்த்தப்பட்டது",
+    },
+    "common.other_specify": {"en": "Other (specify)", "ms": "Lain-lain (nyatakan)", "zh": "其他（请注明）", "ta": "மற்றவை (குறிப்பிடவும்)"},
+    "common.none": {"en": "None", "ms": "Tiada", "zh": "无", "ta": "எதுவுமில்லை"},
 
     "mental_health.section_title": {"en": "Mental Health", "ms": "Kesihatan Mental", "zh": "心理健康", "ta": "மனநலம்"},
     "mental_health.record_title": {"en": "Mental Health Record", "ms": "Rekod Kesihatan Mental", "zh": "心理健康记录", "ta": "மனநலப் பதிவு"},
