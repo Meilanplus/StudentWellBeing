@@ -527,7 +527,8 @@ function caseListHtml(cases) {
     <tbody>${cases.map(c => `<tr>
       <td>${c.name}</td><td>${c.student_id}</td><td>${c.class_name}</td>
       <td>${c.risk_level ? `<span class="badge ${riskBadgeClass(c.risk_level)}">${c.risk_level}</span>` : '-'}</td>
-      <td>${c.intervention_status || '-'}</td><td>${c.referral_status || '-'}</td>
+      <td>${c.intervention_status ? translateCategory('reporting.intervention_status', c.intervention_status) : '-'}</td>
+      <td>${c.referral_status ? translateCategory('reporting.referral_status', c.referral_status) : '-'}</td>
     </tr>`).join('')}</tbody></table>
   </div>`;
 }

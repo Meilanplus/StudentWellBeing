@@ -159,6 +159,16 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     },
     "reporting.intervention_status": {"en": "Intervention", "ms": "Intervensi", "zh": "干预", "ta": "தலையீடு"},
     "reporting.referral_status": {"en": "Referral", "ms": "Rujukan", "zh": "转介", "ta": "பரிந்துரை"},
+    # Student Cases table values (Intervention.status / Referral.status fixed
+    # enums) — same untranslated-fixed-value gap as behavior.severity/
+    # risk.category, found while checking the Reporting page.
+    "reporting.intervention_status.active": {"en": "Active", "ms": "Aktif", "zh": "进行中", "ta": "செயலில்"},
+    "reporting.intervention_status.completed": {"en": "Completed", "ms": "Selesai", "zh": "已完成", "ta": "முடிந்தது"},
+    "reporting.intervention_status.escalated": {
+        "en": "Escalated", "ms": "Dinaikkan Taraf", "zh": "已升级", "ta": "தீவிரப்படுத்தப்பட்டது",
+    },
+    "reporting.referral_status.pending": {"en": "Pending", "ms": "Menunggu", "zh": "待处理", "ta": "நிலுவையில்"},
+    "reporting.referral_status.sent": {"en": "Sent", "ms": "Telah Dihantar", "zh": "已发送", "ta": "அனுப்பப்பட்டது"},
     "reporting.back_to_current": {
         "en": "Back to Current Period", "ms": "Kembali ke Tempoh Semasa",
         "zh": "返回当前期间", "ta": "தற்போதைய காலகட்டத்திற்குத் திரும்பு",
