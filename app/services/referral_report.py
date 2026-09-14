@@ -55,25 +55,25 @@ def generate_referral_docx(referral: ReferralDocument, lang_code: str, db: Sessi
     disclaimer_p.runs[0].italic = True
     disclaimer_p.runs[0].font.size = Pt(9)
 
-    _add_heading(doc, "Referral Information")
+    _add_heading(doc, _label("referral.information_heading", lang_code, db, "Referral Information"))
     info_table = doc.add_table(rows=0, cols=2)
     info_table.style = "Light Grid Accent 1"
     for label, value in [
-        ("Student Name", referral.student_name),
-        ("Referral Type", referral.referral_type),
-        ("Referred To", referral.referral_to),
-        ("Prepared By", referral.prepared_by),
+        (_label("common.student_name", lang_code, db, "Student Name"), referral.student_name),
+        (_label("referral.type", lang_code, db, "Referral Type"), referral.referral_type),
+        (_label("referral.to", lang_code, db, "Referral To"), referral.referral_to),
+        (_label("common.prepared_by", lang_code, db, "Prepared by"), referral.prepared_by),
     ]:
         row = info_table.add_row().cells
         row[0].text = label
         row[1].text = value or "-"
 
-    _add_heading(doc, "Referral Letter")
+    _add_heading(doc, _label("referral.letter_title", lang_code, db, "Referral Letter"))
     for paragraph in referral.letter_content.split("\n"):
         if paragraph.strip():
             doc.add_paragraph(paragraph.strip())
 
-    _add_heading(doc, "Supporting Summary")
+    _add_heading(doc, _label("referral.supporting_summary", lang_code, db, "Supporting Summary"))
     _add_supporting_summary(doc, referral.supporting_summary)
 
     buf = io.BytesIO()

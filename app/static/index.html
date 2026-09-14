@@ -877,7 +877,7 @@ function riskReportHtml(r, buttonsHtml) {
       <p>${r.summary}</p>
       <h4>${t('risk.factors_heading','Risk Factors')}</h4>
       <table><thead><tr><th>${t('risk.category','Category')}</th><th>${t('risk.indicator','Indicator')}</th><th>${t('risk.severity','Severity')}</th><th>${t('risk.evidence','Evidence')}</th></tr></thead>
-      <tbody>${r.risk_factors.map(f => `<tr><td>${f.category}</td><td>${f.indicator}</td><td>${translateCategory('behavior.severity', f.severity)}</td><td>${f.evidence}</td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.none_flagged','None flagged.')}</td></tr>`}</tbody></table>
+      <tbody>${r.risk_factors.map(f => `<tr><td>${translateCategory('risk.category', f.category)}</td><td>${f.indicator}</td><td>${translateCategory('behavior.severity', f.severity)}</td><td>${f.evidence}</td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.none_flagged','None flagged.')}</td></tr>`}</tbody></table>
       <h4>${t('risk.recommended_actions','Recommended Actions')}</h4><ul>${r.recommended_actions.map(a => `<li>${a}</li>`).join('')}</ul>
       <div class="disclaimer">${r.disclaimer}</div>
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
@@ -988,65 +988,65 @@ function interventionReportHtml(p, buttonsHtml) {
   const screenView = `
     <div class="screen-only">
       <h3>${p.student_name} (${p.student_id}) — <span class="badge ${riskBadgeClass(p.risk_level)}">${p.risk_level}</span></h3>
-      <p class="muted">Case: ${p.case_reference} · ${p.date} · ${t('common.prepared_by','Prepared by')} ${p.prepared_by}</p>
-      <h4>Rationale</h4><p>${p.rationale}</p>
-      <h4>Reason for Intervention</h4>${list(p.reason_for_intervention)}
-      <h4>Intervention Objectives</h4>${list(p.intervention_objectives)}
-      <h4>Strategies</h4>
-      <table><thead><tr><th>Area</th><th>Strategy</th><th>Responsible</th><th>Frequency</th><th>Success Indicator</th></tr></thead>
+      <p class="muted">${t('common.case_reference','Case Reference')}: ${p.case_reference} · ${p.date} · ${t('common.prepared_by','Prepared by')} ${p.prepared_by}</p>
+      <h4>${t('intervention.rationale','Rationale')}</h4><p>${p.rationale}</p>
+      <h4>${t('intervention.reason_for_intervention','Reason for Intervention')}</h4>${list(p.reason_for_intervention)}
+      <h4>${t('intervention.objectives','Intervention Objectives')}</h4>${list(p.intervention_objectives)}
+      <h4>${t('intervention.strategies','Strategies')}</h4>
+      <table><thead><tr><th>${t('intervention.area','Area')}</th><th>${t('intervention.strategy_col','Strategy')}</th><th>${t('intervention.responsible','Responsible')}</th><th>${t('intervention.frequency','Frequency')}</th><th>${t('intervention.success_indicator','Success Indicator')}</th></tr></thead>
       <tbody>${p.strategies.map(s => `<tr><td>${s.area}</td><td>${s.strategy}</td><td>${s.responsible}</td><td>${s.frequency}</td><td>${s.success_indicator}</td></tr>`).join('')}</tbody></table>
-      <h4>Recommended Tools</h4>${list(p.recommended_tools)}
-      <h4>Home Strategies</h4>${list(p.home_strategies)}
-      <h4>Expected Outcomes</h4>${list(p.expected_outcomes)}
-      <h4>Monitoring Checklist</h4>${list(p.monitoring_checklist)}
-      <h4>Action Items — Teacher</h4>${list(p.action_items_teacher)}
-      <h4>Action Items — Counselor</h4>${list(p.action_items_counselor)}
-      <h4>Action Items — Parent</h4>${list(p.action_items_parent)}
-      <h4>Counselor Recommendation</h4><p>${p.counselor_recommendation}</p>
-      ${p.referral_recommended ? `<p style="color:#dc2626"><b>⚠ Referral recommended:</b> ${p.referral_reason || ''}</p>` : ''}
+      <h4>${t('intervention.recommended_tools','Recommended Tools')}</h4>${list(p.recommended_tools)}
+      <h4>${t('intervention.home_strategies','Home Strategies')}</h4>${list(p.home_strategies)}
+      <h4>${t('intervention.expected_outcomes','Expected Outcomes')}</h4>${list(p.expected_outcomes)}
+      <h4>${t('intervention.monitoring_checklist','Monitoring Checklist')}</h4>${list(p.monitoring_checklist)}
+      <h4>${t('intervention.action_items','Action Items')} — ${t('common.teacher','Teacher')}</h4>${list(p.action_items_teacher)}
+      <h4>${t('intervention.action_items','Action Items')} — ${t('common.counselor','Counselor')}</h4>${list(p.action_items_counselor)}
+      <h4>${t('intervention.action_items','Action Items')} — ${t('common.parent','Parent')}</h4>${list(p.action_items_parent)}
+      <h4>${t('intervention.counselor_recommendation','Counselor Recommendation')}</h4><p>${p.counselor_recommendation}</p>
+      ${p.referral_recommended ? `<p style="color:#dc2626"><b>⚠ ${t('intervention.referral_recommended_label','Referral recommended:')}</b> ${p.referral_reason || ''}</p>` : ''}
     </div>`;
 
   // Print view — mirrors generate_intervention_docx() (app/services/intervention_report.py)
   // section-for-section, so what comes out of the printer matches the downloadable .docx.
   const printView = `
     <div class="print-only">
-      <h1 style="color:#1A3AAD">School-Based Intervention Plan</h1>
+      <h1 style="color:#1A3AAD">${t('report.school_based_intervention_plan','School-Based Intervention Plan')}</h1>
       <p style="font-style:italic; font-size:9pt">${p.disclaimer}</p>
-      <h2 style="color:#1A3AAD">Student Information</h2>
+      <h2 style="color:#1A3AAD">${t('intervention.student_information','Student Information')}</h2>
       <table>
         <tbody>
-          <tr><td><b>Student Name</b></td><td>${p.student_name}</td></tr>
-          <tr><td><b>Class</b></td><td>${p.class_name}</td></tr>
-          <tr><td><b>Age</b></td><td>${p.age ?? '-'}</td></tr>
-          <tr><td><b>Risk Level</b></td><td>${p.risk_level}</td></tr>
-          <tr><td><b>School</b></td><td>${p.school_name}</td></tr>
-          <tr><td><b>Case Reference</b></td><td>${p.case_reference}</td></tr>
-          <tr><td><b>Prepared By</b></td><td>${p.prepared_by}</td></tr>
-          <tr><td><b>Date</b></td><td>${p.date}</td></tr>
+          <tr><td><b>${t('common.student_name','Student Name')}</b></td><td>${p.student_name}</td></tr>
+          <tr><td><b>${t('common.class','Class')}</b></td><td>${p.class_name}</td></tr>
+          <tr><td><b>${t('common.age','Age')}</b></td><td>${p.age ?? '-'}</td></tr>
+          <tr><td><b>${t('common.risk_level','Risk Level')}</b></td><td>${p.risk_level}</td></tr>
+          <tr><td><b>${t('common.school','School')}</b></td><td>${p.school_name}</td></tr>
+          <tr><td><b>${t('common.case_reference','Case Reference')}</b></td><td>${p.case_reference}</td></tr>
+          <tr><td><b>${t('common.prepared_by','Prepared by')}</b></td><td>${p.prepared_by}</td></tr>
+          <tr><td><b>${t('common.date','Date')}</b></td><td>${p.date}</td></tr>
         </tbody>
       </table>
-      <h2 style="color:#1A3AAD">Reason for Intervention</h2>${list(p.reason_for_intervention)}
-      <h2 style="color:#1A3AAD">Intervention Objectives</h2>${list(p.intervention_objectives)}
-      <h2 style="color:#1A3AAD">AI Recommended Intervention Plan</h2>
-      <table><thead><tr><th>Area</th><th>Strategy</th><th>Responsible Person</th><th>Frequency</th><th>Success Indicator</th></tr></thead>
+      <h2 style="color:#1A3AAD">${t('intervention.reason_for_intervention','Reason for Intervention')}</h2>${list(p.reason_for_intervention)}
+      <h2 style="color:#1A3AAD">${t('intervention.objectives','Intervention Objectives')}</h2>${list(p.intervention_objectives)}
+      <h2 style="color:#1A3AAD">${t('intervention.ai_recommended_plan','AI Recommended Intervention Plan')}</h2>
+      <table><thead><tr><th>${t('intervention.area','Area')}</th><th>${t('intervention.strategy_col','Strategy')}</th><th>${t('intervention.responsible_person','Responsible Person')}</th><th>${t('intervention.frequency','Frequency')}</th><th>${t('intervention.success_indicator','Success Indicator')}</th></tr></thead>
       <tbody>${p.strategies.map(s => `<tr><td>${s.area}</td><td>${s.strategy}</td><td>${s.responsible}</td><td>${s.frequency}</td><td>${s.success_indicator}</td></tr>`).join('')}</tbody></table>
-      <h2 style="color:#1A3AAD">Recommended Tools</h2>${list(p.recommended_tools)}
-      <h2 style="color:#1A3AAD">Parent Support Guide</h2>${list(p.home_strategies)}
-      <h2 style="color:#1A3AAD">Expected Outcomes</h2>${list(p.expected_outcomes)}
-      <h2 style="color:#1A3AAD">Monitoring Checklist</h2>${list(p.monitoring_checklist)}
-      <h2 style="color:#1A3AAD">Counselor Recommendation</h2><p>${p.counselor_recommendation}</p>
-      ${p.referral_recommended ? `<h2 style="color:#1A3AAD">Referral Recommendation</h2><p>${p.referral_reason || 'Referral to Agent 3 recommended.'}</p>` : ''}
-      <h2 style="color:#1A3AAD">Action Items</h2>
-      <p><b>Teacher:</b></p>${list(p.action_items_teacher)}
-      <p><b>Counselor:</b></p>${list(p.action_items_counselor)}
-      <p><b>Parent:</b></p>${list(p.action_items_parent)}
+      <h2 style="color:#1A3AAD">${t('intervention.recommended_tools','Recommended Tools')}</h2>${list(p.recommended_tools)}
+      <h2 style="color:#1A3AAD">${t('intervention.parent_support_guide','Parent Support Guide')}</h2>${list(p.home_strategies)}
+      <h2 style="color:#1A3AAD">${t('intervention.expected_outcomes','Expected Outcomes')}</h2>${list(p.expected_outcomes)}
+      <h2 style="color:#1A3AAD">${t('intervention.monitoring_checklist','Monitoring Checklist')}</h2>${list(p.monitoring_checklist)}
+      <h2 style="color:#1A3AAD">${t('intervention.counselor_recommendation','Counselor Recommendation')}</h2><p>${p.counselor_recommendation}</p>
+      ${p.referral_recommended ? `<h2 style="color:#1A3AAD">${t('intervention.referral_recommendation_heading','Referral Recommendation')}</h2><p>${p.referral_reason || t('intervention.referral_to_agent3_default','Referral to Agent 3 recommended.')}</p>` : ''}
+      <h2 style="color:#1A3AAD">${t('intervention.action_items','Action Items')}</h2>
+      <p><b>${t('common.teacher','Teacher')}:</b></p>${list(p.action_items_teacher)}
+      <p><b>${t('common.counselor','Counselor')}:</b></p>${list(p.action_items_counselor)}
+      <p><b>${t('common.parent','Parent')}:</b></p>${list(p.action_items_parent)}
     </div>`;
 
   return `
     <div class="card">
       ${screenView}
       ${printView}
-      <button class="btn btn-outline no-print" onclick="downloadInterventionReport(${p.intervention_id}, currentLang())">Download .docx Report</button>
+      <button class="btn btn-outline no-print" onclick="downloadInterventionReport(${p.intervention_id}, currentLang())">${t('common.download_docx_report','Download .docx Report')}</button>
       <div class="disclaimer no-print">${p.disclaimer}</div>
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
     </div>`;
@@ -1220,7 +1220,7 @@ function referralReportHtml(doc, buttonsHtml, reportId) {
       <h4>${t('referral.supporting_summary','Supporting Summary')}</h4>
       ${renderSupportingSummary(doc.supporting_summary)}
       <div class="disclaimer">${doc.disclaimer}</div>
-      ${reportId ? `<button class="btn btn-outline no-print" onclick="downloadReferralReport(${reportId}, currentLang())">Download .docx Report</button>` : ''}
+      ${reportId ? `<button class="btn btn-outline no-print" onclick="downloadReferralReport(${reportId}, currentLang())">${t('common.download_docx_report','Download .docx Report')}</button>` : ''}
       <div class="toolbar no-print" style="margin-top:16px">${buttonsHtml}</div>
     </div>`;
 }

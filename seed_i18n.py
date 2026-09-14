@@ -181,6 +181,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "referral.type.hospital": {"en": "Hospital", "ms": "Hospital", "zh": "医院", "ta": "மருத்துவமனை"},
     "referral.letter_title": {"en": "Referral Letter", "ms": "Surat Rujukan", "zh": "转介信", "ta": "பரிந்துரைக் கடிதம்"},
     "referral.supporting_summary": {"en": "Supporting Summary", "ms": "Ringkasan Sokongan", "zh": "支持摘要", "ta": "ஆதரவுச் சுருக்கம்"},
+    "referral.information_heading": {"en": "Referral Information", "ms": "Maklumat Rujukan", "zh": "转介信息", "ta": "பரிந்துரைத் தகவல்"},
     "students.full_name": {"en": "Full Name", "ms": "Nama Penuh", "zh": "全名", "ta": "முழுப்பெயர்"},
     "students.class_name": {"en": "Class", "ms": "Kelas", "zh": "班级", "ta": "வகுப்பு"},
     "students.school_year": {"en": "School Year", "ms": "Tahun Sekolah", "zh": "学年", "ta": "பள்ளி ஆண்டு"},
@@ -198,6 +199,66 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "report.school_based_intervention_plan": {
         "en": "School-Based Intervention Plan", "ms": "Pelan Intervensi Berasaskan Sekolah",
         "zh": "校本干预计划", "ta": "பள்ளி அடிப்படையிலான தலையீட்டுத் திட்டம்",
+    },
+    # Intervention report section headings — used by both the frontend
+    # screen/print view (interventionReportHtml in index.html) and the
+    # downloadable .docx (app/services/intervention_report.py), which were
+    # previously hardcoded in English in both places.
+    "intervention.student_information": {
+        "en": "Student Information", "ms": "Maklumat Pelajar", "zh": "学生信息", "ta": "மாணவர் தகவல்",
+    },
+    "intervention.rationale": {"en": "Rationale", "ms": "Rasional", "zh": "理由", "ta": "காரணம்"},
+    "intervention.reason_for_intervention": {
+        "en": "Reason for Intervention", "ms": "Sebab Intervensi", "zh": "干预原因", "ta": "தலையீட்டிற்கான காரணம்",
+    },
+    "intervention.objectives": {
+        "en": "Intervention Objectives", "ms": "Objektif Intervensi", "zh": "干预目标", "ta": "தலையீட்டு நோக்கங்கள்",
+    },
+    "intervention.strategies": {"en": "Strategies", "ms": "Strategi", "zh": "策略", "ta": "உத்திகள்"},
+    "intervention.ai_recommended_plan": {
+        "en": "AI Recommended Intervention Plan", "ms": "Pelan Intervensi Disyorkan AI",
+        "zh": "AI推荐的干预计划", "ta": "AI பரிந்துரைக்கும் தலையீட்டுத் திட்டம்",
+    },
+    "intervention.area": {"en": "Area", "ms": "Bidang", "zh": "领域", "ta": "பகுதி"},
+    "intervention.strategy_col": {"en": "Strategy", "ms": "Strategi", "zh": "策略", "ta": "உத்தி"},
+    "intervention.responsible": {
+        "en": "Responsible", "ms": "Bertanggungjawab", "zh": "负责人", "ta": "பொறுப்பானவர்",
+    },
+    "intervention.responsible_person": {
+        "en": "Responsible Person", "ms": "Orang Bertanggungjawab", "zh": "负责人", "ta": "பொறுப்பான நபர்",
+    },
+    "intervention.frequency": {"en": "Frequency", "ms": "Kekerapan", "zh": "频率", "ta": "அதிர்வெண்"},
+    "intervention.success_indicator": {
+        "en": "Success Indicator", "ms": "Penunjuk Kejayaan", "zh": "成功指标", "ta": "வெற்றிக் குறிகாட்டி",
+    },
+    "intervention.recommended_tools": {
+        "en": "Recommended Tools", "ms": "Alat Disyorkan", "zh": "推荐工具", "ta": "பரிந்துரைக்கப்பட்ட கருவிகள்",
+    },
+    "intervention.home_strategies": {
+        "en": "Home Strategies", "ms": "Strategi di Rumah", "zh": "家庭策略", "ta": "வீட்டு உத்திகள்",
+    },
+    "intervention.parent_support_guide": {
+        "en": "Parent Support Guide", "ms": "Panduan Sokongan Ibu Bapa", "zh": "家长支持指南", "ta": "பெற்றோர் ஆதரவு வழிகாட்டி",
+    },
+    "intervention.expected_outcomes": {
+        "en": "Expected Outcomes", "ms": "Hasil Dijangka", "zh": "预期成果", "ta": "எதிர்பார்க்கப்படும் முடிவுகள்",
+    },
+    "intervention.monitoring_checklist": {
+        "en": "Monitoring Checklist", "ms": "Senarai Semak Pemantauan", "zh": "监测清单", "ta": "கண்காணிப்புப் பட்டியல்",
+    },
+    "intervention.action_items": {"en": "Action Items", "ms": "Item Tindakan", "zh": "行动项目", "ta": "செயல் பணிகள்"},
+    "intervention.counselor_recommendation": {
+        "en": "Counselor Recommendation", "ms": "Cadangan Kaunselor", "zh": "辅导员建议", "ta": "ஆலோசகர் பரிந்துரை",
+    },
+    "intervention.referral_recommended_label": {
+        "en": "Referral recommended:", "ms": "Rujukan disyorkan:", "zh": "建议转介：", "ta": "பரிந்துரை செய்யப்படுகிறது:",
+    },
+    "intervention.referral_recommendation_heading": {
+        "en": "Referral Recommendation", "ms": "Cadangan Rujukan", "zh": "转介建议", "ta": "பரிந்துரை சிபாரிசு",
+    },
+    "intervention.referral_to_agent3_default": {
+        "en": "Referral to Agent 3 recommended.", "ms": "Rujukan kepada Agent 3 disyorkan.",
+        "zh": "建议转介至代理3。", "ta": "Agent 3-க்கு பரிந்துரை செய்யப்படுகிறது.",
     },
     "prescreen.low_risk_summary": {
         "en": "No significant risk indicators were found in the student's attendance, behavior, or assessment records over the recent monitoring period.",
@@ -272,6 +333,35 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "behavior.severity.high": {
         "en": "Serious", "ms": "Berat", "zh": "严重", "ta": "கடுமையான",
     },
+    # Risk factor category (risk_factors[].category from Agent 1) — same
+    # rationale as behavior.severity.*: the prompt asks for a fixed English
+    # enum (Attendance/Behavior/Mental Health) but Agent 1 doesn't always
+    # comply and sometimes emits the Malay term instead, so every observed
+    # spelling (from actual saved reports) is covered here.
+    "risk.category.attendance": {
+        "en": "Attendance", "ms": "Kehadiran", "zh": "出勤", "ta": "வருகை",
+    },
+    "risk.category.kehadiran": {
+        "en": "Attendance", "ms": "Kehadiran", "zh": "出勤", "ta": "வருகை",
+    },
+    "risk.category.behavior": {
+        "en": "Behavior", "ms": "Tingkah Laku", "zh": "行为", "ta": "நடத்தை",
+    },
+    "risk.category.behavioral": {
+        "en": "Behavior", "ms": "Tingkah Laku", "zh": "行为", "ta": "நடத்தை",
+    },
+    "risk.category.tingkah_laku": {
+        "en": "Behavior", "ms": "Tingkah Laku", "zh": "行为", "ta": "நடத்தை",
+    },
+    "risk.category.mental_health": {
+        "en": "Mental Health", "ms": "Kesihatan Mental", "zh": "心理健康", "ta": "மனநலம்",
+    },
+    "risk.category.kesihatan_mental": {
+        "en": "Mental Health", "ms": "Kesihatan Mental", "zh": "心理健康", "ta": "மனநலம்",
+    },
+    "risk.category.kesihatan_mental_emosi": {
+        "en": "Mental Health / Emotional", "ms": "Kesihatan Mental / Emosi", "zh": "心理健康/情绪", "ta": "மனநலம்/உணர்ச்சி",
+    },
     "common.edit": {"en": "Edit", "ms": "Sunting", "zh": "编辑", "ta": "திருத்து"},
     "common.delete": {"en": "Delete", "ms": "Padam", "zh": "删除", "ta": "நீக்கு"},
     "common.add": {"en": "Add", "ms": "Tambah", "zh": "添加", "ta": "சேர்"},
@@ -280,6 +370,21 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "common.description": {"en": "Description", "ms": "Penerangan", "zh": "描述", "ta": "விளக்கம்"},
     "common.reason": {"en": "Reason", "ms": "Sebab", "zh": "原因", "ta": "காரணம்"},
     "common.year": {"en": "Year", "ms": "Tahun", "zh": "年份", "ta": "ஆண்டு"},
+    # Shared report field labels — used across the Intervention and Referral
+    # docx generators and screen/print views, so any new report type can
+    # reuse them instead of duplicating per-report label keys.
+    "common.case_reference": {"en": "Case Reference", "ms": "Rujukan Kes", "zh": "案例编号", "ta": "வழக்கு எண்"},
+    "common.student_name": {"en": "Student Name", "ms": "Nama Pelajar", "zh": "学生姓名", "ta": "மாணவர் பெயர்"},
+    "common.class": {"en": "Class", "ms": "Kelas", "zh": "班级", "ta": "வகுப்பு"},
+    "common.age": {"en": "Age", "ms": "Umur", "zh": "年龄", "ta": "வயது"},
+    "common.risk_level": {"en": "Risk Level", "ms": "Tahap Risiko", "zh": "风险等级", "ta": "ஆபத்து நிலை"},
+    "common.school": {"en": "School", "ms": "Sekolah", "zh": "学校", "ta": "பள்ளி"},
+    "common.teacher": {"en": "Teacher", "ms": "Guru", "zh": "教师", "ta": "ஆசிரியர்"},
+    "common.counselor": {"en": "Counselor", "ms": "Kaunselor", "zh": "辅导员", "ta": "ஆலோசகர்"},
+    "common.parent": {"en": "Parent", "ms": "Ibu Bapa", "zh": "家长", "ta": "பெற்றோர்"},
+    "common.download_docx_report": {
+        "en": "Download .docx Report", "ms": "Muat Turun Laporan .docx", "zh": "下载 .docx 报告", "ta": "டாக்ஸ் அறிக்கையைப் பதிவிறக்கவும்",
+    },
     "common.semester": {"en": "Semester", "ms": "Semester", "zh": "学期", "ta": "செமஸ்டர்"},
     "common.back_to_students": {"en": "Back to Students", "ms": "Kembali ke Pelajar", "zh": "返回学生列表", "ta": "மாணவர்களுக்குத் திரும்பு"},
     "students.gender": {"en": "Gender", "ms": "Jantina", "zh": "性别", "ta": "பாலினம்"},
