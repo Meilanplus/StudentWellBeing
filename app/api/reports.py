@@ -9,9 +9,10 @@ from app.database import get_db
 from app.models.user import User
 from app.models.student import Student
 from app.models.intervention import Intervention, Referral, DashboardSummary
-from app.schemas.report import DashboardReport, DashboardNarrative, StudentCase, MonthlyKPI, ClassRiskSummary
+from app.schemas.report import DashboardReport, DashboardNarrative, StudentCase, MonthlyKPI, ClassRiskSummary, REPORT_DISCLAIMER
 from app.agents.reporting_agent import ReportingAgent
 from app.services.report_translator import translate_report_data
+from app.services.i18n_lookup import get_translation
 from app.permissions import require_task
 from app.constants import TASK_INVOKE_AGENT4_REPORTING
 
@@ -99,6 +100,7 @@ def dashboard(
         period=resolved_period,
         school_kpis=kpis,
         class_breakdown=class_breakdown,
+        disclaimer=get_translation("report.dashboard_disclaimer", language, db, default=REPORT_DISCLAIMER),
         **narrative,
     )
 

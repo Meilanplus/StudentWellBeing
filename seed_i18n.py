@@ -625,6 +625,43 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "zh": "本文件为人工智能辅助决策支持文件，并非临床诊断，使用前必须由合格的学校辅导员审核。",
         "ta": "இது AI உதவியுடன் கூடிய முடிவெடுக்கும் ஆவணம். இது மருத்துவ நோய் கண்டறிதல் அல்ல, பயன்படுத்தும் முன் தகுதி வாய்ந்த பள்ளி ஆலோசகரால் மதிப்பாய்வு செய்யப்பட வேண்டும்.",
     },
+    # Dashboard/Reporting disclaimer (report.py's REPORT_DISCLAIMER) — unlike
+    # the AI-generated narrative, this is a fixed Python string constant that
+    # was never translated at all (always English regardless of `language`).
+    # Found while checking the Reporting page after generating a fresh
+    # Chinese narrative and seeing everything else translate except this.
+    "report.dashboard_disclaimer": {
+        "en": (
+            "This report is restricted to school leadership and contains identifiable "
+            "student information (the Student Cases section). The trend/management "
+            "narrative is AI-assisted and aggregate; the case list is not. Handle, "
+            "store, and share this document in compliance with the Personal Data "
+            "Protection Act 2010 (PDPA). Individual student matters must still follow "
+            "established counseling protocols."
+        ),
+        "ms": (
+            "Laporan ini terhad kepada pihak kepimpinan sekolah dan mengandungi maklumat "
+            "pelajar yang boleh dikenal pasti (bahagian Kes Pelajar). Naratif trend/"
+            "pengurusan adalah berbantukan AI dan bersifat agregat; senarai kes tidak. "
+            "Kendalikan, simpan, dan kongsi dokumen ini mengikut Akta Perlindungan Data "
+            "Peribadi 2010 (PDPA). Hal ehwal pelajar secara individu masih perlu mengikut "
+            "protokol kaunseling yang ditetapkan."
+        ),
+        "zh": (
+            "本报告仅限学校领导层查阅，并包含可识别身份的学生信息（学生个案部分）。"
+            "趋势/管理叙述由人工智能辅助生成，属于汇总性质；个案列表则不属于人工智能生成内容。"
+            "处理、存储和分享本文件时，须遵守《2010年个人资料保护法》（PDPA）。"
+            "个别学生事务仍须遵循既定的辅导程序。"
+        ),
+        "ta": (
+            "இந்த அறிக்கை பள்ளி தலைமைப் பொறுப்பாளர்களுக்கு மட்டுமே வரையறுக்கப்பட்டுள்ளது "
+            "மற்றும் அடையாளம் காணக்கூடிய மாணவர் தகவல்களை (மாணவர் வழக்குகள் பிரிவு) "
+            "கொண்டுள்ளது. போக்கு/மேலாண்மை விவரிப்பு AI உதவியுடன் உருவாக்கப்பட்டது மற்றும் "
+            "திரட்டப்பட்டது; வழக்குப் பட்டியல் அவ்வாறு அல்ல. இந்த ஆவணத்தை 2010 தனிநபர் "
+            "தரவு பாதுகாப்புச் சட்டத்திற்கு (PDPA) இணங்க கையாளவும், சேமிக்கவும், பகிரவும். "
+            "தனிப்பட்ட மாணவர் விவகாரங்கள் நிறுவப்பட்ட ஆலோசனை நெறிமுறைகளைத் தொடர வேண்டும்."
+        ),
+    },
 }
 
 
