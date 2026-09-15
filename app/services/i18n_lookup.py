@@ -3,6 +3,8 @@ the frontend dropdown) and app/services/intervention_report.py (for the
 generated .docx's fixed labels). Single source of truth, replacing the old
 project's two hardcoded JS I18N blobs and its intervention_report LABELS
 dict."""
+import re
+
 from sqlalchemy.orm import Session
 
 from app.config import settings
@@ -34,6 +36,25 @@ def get_translation(key: str, lang_code: str | None, db: Session, default: str =
         return default
     row = db.query(Translation.value).filter(Translation.language_id == lang.id, Translation.key == key).first()
     return row[0] if row else default
+
+
+def _slugify(value: str) -> str:
+    """Python mirror of slugify() in app/static/index.html — must stay in
+    sync so a fixed-vocabulary value translates the same way whether it's
+    rendered client-side or baked into a server-generated .docx."""
+    slug = re.sub(r"[^a-z0-9]+", "_", value.strip().lower())
+    return slug.strip("_")
+
+
+def translate_category(prefix: str, value: str | None, lang_code: str | None, db: Session) -> str:
+    """Python mirror of translateCategory() in app/static/index.html: looks
+    up `{prefix}.{slugify(value)}`, falling back to the original value if
+    unrecognized. Used for fixed-vocabulary values embedded in generated
+    .docx files (e.g. referral_type) that already have a translateCategory
+    key on the frontend."""
+    if not value:
+        return value or ""
+    return get_translation(f"{prefix}.{_slugify(value)}", lang_code, db, default=value)
 
 
 def get_language_display_name(lang_code: str | None, db: Session) -> str:

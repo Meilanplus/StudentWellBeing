@@ -10,7 +10,7 @@ from docx.shared import Pt, RGBColor
 from sqlalchemy.orm import Session
 
 from app.schemas.risk import ReferralDocument
-from app.services.i18n_lookup import get_translation
+from app.services.i18n_lookup import get_translation, translate_category
 
 _HEADER_BLUE = RGBColor(0x1A, 0x3A, 0xAD)
 _BULLET_RE = re.compile(r"^[-*•]\s+(.*)$")
@@ -60,7 +60,7 @@ def generate_referral_docx(referral: ReferralDocument, lang_code: str, db: Sessi
     info_table.style = "Light Grid Accent 1"
     for label, value in [
         (_label("common.student_name", lang_code, db, "Student Name"), referral.student_name),
-        (_label("referral.type", lang_code, db, "Referral Type"), referral.referral_type),
+        (_label("referral.type", lang_code, db, "Referral Type"), translate_category("referral.type", referral.referral_type, lang_code, db)),
         (_label("referral.to", lang_code, db, "Referral To"), referral.referral_to),
         (_label("common.prepared_by", lang_code, db, "Prepared by"), referral.prepared_by),
     ]:

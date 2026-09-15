@@ -1216,7 +1216,7 @@ function referralReportHtml(doc, buttonsHtml, reportId) {
   return `
     <div class="card">
       <h3>${t('referral.letter_title','Referral Letter')} — ${doc.student_name}</h3>
-      <p class="muted">${doc.referral_type} · ${doc.referral_to} · ${t('common.prepared_by','Prepared by')} ${doc.prepared_by}</p>
+      <p class="muted">${translateCategory('referral.type', doc.referral_type)} · ${doc.referral_to} · ${t('common.prepared_by','Prepared by')} ${doc.prepared_by}</p>
       <p style="white-space: pre-wrap">${doc.letter_content}</p>
       <h4>${t('referral.supporting_summary','Supporting Summary')}</h4>
       ${renderSupportingSummary(doc.supporting_summary)}
@@ -1326,7 +1326,7 @@ async function viewPreviousReferralReports() {
     <div class="card">
       <h3>${t('risk.previous_reports','Previous Reports')}</h3>
       <table><thead><tr><th>${t('risk.timestamp','Timestamp')}</th><th>${t('referral.type','Referral Type')}</th><th>${t('referral.to','Referral To')}</th><th></th></tr></thead>
-      <tbody>${savedReferralReportsCache.map((rep,i) => `<tr><td>${new Date(rep.created_at).toLocaleString()}</td><td>${rep.referral_type}</td><td>${rep.referral_to}</td><td><button class="btn btn-outline btn-sm" onclick="viewSavedReferralReport(${i})">${t('common.view','View')}</button></td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.no_previous_reports','No previous reports found.')}</td></tr>`}</tbody></table>
+      <tbody>${savedReferralReportsCache.map((rep,i) => `<tr><td>${new Date(rep.created_at).toLocaleString()}</td><td>${translateCategory('referral.type', rep.referral_type)}</td><td>${rep.referral_to}</td><td><button class="btn btn-outline btn-sm" onclick="viewSavedReferralReport(${i})">${t('common.view','View')}</button></td></tr>`).join('') || `<tr><td colspan="4" class="muted">${t('risk.no_previous_reports','No previous reports found.')}</td></tr>`}</tbody></table>
     </div>
     <div id="saved_referral_detail"></div>`;
 }
