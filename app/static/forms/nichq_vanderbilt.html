@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8"/>
-<title>NICHQ Vanderbilt Assessment Scale — KPM</title>
+<title>NICHQ Vanderbilt Assessment Scale — Teacher Informant — KPM</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Times New Roman',serif;font-size:12px;color:#000;background:#fff;padding:20px}
@@ -17,35 +17,35 @@ hr{border:none;border-top:2px solid #000;margin:6px 0}
 hr.thin{border-top:1px solid #000}
 .form-title{text-align:center;font-size:14px;font-weight:700;text-decoration:underline;margin:10px 0 4px}
 .form-sub{text-align:center;font-size:11px;margin-bottom:4px}
+.referral-note{text-align:center;font-size:10.5px;font-weight:700;background:#fff3cd;border:1px solid #b8860b;padding:5px 10px;margin:8px 0}
 .lang-bar{text-align:center;margin-bottom:10px}
 .lang-bar select{font-size:13px;padding:4px 8px}
-.version-badge{text-align:center;margin-bottom:10px}
-.badge{display:inline-block;border:2px solid #000;padding:2px 14px;font-size:11px;font-weight:700}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 18px;margin-bottom:10px}
 .info-row{display:flex;align-items:flex-end;gap:3px;font-size:11px;border-bottom:1px solid #000;padding-bottom:1px}
 .info-label{white-space:nowrap;font-weight:700;flex-shrink:0;font-size:11px}
+.med-row{font-size:11px;margin:6px 0}
+.med-row label{margin-right:16px}
 .section-title{font-size:12px;font-weight:700;background:#e0e0e0;padding:3px 7px;margin:10px 0 5px}
 .instr{font-size:10.5px;font-style:italic;margin-bottom:6px;line-height:1.5}
 table{width:100%;border-collapse:collapse;font-size:10.5px;margin-bottom:8px}
 th{background:#c8c8c8;border:1px solid #000;padding:3px 5px;text-align:center;font-weight:700;font-size:10px}
 td{border:1px solid #000;padding:3px 5px;vertical-align:middle}
 td.no{text-align:center;width:22px}
-td.item{width:52%}
-td.score{text-align:center;width:50px}
-td.subscale{text-align:center;width:80px;font-size:10px;color:#444}
+td.item{width:58%}
+td.score{text-align:center;width:46px}
+td.subscale{text-align:center;width:70px;font-size:10px;color:#444}
 .sub-header{background:#ececec;font-weight:700;font-size:10.5px}
-.total-row td{font-weight:700;background:#ebebeb;font-size:11px}
-.cutoff{font-size:10px;font-style:italic;color:#333;padding:2px 5px}
-.interp-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px}
-.interp-table th,.interp-table td{border:1px solid #000;padding:4px 7px}
-.interp-table th{background:#d0d0d0;font-weight:700;text-align:center}
+.office-use{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px}
+.office-use td{border:1px solid #000;padding:5px 8px}
+.office-use td.label{width:70%}
+.office-use td.blank{width:30%;text-align:center}
+.perf-scale{font-size:10.5px;font-style:italic;margin:4px 0 8px 0;line-height:1.5}
+.box{display:inline-block;width:14px;height:14px;border:1px solid #000;vertical-align:middle}
 .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
 .sig-box{text-align:center}
 .sig-line{border-top:1px solid #000;margin-top:30px;margin-bottom:3px}
 .disclaimer{font-size:9.5px;font-style:italic;border-top:1px dashed #000;padding-top:6px;margin-top:12px;line-height:1.5}
-.perf-scale{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;margin:4px 0 8px 0}
-.perf-scale span{display:inline-flex;align-items:center;gap:3px}
-.box{display:inline-block;width:14px;height:14px;border:1px solid #000;vertical-align:middle}
+.attribution{font-size:9px;color:#444;margin-top:8px;line-height:1.4}
 @media print{
   body{padding:0}
   .page{border:none;padding:12px 18px}
@@ -80,33 +80,35 @@ td.subscale{text-align:center;width:80px;font-size:10px;color:#444}
   </div>
   <hr/>
 
-  <div class="form-title">NICHQ VANDERBILT ASSESSMENT SCALE</div>
-  <div class="form-sub" data-i18n="form_sub1">Skala Penilaian ADHD dan Masalah Tingkah Laku</div>
-  <div class="form-sub" style="font-style:italic" data-i18n="form_sub2">Untuk Kegunaan Kaunselor Sekolah</div>
-
-  <div class="version-badge" style="margin:8px 0">
-    <span style="margin-right:12px"><strong data-i18n="version_label">Versi Informan:</strong></span>
-    <label style="margin-right:16px"><span class="box"></span> <span data-i18n="version_parent">Ibu Bapa</span></label>
-    <label><span class="box"></span> <span data-i18n="version_teacher">Guru</span></label>
-  </div>
+  <div class="form-title">NICHQ VANDERBILT ASSESSMENT SCALE — TEACHER INFORMANT</div>
+  <div class="form-sub" data-i18n="form_sub1">Skala Penilaian ADHD dan Masalah Tingkah Laku — Versi Guru</div>
+  <div class="referral-note" data-i18n="referral_note">Borang ini digunakan sebagai sebahagian daripada dokumen sokongan apabila murid dirujuk kepada ahli psikologi atau pakar psikiatri.</div>
   <hr class="thin"/>
 
-  <!-- Student Info -->
+  <!-- Teacher / Student Info -->
   <div class="info-grid">
+    <div class="info-row"><span class="info-label" data-i18n="info.teacher_name">Nama Guru:</span>&nbsp;</div>
+    <div class="info-row"><span class="info-label" data-i18n="info.class_time">Waktu Kelas:</span>&nbsp;</div>
+    <div class="info-row"><span class="info-label" data-i18n="info.class_period">Nama/Tempoh Kelas:</span>&nbsp;</div>
+    <div class="info-row"><span class="info-label" data-i18n="info.assess_date">Tarikh Penilaian:</span>&nbsp;</div>
     <div class="info-row"><span class="info-label" data-i18n="info.name">Nama Murid:</span>&nbsp;</div>
     <div class="info-row"><span class="info-label" data-i18n="info.id">No. ID / Kad Pelajar:</span>&nbsp;</div>
-    <div class="info-row"><span class="info-label" data-i18n="info.class">Kelas / Darjah:</span>&nbsp;</div>
-    <div class="info-row"><span class="info-label" data-i18n="info.dob">Tarikh Lahir:</span>&nbsp;</div>
+    <div class="info-row"><span class="info-label" data-i18n="info.grade">Tahun/Tingkatan:</span>&nbsp;</div>
     <div class="info-row"><span class="info-label" data-i18n="info.school">Nama Sekolah:</span>&nbsp;</div>
-    <div class="info-row"><span class="info-label" data-i18n="info.assess_date">Tarikh Penilaian:</span>&nbsp;</div>
-    <div class="info-row" style="grid-column:span 2"><span class="info-label" data-i18n="info.informant">Nama Informan (Ibu Bapa / Guru):</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span data-i18n="info.relationship">Hubungan dengan Murid:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div class="info-row" style="grid-column:span 2"><span class="info-label" data-i18n="info.weeks_observed">Bilangan minggu/bulan murid telah diperhatikan:</span>&nbsp;</div>
+  </div>
+  <div class="med-row">
+    <span class="info-label" data-i18n="info.medication">Adakah penilaian ini berdasarkan tempoh semasa murid:</span>
+    <label style="margin-left:10px"><span class="box"></span> <span data-i18n="med.on">mengambil ubat</span></label>
+    <label><span class="box"></span> <span data-i18n="med.off">tidak mengambil ubat</span></label>
+    <label><span class="box"></span> <span data-i18n="med.unsure">tidak pasti</span></label>
   </div>
   <hr class="thin"/>
 
   <!-- Instructions -->
   <div class="section-title" data-i18n="instr_title">ARAHAN / INSTRUCTIONS</div>
   <div class="instr" data-i18n="instr_text">
-    Baca setiap pernyataan dengan teliti. Bulatkan nombor yang paling menggambarkan tingkah laku murid dalam <strong>tempoh 6 bulan yang lalu</strong> (bagi ibu bapa) atau <strong>sepanjang semester ini</strong> (bagi guru).<br/>
+    Setiap penilaian hendaklah mengambil kira apa yang sesuai dengan umur murid dan menggambarkan tingkah laku murid sejak <strong>permulaan sesi persekolahan semasa</strong>.<br/>
     <strong>0 = Tidak Pernah · 1 = Kadang-kadang · 2 = Kerap · 3 = Sangat Kerap</strong>
   </div>
 
@@ -125,34 +127,32 @@ td.subscale{text-align:center;width:80px;font-size:10px;color:#444}
       </tr>
     </thead>
     <tbody>
-      <tr class="sub-header"><td colspan="7" style="padding:2px 5px" data-i18n="sub.a_header">A — Inattentive (Item 1–9)</td></tr>
+      <tr class="sub-header"><td colspan="7" data-i18n="sub.a_header">A — Inattentive (Item 1–9)</td></tr>
       <tr><td class="no">1</td><td data-i18n="item.1">Gagal memberi perhatian kepada butiran atau membuat kesilapan cuai dalam kerja sekolah</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
-      <tr><td class="no">2</td><td data-i18n="item.2">Sukar mengekalkan perhatian pada tugasan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
+      <tr><td class="no">2</td><td data-i18n="item.2">Sukar mengekalkan perhatian pada tugasan atau aktiviti</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
       <tr><td class="no">3</td><td data-i18n="item.3">Tidak mendengar apabila dituturkan secara langsung</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
-      <tr><td class="no">4</td><td data-i18n="item.4">Tidak mengikuti arahan dan gagal menyiapkan kerja sekolah</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
+      <tr><td class="no">4</td><td data-i18n="item.4">Tidak mengikuti arahan dan gagal menyiapkan kerja sekolah (bukan kerana keengganan atau tidak faham)</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
       <tr><td class="no">5</td><td data-i18n="item.5">Sukar mengatur tugasan dan aktiviti</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
-      <tr><td class="no">6</td><td data-i18n="item.6">Mengelak, tidak suka, atau enggan melakukan tugasan yang memerlukan usaha mental</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
-      <tr><td class="no">7</td><td data-i18n="item.7">Kehilangan benda yang diperlukan untuk tugasan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
+      <tr><td class="no">6</td><td data-i18n="item.6">Mengelak, tidak suka, atau enggan melakukan tugasan yang memerlukan usaha mental yang berterusan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
+      <tr><td class="no">7</td><td data-i18n="item.7">Kehilangan benda yang diperlukan untuk tugasan atau aktiviti (kerja sekolah, pensel, atau buku)</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
       <tr><td class="no">8</td><td data-i18n="item.8">Mudah terganggu oleh rangsangan luar</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
       <tr><td class="no">9</td><td data-i18n="item.9">Pelupa dalam aktiviti harian</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Inattentive</td></tr>
-      <tr class="total-row"><td colspan="2" style="text-align:right"><span data-i18n="total.a">Jumlah Subscale Inattentive (Item 1–9):</span></td><td colspan="4" style="text-align:center;font-size:13px">&nbsp;&nbsp;&nbsp;&nbsp;/ 27</td><td class="cutoff"><span data-i18n="cutoff_label">Cutoff:</span> ≥ 6</td></tr>
 
-      <tr class="sub-header"><td colspan="7" style="padding:2px 5px" data-i18n="sub.b_header">B — Hyperactive-Impulsive (Item 10–18)</td></tr>
+      <tr class="sub-header"><td colspan="7" data-i18n="sub.b_header">B — Hyperactive-Impulsive (Item 10–18)</td></tr>
       <tr><td class="no">10</td><td data-i18n="item.10">Menggoyangkan tangan atau kaki atau menggeliat di tempat duduk</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
-      <tr><td class="no">11</td><td data-i18n="item.11">Meninggalkan tempat duduk ketika perlu duduk diam</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
-      <tr><td class="no">12</td><td data-i18n="item.12">Berlari atau memanjat secara berlebihan dalam situasi yang tidak sesuai</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
+      <tr><td class="no">11</td><td data-i18n="item.11">Meninggalkan tempat duduk di dalam kelas atau situasi lain yang memerlukan murid duduk diam</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
+      <tr><td class="no">12</td><td data-i18n="item.12">Berlari atau memanjat secara berlebihan dalam situasi yang memerlukan murid duduk diam</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
       <tr><td class="no">13</td><td data-i18n="item.13">Sukar bermain atau terlibat dalam aktiviti riadah secara senyap</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
       <tr><td class="no">14</td><td data-i18n="item.14">Sentiasa bergerak atau berkelakuan seperti "digerakkan oleh motor"</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
-      <tr><td class="no">15</td><td data-i18n="item.15">Bercakap terlalu banyak</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
+      <tr><td class="no">15</td><td data-i18n="item.15">Bercakap secara berlebihan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
       <tr><td class="no">16</td><td data-i18n="item.16">Menjawab sebelum soalan selesai diajukan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
       <tr><td class="no">17</td><td data-i18n="item.17">Sukar menunggu giliran</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
-      <tr><td class="no">18</td><td data-i18n="item.18">Mengganggu atau menceroboh orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
-      <tr class="total-row"><td colspan="2" style="text-align:right"><span data-i18n="total.b">Jumlah Subscale Hyperactive-Impulsive (Item 10–18):</span></td><td colspan="4" style="text-align:center;font-size:13px">&nbsp;&nbsp;&nbsp;&nbsp;/ 27</td><td class="cutoff"><span data-i18n="cutoff_label">Cutoff:</span> ≥ 6</td></tr>
+      <tr><td class="no">18</td><td data-i18n="item.18">Mengganggu atau menceroboh orang lain (cth. mencelah perbualan/permainan)</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">H-I</td></tr>
     </tbody>
   </table>
 
-  <!-- Part II: ODD & CD -->
-  <div class="section-title" data-i18n="part2_title">BAHAGIAN II — GANGGUAN TINGKAH LAKU (Oppositional &amp; Conduct)</div>
+  <!-- Part II: Oppositional Defiant / Conduct Disorder (Teacher combined domain) -->
+  <div class="section-title" data-i18n="part2_title">BAHAGIAN II — GANGGUAN PEMBANGKANGAN / TINGKAH LAKU (Item 19–28)</div>
   <table>
     <thead>
       <tr>
@@ -166,31 +166,21 @@ td.subscale{text-align:center;width:80px;font-size:10px;color:#444}
       </tr>
     </thead>
     <tbody>
-      <tr class="sub-header"><td colspan="7" style="padding:2px 5px" data-i18n="sub.c_header">C — Oppositional Defiant Disorder (Item 19–26)</td></tr>
-      <tr><td class="no">19</td><td data-i18n="item.19">Hilang kesabaran</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr><td class="no">20</td><td data-i18n="item.20">Berdebat dengan orang dewasa</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr><td class="no">21</td><td data-i18n="item.21">Secara aktif menentang atau enggan mematuhi permintaan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr><td class="no">22</td><td data-i18n="item.22">Sengaja menjengkelkan orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr><td class="no">23</td><td data-i18n="item.23">Menyalahkan orang lain atas kesilapan sendiri</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr><td class="no">24</td><td data-i18n="item.24">Mudah tersinggung oleh orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr><td class="no">25</td><td data-i18n="item.25">Marah dan benci</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr><td class="no">26</td><td data-i18n="item.26">Dendam atau kejam</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD</td></tr>
-      <tr class="total-row"><td colspan="2" style="text-align:right"><span data-i18n="total.c">Jumlah Subscale ODD (Item 19–26):</span></td><td colspan="4" style="text-align:center;font-size:13px">&nbsp;&nbsp;&nbsp;&nbsp;/ 24</td><td class="cutoff"><span data-i18n="cutoff_label">Cutoff:</span> ≥ 15</td></tr>
-
-      <tr class="sub-header"><td colspan="7" style="padding:2px 5px" data-i18n="sub.d_header">D — Conduct Disorder (Item 27–40)</td></tr>
-      <tr><td class="no">27</td><td data-i18n="item.27">Mengganggu atau menakutkan orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">CD</td></tr>
-      <tr><td class="no">28</td><td data-i18n="item.28">Memulakan pergaduhan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">CD</td></tr>
-      <tr><td class="no">29</td><td data-i18n="item.29">Merosakkan harta benda orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">CD</td></tr>
-      <tr><td class="no">30</td><td data-i18n="item.30">Menipu atau mencuri</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">CD</td></tr>
-      <tr><td class="no">31</td><td data-i18n="item.31">Tidak mematuhi peraturan sekolah</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">CD</td></tr>
-      <tr><td class="no">32</td><td data-i18n="item.32">Keluar rumah pada waktu malam tanpa izin</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">CD</td></tr>
-      <tr><td class="no">33</td><td data-i18n="item.33">Ponteng sekolah</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">CD</td></tr>
-      <tr class="total-row"><td colspan="2" style="text-align:right"><span data-i18n="total.d">Jumlah Subscale CD (Item 27–40, pilihan berkaitan):</span></td><td colspan="4" style="text-align:center;font-size:13px">&nbsp;&nbsp;&nbsp;&nbsp;/ 42</td><td class="cutoff"><span data-i18n="cutoff_label">Cutoff:</span> ≥ 15</td></tr>
+      <tr><td class="no">19</td><td data-i18n="item.19">Hilang kesabaran</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">20</td><td data-i18n="item.20">Secara aktif menentang atau enggan mematuhi permintaan atau peraturan orang dewasa</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">21</td><td data-i18n="item.21">Marah dan benci</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">22</td><td data-i18n="item.22">Dendam dan suka membalas dendam</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">23</td><td data-i18n="item.23">Membuli, mengugut, atau mengintimidasi orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">24</td><td data-i18n="item.24">Memulakan pergaduhan fizikal</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">25</td><td data-i18n="item.25">Menipu untuk mendapatkan barang/faedah atau mengelak tanggungjawab (cth. "memperdaya" orang lain)</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">26</td><td data-i18n="item.26">Bersikap kejam secara fizikal terhadap orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">27</td><td data-i18n="item.27">Pernah mencuri barang yang bernilai</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
+      <tr><td class="no">28</td><td data-i18n="item.28">Sengaja merosakkan harta benda orang lain</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">ODD/CD</td></tr>
     </tbody>
   </table>
 
   <!-- Part III: Anxiety/Depression -->
-  <div class="section-title" data-i18n="part3_title">BAHAGIAN III — KEBIMBANGAN / KEMURUNGAN (Anxiety / Depression)</div>
+  <div class="section-title" data-i18n="part3_title">BAHAGIAN III — KEBIMBANGAN / KEMURUNGAN (Item 29–35)</div>
   <table>
     <thead>
       <tr>
@@ -204,58 +194,76 @@ td.subscale{text-align:center;width:80px;font-size:10px;color:#444}
       </tr>
     </thead>
     <tbody>
-      <tr><td class="no">41</td><td data-i18n="item.41">Bimbang tentang pelbagai perkara</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
-      <tr><td class="no">42</td><td data-i18n="item.42">Takut cuba perkara baru</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
-      <tr><td class="no">43</td><td data-i18n="item.43">Merasa tidak bahagia, sedih atau tertekan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
-      <tr><td class="no">44</td><td data-i18n="item.44">Merasa harapan atau tidak berdaya</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
-      <tr><td class="no">45</td><td data-i18n="item.45">Mempunyai harga diri yang rendah</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
-      <tr><td class="no">46</td><td data-i18n="item.46">Menyalahkan diri sendiri untuk masalah</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
-      <tr><td class="no">47</td><td data-i18n="item.47">Kerap sakit perut, sakit kepala atau sakit lain tanpa sebab perubatan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
-      <tr class="total-row"><td colspan="2" style="text-align:right"><span data-i18n="total.e">Jumlah Subscale Anxiety/Depression (Item 41–47):</span></td><td colspan="4" style="text-align:center;font-size:13px">&nbsp;&nbsp;&nbsp;&nbsp;/ 21</td><td class="cutoff"><span data-i18n="cutoff_label">Cutoff:</span> ≥ 7</td></tr>
+      <tr><td class="no">29</td><td data-i18n="item.29">Berasa takut, cemas, atau bimbang</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
+      <tr><td class="no">30</td><td data-i18n="item.30">Mudah rasa malu atau segan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
+      <tr><td class="no">31</td><td data-i18n="item.31">Takut mencuba perkara baharu kerana bimbang membuat kesilapan</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
+      <tr><td class="no">32</td><td data-i18n="item.32">Berasa tidak berharga atau rendah diri</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
+      <tr><td class="no">33</td><td data-i18n="item.33">Menyalahkan diri sendiri atas masalah; berasa bersalah</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
+      <tr><td class="no">34</td><td data-i18n="item.34">Berasa kesunyian, tidak diperlukan, atau tidak disayangi; mengadu "tiada siapa menyayangi saya"</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
+      <tr><td class="no">35</td><td data-i18n="item.35">Berasa sedih, tidak gembira, atau murung</td><td class="score">0</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="subscale">Anx/Dep</td></tr>
     </tbody>
   </table>
 
-  <!-- Performance Rating -->
-  <div class="section-title" data-i18n="part4_title">BAHAGIAN IV — PENILAIAN PRESTASI (Performance Rating)</div>
-  <div class="instr" data-i18n="part4_instr">Bagi setiap bidang, bulatkan angka yang menggambarkan prestasi murid: <strong>1 = Cemerlang · 2 = Di Atas Purata · 3 = Purata · 4 = Di Bawah Purata · 5 = Sangat Lemah</strong></div>
+  <!-- Part IV: Performance -->
+  <div class="section-title" data-i18n="part4_title">BAHAGIAN IV — PENILAIAN PRESTASI (Item 36–43)</div>
+  <div class="perf-scale" data-i18n="perf_scale_legend"><strong>1 = Cemerlang · 2 = Di Atas Purata · 3 = Purata · 4 = Agak Bermasalah · 5 = Bermasalah</strong></div>
+
+  <div class="section-title" style="background:#f0f0f0;font-size:10.5px" data-i18n="part4a_title">Prestasi Akademik</div>
   <table>
-    <thead><tr><th class="item" data-i18n="th.area">Bidang</th><th class="score">1</th><th class="score">2</th><th class="score">3</th><th class="score">4</th><th class="score">5</th></tr></thead>
+    <thead><tr><th class="no" data-i18n="th.no">Bil.</th><th class="item" data-i18n="th.area">Bidang</th><th class="score">1</th><th class="score">2</th><th class="score">3</th><th class="score">4</th><th class="score">5</th></tr></thead>
     <tbody>
-      <tr><td data-i18n="perf.academic">Prestasi Akademik</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
-      <tr><td data-i18n="perf.peer">Hubungan dengan Rakan Sebaya</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
-      <tr><td data-i18n="perf.rules">Mengikuti Peraturan Kelas</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
-      <tr class="total-row"><td data-i18n="perf.average">Purata Penilaian Prestasi:</td><td class="score" colspan="5" style="text-align:center;font-size:13px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 5</td></tr>
+      <tr><td class="no">36</td><td data-i18n="item.36">Membaca</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
+      <tr><td class="no">37</td><td data-i18n="item.37">Matematik</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
+      <tr><td class="no">38</td><td data-i18n="item.38">Penulisan</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
     </tbody>
   </table>
-  <div style="font-size:10px;font-style:italic;margin-bottom:8px" data-i18n="perf_note">* Purata ≤ 2 = Prestasi akademik / sosial memuaskan &nbsp;|&nbsp; Purata ≥ 4 = Memerlukan perhatian &nbsp;|&nbsp; Purata = 5 = Memerlukan intervensi segera</div>
 
-  <!-- Summary -->
+  <div class="section-title" style="background:#f0f0f0;font-size:10.5px" data-i18n="part4b_title">Prestasi Tingkah Laku dalam Kelas</div>
+  <table>
+    <thead><tr><th class="no" data-i18n="th.no">Bil.</th><th class="item" data-i18n="th.area">Bidang</th><th class="score">1</th><th class="score">2</th><th class="score">3</th><th class="score">4</th><th class="score">5</th></tr></thead>
+    <tbody>
+      <tr><td class="no">39</td><td data-i18n="item.39">Hubungan dengan rakan sebaya</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
+      <tr><td class="no">40</td><td data-i18n="item.40">Mengikut arahan</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
+      <tr><td class="no">41</td><td data-i18n="item.41">Mengganggu kelas</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
+      <tr><td class="no">42</td><td data-i18n="item.42">Penyiapan tugasan</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
+      <tr><td class="no">43</td><td data-i18n="item.43">Kemahiran mengurus/organisasi</td><td class="score">1</td><td class="score">2</td><td class="score">3</td><td class="score">4</td><td class="score">5</td></tr>
+    </tbody>
+  </table>
+
+  <div class="instr" data-i18n="comments_label">Catatan / Comments:</div>
+  <div style="border-bottom:1px solid #bbb;margin:16px 0"></div>
+  <div style="border-bottom:1px solid #bbb;margin-bottom:16px"></div>
+
+  <!-- For Office/Counselor Use Only — mirrors the original scoring instructions exactly -->
   <hr class="thin"/>
-  <div class="section-title" data-i18n="summary_title">RUMUSAN SUBSCALE / SUBSCALE SUMMARY</div>
-  <table class="interp-table">
-    <thead>
-      <tr><th data-i18n="th.subscale2">Subscale</th><th data-i18n="th.score">Markah</th><th data-i18n="th.max_score">Markah Max</th><th data-i18n="th.clinical_cutoff">Cutoff Klinikal</th><th data-i18n="th.significant">Signifikan?</th></tr>
-    </thead>
+  <div class="section-title" data-i18n="office_use_title">UNTUK KEGUNAAN PEJABAT / KAUNSELOR SAHAJA (For Office Use Only)</div>
+  <table class="office-use">
     <tbody>
-      <tr><td data-i18n="subrow.a">A — Inattentive (Item 1–9)</td><td></td><td style="text-align:center">27</td><td style="text-align:center">≥ 6</td><td style="text-align:center"><span class="box"></span> <span data-i18n="yes">Ya</span> &nbsp; <span class="box"></span> <span data-i18n="no">Tidak</span></td></tr>
-      <tr><td data-i18n="subrow.b">B — Hyperactive-Impulsive (Item 10–18)</td><td></td><td style="text-align:center">27</td><td style="text-align:center">≥ 6</td><td style="text-align:center"><span class="box"></span> <span data-i18n="yes">Ya</span> &nbsp; <span class="box"></span> <span data-i18n="no">Tidak</span></td></tr>
-      <tr><td data-i18n="subrow.c">C — Oppositional Defiant (Item 19–26)</td><td></td><td style="text-align:center">24</td><td style="text-align:center">≥ 15</td><td style="text-align:center"><span class="box"></span> <span data-i18n="yes">Ya</span> &nbsp; <span class="box"></span> <span data-i18n="no">Tidak</span></td></tr>
-      <tr><td data-i18n="subrow.d">D — Conduct Disorder (Item 27–40)</td><td></td><td style="text-align:center">42</td><td style="text-align:center">≥ 15</td><td style="text-align:center"><span class="box"></span> <span data-i18n="yes">Ya</span> &nbsp; <span class="box"></span> <span data-i18n="no">Tidak</span></td></tr>
-      <tr><td data-i18n="subrow.e">E — Anxiety / Depression (Item 41–47)</td><td></td><td style="text-align:center">21</td><td style="text-align:center">≥ 7</td><td style="text-align:center"><span class="box"></span> <span data-i18n="yes">Ya</span> &nbsp; <span class="box"></span> <span data-i18n="no">Tidak</span></td></tr>
-      <tr><td data-i18n="subrow.f">F — Performance Rating (Purata)</td><td></td><td style="text-align:center">5</td><td style="text-align:center">≤ 2</td><td style="text-align:center"><span class="box"></span> <span data-i18n="yes">Ya</span> &nbsp; <span class="box"></span> <span data-i18n="no">Tidak</span></td></tr>
+      <tr><td class="label" data-i18n="office.row1">Jumlah soalan bermarkah 2 atau 3 dalam soalan 1–9 (Inattentive; had klinikal ≥ 6 daripada 9):</td><td class="blank">________</td></tr>
+      <tr><td class="label" data-i18n="office.row2">Jumlah soalan bermarkah 2 atau 3 dalam soalan 10–18 (Hyperactive-Impulsive; had klinikal ≥ 6 daripada 9):</td><td class="blank">________</td></tr>
+      <tr><td class="label" data-i18n="office.row3">Jumlah Skor Simptom bagi soalan 1–18:</td><td class="blank">________</td></tr>
+      <tr><td class="label" data-i18n="office.row4">Jumlah soalan bermarkah 2 atau 3 dalam soalan 19–28 (Oppositional Defiant/Conduct; had klinikal ≥ 3 daripada 10):</td><td class="blank">________</td></tr>
+      <tr><td class="label" data-i18n="office.row5">Jumlah soalan bermarkah 2 atau 3 dalam soalan 29–35 (Anxiety/Depression; had klinikal ≥ 3 daripada 7):</td><td class="blank">________</td></tr>
+      <tr><td class="label" data-i18n="office.row6">Jumlah soalan bermarkah 4 atau 5 dalam soalan 36–43 (Performance; perlu ≥ 1 untuk menunjukkan gangguan fungsi):</td><td class="blank">________</td></tr>
+      <tr><td class="label" data-i18n="office.row7">Purata Skor Prestasi (soalan 36–43):</td><td class="blank">________</td></tr>
     </tbody>
   </table>
+  <div class="perf-scale" data-i18n="scoring_note">
+    Nota: Kriteria ADHD memerlukan sekurang-kurangnya satu soalan Prestasi (36–43) bermarkah 4 atau 5 (gangguan fungsi),
+    <strong>SELAIN</strong> daripada mencapai had klinikal simptom di atas. Skala ini adalah alat saringan sahaja dan
+    TIDAK boleh digunakan bersendirian untuk membuat sebarang diagnosis.
+  </div>
 
-  <!-- Interpretation -->
+  <!-- Classification checklist -->
   <div style="border:1px solid #000;padding:8px 12px;margin-bottom:10px;font-size:11px">
     <div style="font-weight:700;margin-bottom:5px" data-i18n="classification_title">Cadangan Klasifikasi / Suggested Classification:</div>
-    <div style="display:flex;gap:20px;flex-wrap:wrap">
-      <label><span class="box"></span> <span data-i18n="class.1">ADHD — Predominantly Inattentive (A signifikan sahaja)</span></label>
-      <label><span class="box"></span> <span data-i18n="class.2">ADHD — Predominantly Hyperactive-Impulsive (B signifikan sahaja)</span></label>
-      <label><span class="box"></span> <span data-i18n="class.3">ADHD — Combined Type (A &amp; B signifikan)</span></label>
-      <label><span class="box"></span> <span data-i18n="class.4">ODD / CD (C atau D signifikan)</span></label>
-      <label><span class="box"></span> <span data-i18n="class.5">Anxiety / Depression (E signifikan)</span></label>
-      <label><span class="box"></span> <span data-i18n="class.6">Tiada masalah signifikan</span></label>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <label><span class="box"></span> <span data-i18n="class.1">ADHD — Predominantly Inattentive (had klinikal Bahagian A dicapai + gangguan fungsi prestasi)</span></label>
+      <label><span class="box"></span> <span data-i18n="class.2">ADHD — Predominantly Hyperactive-Impulsive (had klinikal Bahagian B dicapai + gangguan fungsi prestasi)</span></label>
+      <label><span class="box"></span> <span data-i18n="class.3">ADHD — Combined Type (had klinikal Bahagian A dan B dicapai + gangguan fungsi prestasi)</span></label>
+      <label><span class="box"></span> <span data-i18n="class.4">Oppositional Defiant/Conduct Disorder (had klinikal Bahagian II dicapai + gangguan fungsi prestasi)</span></label>
+      <label><span class="box"></span> <span data-i18n="class.5">Anxiety/Depression (had klinikal Bahagian III dicapai + gangguan fungsi prestasi)</span></label>
+      <label><span class="box"></span> <span data-i18n="class.6">Tiada masalah signifikan dikesan</span></label>
     </div>
     <div style="margin-top:8px;border-bottom:1px solid #bbb;padding-bottom:2px;font-size:11px" data-i18n="counselor_notes">Catatan Kaunselor / Counselor Notes:</div>
     <div style="border-bottom:1px solid #bbb;margin-top:20px"></div>
@@ -266,9 +274,8 @@ td.subscale{text-align:center;width:80px;font-size:10px;color:#444}
   <div class="sig-grid">
     <div class="sig-box">
       <div class="sig-line"></div>
-      <div><strong data-i18n="sig.informant">Tandatangan Informan / Informant's Signature</strong></div>
+      <div><strong data-i18n="sig.informant">Tandatangan Guru / Teacher's Signature</strong></div>
       <div style="font-size:10px;margin-top:3px"><span data-i18n="sig.name_label">Nama:</span> ___________________________</div>
-      <div style="font-size:10px"><span data-i18n="sig.relationship_label">Hubungan:</span> ________________________</div>
       <div style="font-size:10px"><span data-i18n="sig.date_label">Tarikh:</span> __________________________</div>
     </div>
     <div class="sig-box">
@@ -282,8 +289,13 @@ td.subscale{text-align:center;width:80px;font-size:10px;color:#444}
 
   <div class="disclaimer">
     <strong data-i18n="disclaimer.confidential">SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA / CONFIDENTIAL — FOR INTERNAL USE ONLY</strong><br/>
-    <span data-i18n="disclaimer.text">Borang NICHQ Vanderbilt ini adalah alat saringan dan BUKAN diagnosis klinikal. Cutoff yang dicapai adalah petanda — bukan pengesahan diagnosis. Murid yang mencapai cutoff dalam mana-mana subscale hendaklah dirujuk kepada pakar psikologi atau psikiatri yang berkelayakan. Simpan borang ini dengan selamat mengikut PDPA 2010.</span><br/>
+    <span data-i18n="disclaimer.text">Skala NICHQ Vanderbilt ini adalah alat saringan dan BUKAN diagnosis klinikal. Mencapai had klinikal adalah petanda — bukan pengesahan diagnosis. Borang ini digunakan sebagai sebahagian daripada dokumen sokongan apabila murid dirujuk kepada ahli psikologi atau pakar psikiatri yang berkelayakan untuk penilaian lanjut. Simpan borang ini dengan selamat mengikut Akta Perlindungan Data Peribadi (PDPA) 2010.</span><br/>
     <span data-i18n="disclaimer.footer">Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia</span>
+  </div>
+  <div class="attribution" data-i18n="attribution_text">
+    Diadaptasi daripada NICHQ Vanderbilt Assessment Scale — Teacher Informant. Hak Cipta © 2002 American Academy of Pediatrics
+    dan National Initiative for Children's Healthcare Quality. Diadaptasi daripada Vanderbilt Rating Scales, dibangunkan oleh
+    Mark L. Wolraich, MD. Borang ini bukan pengganti nasihat perubatan pakar pediatrik atau kesihatan mental murid.
   </div>
 </div>
 
@@ -293,267 +305,310 @@ const TRANSLATIONS = {
     print_btn: "🖨️ Cetak",
     org1: "KEMENTERIAN PENDIDIKAN MALAYSIA", org2: "BAHAGIAN PENGURUSAN SEKOLAH HARIAN",
     org3: "Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI",
-    form_sub1: "Skala Penilaian ADHD dan Masalah Tingkah Laku", form_sub2: "Untuk Kegunaan Kaunselor Sekolah",
-    version_label: "Versi Informan:", version_parent: "Ibu Bapa", version_teacher: "Guru",
-    "info.name": "Nama Murid:", "info.id": "No. ID / Kad Pelajar:", "info.class": "Kelas / Darjah:",
-    "info.dob": "Tarikh Lahir:", "info.school": "Nama Sekolah:", "info.assess_date": "Tarikh Penilaian:",
-    "info.informant": "Nama Informan (Ibu Bapa / Guru):", "info.relationship": "Hubungan dengan Murid:",
+    form_sub1: "Skala Penilaian ADHD dan Masalah Tingkah Laku — Versi Guru",
+    referral_note: "Borang ini digunakan sebagai sebahagian daripada dokumen sokongan apabila murid dirujuk kepada ahli psikologi atau pakar psikiatri.",
+    "info.teacher_name": "Nama Guru:", "info.class_time": "Waktu Kelas:", "info.class_period": "Nama/Tempoh Kelas:",
+    "info.assess_date": "Tarikh Penilaian:", "info.name": "Nama Murid:", "info.id": "No. ID / Kad Pelajar:",
+    "info.grade": "Tahun/Tingkatan:", "info.school": "Nama Sekolah:",
+    "info.weeks_observed": "Bilangan minggu/bulan murid telah diperhatikan:",
+    "info.medication": "Adakah penilaian ini berdasarkan tempoh semasa murid:",
+    "med.on": "mengambil ubat", "med.off": "tidak mengambil ubat", "med.unsure": "tidak pasti",
     instr_title: "ARAHAN",
-    instr_text: "Baca setiap pernyataan dengan teliti. Bulatkan nombor yang paling menggambarkan tingkah laku murid dalam <strong>tempoh 6 bulan yang lalu</strong> (bagi ibu bapa) atau <strong>sepanjang semester ini</strong> (bagi guru).<br/><strong>0 = Tidak Pernah · 1 = Kadang-kadang · 2 = Kerap · 3 = Sangat Kerap</strong>",
-    part1_title: "BAHAGIAN I — GEJALA ADHD", part2_title: "BAHAGIAN II — GANGGUAN TINGKAH LAKU",
-    part3_title: "BAHAGIAN III — KEBIMBANGAN / KEMURUNGAN", part4_title: "BAHAGIAN IV — PENILAIAN PRESTASI",
+    instr_text: "Setiap penilaian hendaklah mengambil kira apa yang sesuai dengan umur murid dan menggambarkan tingkah laku murid sejak <strong>permulaan sesi persekolahan semasa</strong>.<br/><strong>0 = Tidak Pernah · 1 = Kadang-kadang · 2 = Kerap · 3 = Sangat Kerap</strong>",
+    part1_title: "BAHAGIAN I — GEJALA ADHD",
+    part2_title: "BAHAGIAN II — GANGGUAN PEMBANGKANGAN / TINGKAH LAKU (Item 19–28)",
+    part3_title: "BAHAGIAN III — KEBIMBANGAN / KEMURUNGAN (Item 29–35)",
+    part4_title: "BAHAGIAN IV — PENILAIAN PRESTASI (Item 36–43)",
+    part4a_title: "Prestasi Akademik", part4b_title: "Prestasi Tingkah Laku dalam Kelas",
     "th.no": "Bil.", "th.behaviour": "Tingkah Laku", "th.never": "Tidak<br/>Pernah<br/>(0)", "th.sometimes": "Kadang-<br/>kadang<br/>(1)",
     "th.often": "Kerap<br/>(2)", "th.very_often": "Sangat<br/>Kerap<br/>(3)", "th.subscale": "Subscale", "th.area": "Bidang",
     "sub.a_header": "A — Inattentive (Item 1–9)", "sub.b_header": "B — Hyperactive-Impulsive (Item 10–18)",
-    "sub.c_header": "C — Oppositional Defiant Disorder (Item 19–26)", "sub.d_header": "D — Conduct Disorder (Item 27–40)",
-    cutoff_label: "Cutoff:",
     "item.1": "Gagal memberi perhatian kepada butiran atau membuat kesilapan cuai dalam kerja sekolah",
-    "item.2": "Sukar mengekalkan perhatian pada tugasan", "item.3": "Tidak mendengar apabila dituturkan secara langsung",
-    "item.4": "Tidak mengikuti arahan dan gagal menyiapkan kerja sekolah", "item.5": "Sukar mengatur tugasan dan aktiviti",
-    "item.6": "Mengelak, tidak suka, atau enggan melakukan tugasan yang memerlukan usaha mental",
-    "item.7": "Kehilangan benda yang diperlukan untuk tugasan", "item.8": "Mudah terganggu oleh rangsangan luar",
-    "item.9": "Pelupa dalam aktiviti harian",
+    "item.2": "Sukar mengekalkan perhatian pada tugasan atau aktiviti",
+    "item.3": "Tidak mendengar apabila dituturkan secara langsung",
+    "item.4": "Tidak mengikuti arahan dan gagal menyiapkan kerja sekolah (bukan kerana keengganan atau tidak faham)",
+    "item.5": "Sukar mengatur tugasan dan aktiviti",
+    "item.6": "Mengelak, tidak suka, atau enggan melakukan tugasan yang memerlukan usaha mental yang berterusan",
+    "item.7": "Kehilangan benda yang diperlukan untuk tugasan atau aktiviti (kerja sekolah, pensel, atau buku)",
+    "item.8": "Mudah terganggu oleh rangsangan luar", "item.9": "Pelupa dalam aktiviti harian",
     "item.10": "Menggoyangkan tangan atau kaki atau menggeliat di tempat duduk",
-    "item.11": "Meninggalkan tempat duduk ketika perlu duduk diam",
-    "item.12": "Berlari atau memanjat secara berlebihan dalam situasi yang tidak sesuai",
+    "item.11": "Meninggalkan tempat duduk di dalam kelas atau situasi lain yang memerlukan murid duduk diam",
+    "item.12": "Berlari atau memanjat secara berlebihan dalam situasi yang memerlukan murid duduk diam",
     "item.13": "Sukar bermain atau terlibat dalam aktiviti riadah secara senyap",
-    "item.14": "Sentiasa bergerak atau berkelakuan seperti \"digerakkan oleh motor\"", "item.15": "Bercakap terlalu banyak",
-    "item.16": "Menjawab sebelum soalan selesai diajukan", "item.17": "Sukar menunggu giliran",
-    "item.18": "Mengganggu atau menceroboh orang lain",
-    "item.19": "Hilang kesabaran", "item.20": "Berdebat dengan orang dewasa",
-    "item.21": "Secara aktif menentang atau enggan mematuhi permintaan", "item.22": "Sengaja menjengkelkan orang lain",
-    "item.23": "Menyalahkan orang lain atas kesilapan sendiri", "item.24": "Mudah tersinggung oleh orang lain",
-    "item.25": "Marah dan benci", "item.26": "Dendam atau kejam",
-    "item.27": "Mengganggu atau menakutkan orang lain", "item.28": "Memulakan pergaduhan",
-    "item.29": "Merosakkan harta benda orang lain", "item.30": "Menipu atau mencuri",
-    "item.31": "Tidak mematuhi peraturan sekolah", "item.32": "Keluar rumah pada waktu malam tanpa izin",
-    "item.33": "Ponteng sekolah",
-    "item.41": "Bimbang tentang pelbagai perkara", "item.42": "Takut cuba perkara baru",
-    "item.43": "Merasa tidak bahagia, sedih atau tertekan", "item.44": "Merasa harapan atau tidak berdaya",
-    "item.45": "Mempunyai harga diri yang rendah", "item.46": "Menyalahkan diri sendiri untuk masalah",
-    "item.47": "Kerap sakit perut, sakit kepala atau sakit lain tanpa sebab perubatan",
-    "total.a": "Jumlah Subscale Inattentive (Item 1–9):", "total.b": "Jumlah Subscale Hyperactive-Impulsive (Item 10–18):",
-    "total.c": "Jumlah Subscale ODD (Item 19–26):", "total.d": "Jumlah Subscale CD (Item 27–40, pilihan berkaitan):",
-    "total.e": "Jumlah Subscale Anxiety/Depression (Item 41–47):",
-    part4_instr: "Bagi setiap bidang, bulatkan angka yang menggambarkan prestasi murid: <strong>1 = Cemerlang · 2 = Di Atas Purata · 3 = Purata · 4 = Di Bawah Purata · 5 = Sangat Lemah</strong>",
-    "perf.academic": "Prestasi Akademik", "perf.peer": "Hubungan dengan Rakan Sebaya", "perf.rules": "Mengikuti Peraturan Kelas",
-    "perf.average": "Purata Penilaian Prestasi:",
-    perf_note: "* Purata ≤ 2 = Prestasi akademik / sosial memuaskan &nbsp;|&nbsp; Purata ≥ 4 = Memerlukan perhatian &nbsp;|&nbsp; Purata = 5 = Memerlukan intervensi segera",
-    summary_title: "RUMUSAN SUBSCALE", "th.subscale2": "Subscale", "th.score": "Markah", "th.max_score": "Markah Max",
-    "th.clinical_cutoff": "Cutoff Klinikal", "th.significant": "Signifikan?",
-    "subrow.a": "A — Inattentive (Item 1–9)", "subrow.b": "B — Hyperactive-Impulsive (Item 10–18)",
-    "subrow.c": "C — Oppositional Defiant (Item 19–26)", "subrow.d": "D — Conduct Disorder (Item 27–40)",
-    "subrow.e": "E — Anxiety / Depression (Item 41–47)", "subrow.f": "F — Performance Rating (Purata)",
-    yes: "Ya", no: "Tidak",
-    classification_title: "Cadangan Klasifikasi:",
-    "class.1": "ADHD — Predominantly Inattentive (A signifikan sahaja)",
-    "class.2": "ADHD — Predominantly Hyperactive-Impulsive (B signifikan sahaja)",
-    "class.3": "ADHD — Combined Type (A &amp; B signifikan)", "class.4": "ODD / CD (C atau D signifikan)",
-    "class.5": "Anxiety / Depression (E signifikan)", "class.6": "Tiada masalah signifikan",
-    counselor_notes: "Catatan Kaunselor:",
-    "sig.informant": "Tandatangan Informan", "sig.name_label": "Nama:", "sig.relationship_label": "Hubungan:",
-    "sig.date_label": "Tarikh:", "sig.counselor": "Tandatangan Kaunselor", "sig.reg_no_label": "No. Daftar BKM:",
-    "disclaimer.confidential": "SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA",
-    "disclaimer.text": "Borang NICHQ Vanderbilt ini adalah alat saringan dan BUKAN diagnosis klinikal. Cutoff yang dicapai adalah petanda — bukan pengesahan diagnosis. Murid yang mencapai cutoff dalam mana-mana subscale hendaklah dirujuk kepada pakar psikologi atau psikiatri yang berkelayakan. Simpan borang ini dengan selamat mengikut PDPA 2010.",
+    "item.14": "Sentiasa bergerak atau berkelakuan seperti \"digerakkan oleh motor\"",
+    "item.15": "Bercakap secara berlebihan", "item.16": "Menjawab sebelum soalan selesai diajukan",
+    "item.17": "Sukar menunggu giliran", "item.18": "Mengganggu atau menceroboh orang lain (cth. mencelah perbualan/permainan)",
+    "item.19": "Hilang kesabaran", "item.20": "Secara aktif menentang atau enggan mematuhi permintaan atau peraturan orang dewasa",
+    "item.21": "Marah dan benci", "item.22": "Dendam dan suka membalas dendam",
+    "item.23": "Membuli, mengugut, atau mengintimidasi orang lain", "item.24": "Memulakan pergaduhan fizikal",
+    "item.25": "Menipu untuk mendapatkan barang/faedah atau mengelak tanggungjawab (cth. \"memperdaya\" orang lain)",
+    "item.26": "Bersikap kejam secara fizikal terhadap orang lain", "item.27": "Pernah mencuri barang yang bernilai",
+    "item.28": "Sengaja merosakkan harta benda orang lain",
+    "item.29": "Berasa takut, cemas, atau bimbang", "item.30": "Mudah rasa malu atau segan",
+    "item.31": "Takut mencuba perkara baharu kerana bimbang membuat kesilapan",
+    "item.32": "Berasa tidak berharga atau rendah diri", "item.33": "Menyalahkan diri sendiri atas masalah; berasa bersalah",
+    "item.34": "Berasa kesunyian, tidak diperlukan, atau tidak disayangi; mengadu \"tiada siapa menyayangi saya\"",
+    "item.35": "Berasa sedih, tidak gembira, atau murung",
+    "item.36": "Membaca", "item.37": "Matematik", "item.38": "Penulisan",
+    "item.39": "Hubungan dengan rakan sebaya", "item.40": "Mengikut arahan", "item.41": "Mengganggu kelas",
+    "item.42": "Penyiapan tugasan", "item.43": "Kemahiran mengurus/organisasi",
+    perf_scale_legend: "<strong>1 = Cemerlang · 2 = Di Atas Purata · 3 = Purata · 4 = Agak Bermasalah · 5 = Bermasalah</strong>",
+    comments_label: "Catatan / Comments:",
+    office_use_title: "UNTUK KEGUNAAN PEJABAT / KAUNSELOR SAHAJA",
+    "office.row1": "Jumlah soalan bermarkah 2 atau 3 dalam soalan 1–9 (Inattentive; had klinikal ≥ 6 daripada 9):",
+    "office.row2": "Jumlah soalan bermarkah 2 atau 3 dalam soalan 10–18 (Hyperactive-Impulsive; had klinikal ≥ 6 daripada 9):",
+    "office.row3": "Jumlah Skor Simptom bagi soalan 1–18:",
+    "office.row4": "Jumlah soalan bermarkah 2 atau 3 dalam soalan 19–28 (Oppositional Defiant/Conduct; had klinikal ≥ 3 daripada 10):",
+    "office.row5": "Jumlah soalan bermarkah 2 atau 3 dalam soalan 29–35 (Anxiety/Depression; had klinikal ≥ 3 daripada 7):",
+    "office.row6": "Jumlah soalan bermarkah 4 atau 5 dalam soalan 36–43 (Performance; perlu ≥ 1 untuk menunjukkan gangguan fungsi):",
+    "office.row7": "Purata Skor Prestasi (soalan 36–43):",
+    scoring_note: "Nota: Kriteria ADHD memerlukan sekurang-kurangnya satu soalan Prestasi (36–43) bermarkah 4 atau 5 (gangguan fungsi), <strong>SELAIN</strong> daripada mencapai had klinikal simptom di atas. Skala ini adalah alat saringan sahaja dan TIDAK boleh digunakan bersendirian untuk membuat sebarang diagnosis.",
+    classification_title: "Cadangan Klasifikasi / Suggested Classification:",
+    "class.1": "ADHD — Predominantly Inattentive (had klinikal Bahagian A dicapai + gangguan fungsi prestasi)",
+    "class.2": "ADHD — Predominantly Hyperactive-Impulsive (had klinikal Bahagian B dicapai + gangguan fungsi prestasi)",
+    "class.3": "ADHD — Combined Type (had klinikal Bahagian A dan B dicapai + gangguan fungsi prestasi)",
+    "class.4": "Oppositional Defiant/Conduct Disorder (had klinikal Bahagian II dicapai + gangguan fungsi prestasi)",
+    "class.5": "Anxiety/Depression (had klinikal Bahagian III dicapai + gangguan fungsi prestasi)",
+    "class.6": "Tiada masalah signifikan dikesan",
+    counselor_notes: "Catatan Kaunselor / Counselor Notes:",
+    "sig.informant": "Tandatangan Guru / Teacher's Signature", "sig.name_label": "Nama:",
+    "sig.date_label": "Tarikh:", "sig.counselor": "Tandatangan Kaunselor / Counselor's Signature",
+    "sig.reg_no_label": "No. Daftar BKM:",
+    "disclaimer.confidential": "SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA / CONFIDENTIAL — FOR INTERNAL USE ONLY",
+    "disclaimer.text": "Skala NICHQ Vanderbilt ini adalah alat saringan dan BUKAN diagnosis klinikal. Mencapai had klinikal adalah petanda — bukan pengesahan diagnosis. Borang ini digunakan sebagai sebahagian daripada dokumen sokongan apabila murid dirujuk kepada ahli psikologi atau pakar psikiatri yang berkelayakan untuk penilaian lanjut. Simpan borang ini dengan selamat mengikut Akta Perlindungan Data Peribadi (PDPA) 2010.",
     "disclaimer.footer": "Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia",
+    attribution_text: "Diadaptasi daripada NICHQ Vanderbilt Assessment Scale — Teacher Informant. Hak Cipta © 2002 American Academy of Pediatrics dan National Initiative for Children's Healthcare Quality. Diadaptasi daripada Vanderbilt Rating Scales, dibangunkan oleh Mark L. Wolraich, MD. Borang ini bukan pengganti nasihat perubatan pakar pediatrik atau kesihatan mental murid.",
   },
   en: {
     print_btn: "🖨️ Print to PDF",
     org1: "MINISTRY OF EDUCATION MALAYSIA", org2: "SCHOOL MANAGEMENT DIVISION",
     org3: "Student Well-Being Early Detection System — Agentic AI",
-    form_sub1: "ADHD and Behavioral Problems Assessment Scale", form_sub2: "For School Counselor Use",
-    version_label: "Informant Version:", version_parent: "Parent", version_teacher: "Teacher",
-    "info.name": "Student Name:", "info.id": "ID / Student Card No.:", "info.class": "Class / Grade:",
-    "info.dob": "Date of Birth:", "info.school": "School Name:", "info.assess_date": "Assessment Date:",
-    "info.informant": "Informant Name (Parent / Teacher):", "info.relationship": "Relationship to Student:",
+    form_sub1: "ADHD and Behavioral Problems Assessment Scale — Teacher Version",
+    referral_note: "This form is used as part of the supporting documentation when a student is referred to a psychologist or psychiatrist.",
+    "info.teacher_name": "Teacher's Name:", "info.class_time": "Class Time:", "info.class_period": "Class Name/Period:",
+    "info.assess_date": "Assessment Date:", "info.name": "Student Name:", "info.id": "ID / Student Card No.:",
+    "info.grade": "Grade Level:", "info.school": "School Name:",
+    "info.weeks_observed": "Number of weeks/months you have been able to evaluate the behaviors:",
+    "info.medication": "Is this evaluation based on a time when the child:",
+    "med.on": "was on medication", "med.off": "was not on medication", "med.unsure": "not sure",
     instr_title: "INSTRUCTIONS",
-    instr_text: "Read each statement carefully. Circle the number that best describes the student's behaviour over the <strong>past 6 months</strong> (parents) or <strong>this school term</strong> (teachers).<br/><strong>0 = Never · 1 = Occasionally · 2 = Often · 3 = Very Often</strong>",
-    part1_title: "PART I — ADHD SYMPTOMS", part2_title: "PART II — OPPOSITIONAL &amp; CONDUCT DISORDER",
-    part3_title: "PART III — ANXIETY / DEPRESSION", part4_title: "PART IV — PERFORMANCE RATING",
-    "th.no": "No.", "th.behaviour": "Behaviour", "th.never": "Never<br/>(0)", "th.sometimes": "Occasionally<br/>(1)",
+    instr_text: "Each rating should be considered in the context of what is appropriate for the age of the child and should reflect that child's behavior since <strong>the beginning of the current school term</strong>.<br/><strong>0 = Never · 1 = Occasionally · 2 = Often · 3 = Very Often</strong>",
+    part1_title: "PART I — ADHD SYMPTOMS",
+    part2_title: "PART II — OPPOSITIONAL DEFIANT / CONDUCT DISORDER (Item 19–28)",
+    part3_title: "PART III — ANXIETY / DEPRESSION (Item 29–35)",
+    part4_title: "PART IV — PERFORMANCE (Item 36–43)",
+    part4a_title: "Academic Performance", part4b_title: "Classroom Behavioral Performance",
+    "th.no": "No.", "th.behaviour": "Behavior", "th.never": "Never<br/>(0)", "th.sometimes": "Occasionally<br/>(1)",
     "th.often": "Often<br/>(2)", "th.very_often": "Very<br/>Often<br/>(3)", "th.subscale": "Subscale", "th.area": "Area",
     "sub.a_header": "A — Inattentive (Item 1–9)", "sub.b_header": "B — Hyperactive-Impulsive (Item 10–18)",
-    "sub.c_header": "C — Oppositional Defiant Disorder (Item 19–26)", "sub.d_header": "D — Conduct Disorder (Item 27–40)",
-    cutoff_label: "Cutoff:",
-    "item.1": "Fails to give close attention to details or makes careless mistakes in schoolwork",
-    "item.2": "Has difficulty sustaining attention in tasks", "item.3": "Does not seem to listen when spoken to directly",
-    "item.4": "Does not follow through on instructions and fails to finish schoolwork", "item.5": "Has difficulty organizing tasks and activities",
-    "item.6": "Avoids or dislikes tasks requiring sustained mental effort",
-    "item.7": "Loses things necessary for tasks or activities", "item.8": "Is easily distracted by extraneous stimuli",
-    "item.9": "Is forgetful in daily activities",
-    "item.10": "Fidgets with hands or feet or squirms in seat", "item.11": "Leaves seat in situations when remaining seated is expected",
-    "item.12": "Runs about or climbs excessively in inappropriate situations", "item.13": "Has difficulty playing quietly",
-    "item.14": "Is \"on the go\" or acts as if \"driven by a motor\"", "item.15": "Talks excessively",
-    "item.16": "Blurts out answers before questions have been completed", "item.17": "Has difficulty awaiting turn",
-    "item.18": "Interrupts or intrudes on others",
-    "item.19": "Loses temper", "item.20": "Argues with adults",
-    "item.21": "Actively defies or refuses to comply with requests", "item.22": "Deliberately annoys people",
-    "item.23": "Blames others for own mistakes", "item.24": "Touchy or easily annoyed by others",
-    "item.25": "Angry and resentful", "item.26": "Spiteful or vindictive",
-    "item.27": "Bullies, threatens, or intimidates others", "item.28": "Initiates physical fights",
-    "item.29": "Deliberately destroys others' property", "item.30": "Is deceitful or steals",
-    "item.31": "Violates school rules", "item.32": "Stays out at night without permission",
-    "item.33": "Is truant from school",
-    "item.41": "Worries about many things", "item.42": "Is afraid to try new things",
-    "item.43": "Feels unhappy, sad, or depressed", "item.44": "Feels hopeless or helpless",
-    "item.45": "Has low self-esteem", "item.46": "Blames self for problems",
-    "item.47": "Has stomach-aches, headaches, or other pains without a medical cause",
-    "total.a": "Inattentive Subscale Total (Item 1–9):", "total.b": "Hyperactive-Impulsive Subscale Total (Item 10–18):",
-    "total.c": "ODD Subscale Total (Item 19–26):", "total.d": "CD Subscale Total (Item 27–40, as applicable):",
-    "total.e": "Anxiety/Depression Subscale Total (Item 41–47):",
-    part4_instr: "For each area, circle the number that describes the student's performance: <strong>1 = Excellent · 2 = Above Average · 3 = Average · 4 = Below Average · 5 = Problematic</strong>",
-    "perf.academic": "Academic Performance", "perf.peer": "Peer Relationships", "perf.rules": "Following Classroom Rules",
-    "perf.average": "Average Performance Rating:",
-    perf_note: "* Average ≤ 2 = Satisfactory academic/social performance &nbsp;|&nbsp; Average ≥ 4 = Needs attention &nbsp;|&nbsp; Average = 5 = Needs immediate intervention",
-    summary_title: "SUBSCALE SUMMARY", "th.subscale2": "Subscale", "th.score": "Score", "th.max_score": "Max Score",
-    "th.clinical_cutoff": "Clinical Cutoff", "th.significant": "Significant?",
-    "subrow.a": "A — Inattentive (Item 1–9)", "subrow.b": "B — Hyperactive-Impulsive (Item 10–18)",
-    "subrow.c": "C — Oppositional Defiant (Item 19–26)", "subrow.d": "D — Conduct Disorder (Item 27–40)",
-    "subrow.e": "E — Anxiety / Depression (Item 41–47)", "subrow.f": "F — Performance Rating (Average)",
-    yes: "Yes", no: "No",
+    "item.1": "Fails to give attention to details or makes careless mistakes in schoolwork",
+    "item.2": "Has difficulty sustaining attention to tasks or activities",
+    "item.3": "Does not seem to listen when spoken to directly",
+    "item.4": "Does not follow through on instructions and fails to finish schoolwork (not due to oppositional behavior or failure to understand)",
+    "item.5": "Has difficulty organizing tasks and activities",
+    "item.6": "Avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort",
+    "item.7": "Loses things necessary for tasks or activities (school assignments, pencils, or books)",
+    "item.8": "Is easily distracted by extraneous stimuli", "item.9": "Is forgetful in daily activities",
+    "item.10": "Fidgets with hands or feet or squirms in seat",
+    "item.11": "Leaves seat in classroom or in other situations in which remaining seated is expected",
+    "item.12": "Runs about or climbs excessively in situations in which remaining seated is expected",
+    "item.13": "Has difficulty playing or engaging in leisure activities quietly",
+    "item.14": "Is \"on the go\" or often acts as if \"driven by a motor\"", "item.15": "Talks excessively",
+    "item.16": "Blurts out answers before questions have been completed", "item.17": "Has difficulty waiting in line",
+    "item.18": "Interrupts or intrudes on others (eg, butts into conversations/games)",
+    "item.19": "Loses temper", "item.20": "Actively defies or refuses to comply with adult's requests or rules",
+    "item.21": "Is angry or resentful", "item.22": "Is spiteful and vindictive",
+    "item.23": "Bullies, threatens, or intimidates others", "item.24": "Initiates physical fights",
+    "item.25": "Lies to obtain goods for favors or to avoid obligations (eg, \"cons\" others)",
+    "item.26": "Is physically cruel to people", "item.27": "Has stolen items of nontrivial value",
+    "item.28": "Deliberately destroys others' property",
+    "item.29": "Is fearful, anxious, or worried", "item.30": "Is self-conscious or easily embarrassed",
+    "item.31": "Is afraid to try new things for fear of making mistakes",
+    "item.32": "Feels worthless or inferior", "item.33": "Blames self for problems; feels guilty",
+    "item.34": "Feels lonely, unwanted, or unloved; complains that \"no one loves him or her\"",
+    "item.35": "Is sad, unhappy, or depressed",
+    "item.36": "Reading", "item.37": "Mathematics", "item.38": "Written expression",
+    "item.39": "Relationship with peers", "item.40": "Following directions", "item.41": "Disrupting class",
+    "item.42": "Assignment completion", "item.43": "Organizational skills",
+    perf_scale_legend: "<strong>1 = Excellent · 2 = Above Average · 3 = Average · 4 = Somewhat of a Problem · 5 = Problematic</strong>",
+    comments_label: "Comments:",
+    office_use_title: "FOR OFFICE USE ONLY",
+    "office.row1": "Total number of questions scored 2 or 3 in questions 1–9 (Inattentive; clinical cutoff ≥ 6 of 9):",
+    "office.row2": "Total number of questions scored 2 or 3 in questions 10–18 (Hyperactive-Impulsive; clinical cutoff ≥ 6 of 9):",
+    "office.row3": "Total Symptom Score for questions 1–18:",
+    "office.row4": "Total number of questions scored 2 or 3 in questions 19–28 (Oppositional Defiant/Conduct; clinical cutoff ≥ 3 of 10):",
+    "office.row5": "Total number of questions scored 2 or 3 in questions 29–35 (Anxiety/Depression; clinical cutoff ≥ 3 of 7):",
+    "office.row6": "Total number of questions scored 4 or 5 in questions 36–43 (Performance; need ≥ 1 for impairment):",
+    "office.row7": "Average Performance Score (questions 36–43):",
+    scoring_note: "Note: ADHD criteria require at least one Performance item (36–43) scored 4 or 5 (impairment), <strong>IN ADDITION TO</strong> meeting the symptom clinical cutoff above. This scale is a screening tool only and must NOT be used alone to make any diagnosis.",
     classification_title: "Suggested Classification:",
-    "class.1": "ADHD — Predominantly Inattentive (A significant only)",
-    "class.2": "ADHD — Predominantly Hyperactive-Impulsive (B significant only)",
-    "class.3": "ADHD — Combined Type (A &amp; B significant)", "class.4": "ODD / CD (C or D significant)",
-    "class.5": "Anxiety / Depression (E significant)", "class.6": "No significant concerns",
+    "class.1": "ADHD — Predominantly Inattentive (Part A cutoff met + performance impairment)",
+    "class.2": "ADHD — Predominantly Hyperactive-Impulsive (Part B cutoff met + performance impairment)",
+    "class.3": "ADHD — Combined Type (Parts A and B cutoffs met + performance impairment)",
+    "class.4": "Oppositional Defiant/Conduct Disorder (Part II cutoff met + performance impairment)",
+    "class.5": "Anxiety/Depression (Part III cutoff met + performance impairment)",
+    "class.6": "No significant concerns identified",
     counselor_notes: "Counselor Notes:",
-    "sig.informant": "Informant's Signature", "sig.name_label": "Name:", "sig.relationship_label": "Relationship:",
+    "sig.informant": "Teacher's Signature", "sig.name_label": "Name:",
     "sig.date_label": "Date:", "sig.counselor": "Counselor's Signature", "sig.reg_no_label": "BKM Registration No.:",
     "disclaimer.confidential": "CONFIDENTIAL — FOR INTERNAL USE ONLY",
-    "disclaimer.text": "The NICHQ Vanderbilt is a screening tool, NOT a clinical diagnosis. Reaching any cutoff is an indicator — not a confirmed diagnosis. Refer students who meet cutoffs to a qualified psychologist or psychiatrist. Store securely per PDPA 2010.",
+    "disclaimer.text": "The NICHQ Vanderbilt is a screening tool, NOT a clinical diagnosis. Reaching a clinical cutoff is an indicator — not a confirmed diagnosis. This form is used as part of the supporting documentation when a student is referred to a qualified psychologist or psychiatrist for further evaluation. Store securely per the Personal Data Protection Act (PDPA) 2010.",
     "disclaimer.footer": "Student Well-Being Early Detection System — Agentic AI · Ministry of Education Malaysia",
+    attribution_text: "Adapted from the NICHQ Vanderbilt Assessment Scale — Teacher Informant. Copyright © 2002 American Academy of Pediatrics and National Initiative for Children's Healthcare Quality. Adapted from the Vanderbilt Rating Scales, developed by Mark L. Wolraich, MD. This form is not a substitute for the medical advice of the student's pediatrician or mental health professional.",
   },
   zh: {
     print_btn: "🖨️ 打印为PDF",
     org1: "马来西亚教育部", org2: "学校管理组",
     org3: "学生福祉早期预警系统 — 智能代理AI",
-    form_sub1: "多动症及行为问题评估量表", form_sub2: "供学校辅导老师使用",
-    version_label: "信息提供者版本：", version_parent: "家长", version_teacher: "教师",
-    "info.name": "学生姓名：", "info.id": "身份证／学生证号码：", "info.class": "班级／年级：",
-    "info.dob": "出生日期：", "info.school": "学校名称：", "info.assess_date": "评估日期：",
-    "info.informant": "信息提供者姓名（家长／教师）：", "info.relationship": "与学生的关系：",
+    form_sub1: "多动症及行为问题评估量表 — 教师版",
+    referral_note: "当学生被转介给心理学家或精神科医生时，本表格作为支持文件的一部分使用。",
+    "info.teacher_name": "教师姓名：", "info.class_time": "上课时间：", "info.class_period": "班级名称／时段：",
+    "info.assess_date": "评估日期：", "info.name": "学生姓名：", "info.id": "身份证／学生证号码：",
+    "info.grade": "年级：", "info.school": "学校名称：",
+    "info.weeks_observed": "您能够评估该学生行为的周数／月数：",
+    "info.medication": "此评估是否基于学生的以下状态：",
+    "med.on": "正在服药", "med.off": "没有服药", "med.unsure": "不确定",
     instr_title: "说明",
-    instr_text: "请仔细阅读每项陈述。圈出最能描述学生在<strong>过去六个月内</strong>（家长）或<strong>本学期内</strong>（教师）行为的数字。<br/><strong>0 = 从不 · 1 = 偶尔 · 2 = 经常 · 3 = 非常经常</strong>",
-    part1_title: "第一部分 — 多动症症状", part2_title: "第二部分 — 对立违抗及品行障碍",
-    part3_title: "第三部分 — 焦虑／抑郁", part4_title: "第四部分 — 表现评分",
+    instr_text: "每项评分都应考虑到适合该学生年龄的行为标准，并反映该学生自<strong>本学期开始以来</strong>的行为。<br/><strong>0 = 从不 · 1 = 偶尔 · 2 = 经常 · 3 = 非常经常</strong>",
+    part1_title: "第一部分 — 多动症症状",
+    part2_title: "第二部分 — 对立违抗／品行障碍（第19–28项）",
+    part3_title: "第三部分 — 焦虑／抑郁（第29–35项）",
+    part4_title: "第四部分 — 表现评分（第36–43项）",
+    part4a_title: "学业表现", part4b_title: "课堂行为表现",
     "th.no": "编号", "th.behaviour": "行为", "th.never": "从不<br/>(0)", "th.sometimes": "偶尔<br/>(1)",
     "th.often": "经常<br/>(2)", "th.very_often": "非常<br/>经常<br/>(3)", "th.subscale": "分量表", "th.area": "领域",
     "sub.a_header": "A — 注意力不集中（第1–9项）", "sub.b_header": "B — 多动冲动（第10–18项）",
-    "sub.c_header": "C — 对立违抗障碍（第19–26项）", "sub.d_header": "D — 品行障碍（第27–40项）",
-    cutoff_label: "临界值：",
-    "item.1": "未能注意细节或在学校作业中粗心犯错", "item.2": "难以在任务中保持注意力",
-    "item.3": "直接对他讲话时似乎没有在听", "item.4": "不遵循指示且无法完成学校作业",
+    "item.1": "未能注意细节或在学校作业中粗心犯错", "item.2": "难以在任务或活动中保持注意力",
+    "item.3": "直接对他讲话时似乎没有在听", "item.4": "不遵循指示且无法完成学校作业（并非因为对抗行为或不理解）",
     "item.5": "难以组织任务和活动", "item.6": "回避、不喜欢或不愿从事需要持续脑力的任务",
-    "item.7": "丢失任务或活动所需的物品", "item.8": "容易被外界刺激分心", "item.9": "在日常活动中健忘",
-    "item.10": "手脚不停摆动或在座位上扭动", "item.11": "在应保持坐姿的情况下离开座位",
-    "item.12": "在不适当的情况下过度奔跑或攀爬", "item.13": "难以安静地玩耍",
+    "item.7": "丢失任务或活动所需的物品（学校作业、铅笔或书本）", "item.8": "容易被外界刺激分心", "item.9": "在日常活动中健忘",
+    "item.10": "手脚不停摆动或在座位上扭动", "item.11": "在课堂或其他应保持坐姿的情况下离开座位",
+    "item.12": "在应保持坐姿的情况下过度奔跑或攀爬", "item.13": "难以安静地玩耍或从事休闲活动",
     "item.14": "总是四处走动，好像\"被马达驱动\"一样", "item.15": "说话过多",
-    "item.16": "问题尚未问完就抢答", "item.17": "难以等待轮到自己", "item.18": "打断或侵扰他人",
-    "item.19": "容易发脾气", "item.20": "与成人争辩", "item.21": "主动违抗或拒绝遵守要求",
-    "item.22": "故意惹恼他人", "item.23": "将自己的过错归咎于他人", "item.24": "容易被他人触怒或惹恼",
-    "item.25": "愤怒且怨恨", "item.26": "怀恨或报复心强",
-    "item.27": "欺凌、威胁或恐吓他人", "item.28": "挑起肢体冲突", "item.29": "故意破坏他人财物",
-    "item.30": "欺骗或偷窃", "item.31": "违反校规", "item.32": "未经许可夜间外出", "item.33": "逃学",
-    "item.41": "担心很多事情", "item.42": "害怕尝试新事物", "item.43": "感到不快乐、悲伤或抑郁",
-    "item.44": "感到绝望或无助", "item.45": "自尊心低", "item.46": "为问题责怪自己",
-    "item.47": "经常胃痛、头痛或其他无医学原因的疼痛",
-    "total.a": "注意力不集中分量表总分（第1–9项）：", "total.b": "多动冲动分量表总分（第10–18项）：",
-    "total.c": "对立违抗分量表总分（第19–26项）：", "total.d": "品行障碍分量表总分（第27–40项，视适用情况）：",
-    "total.e": "焦虑／抑郁分量表总分（第41–47项）：",
-    part4_instr: "针对每个领域，圈出描述学生表现的数字：<strong>1 = 优秀 · 2 = 高于平均 · 3 = 平均 · 4 = 低于平均 · 5 = 有问题</strong>",
-    "perf.academic": "学业表现", "perf.peer": "同侪关系", "perf.rules": "遵守课堂规则",
-    "perf.average": "平均表现评分：",
-    perf_note: "* 平均值 ≤ 2 = 学业／社交表现令人满意 &nbsp;|&nbsp; 平均值 ≥ 4 = 需要关注 &nbsp;|&nbsp; 平均值 = 5 = 需要立即介入",
-    summary_title: "分量表总结", "th.subscale2": "分量表", "th.score": "分数", "th.max_score": "最高分数",
-    "th.clinical_cutoff": "临床临界值", "th.significant": "是否显著？",
-    "subrow.a": "A — 注意力不集中（第1–9项）", "subrow.b": "B — 多动冲动（第10–18项）",
-    "subrow.c": "C — 对立违抗（第19–26项）", "subrow.d": "D — 品行障碍（第27–40项）",
-    "subrow.e": "E — 焦虑／抑郁（第41–47项）", "subrow.f": "F — 表现评分（平均值）",
-    yes: "是", no: "否",
+    "item.16": "问题尚未问完就抢答", "item.17": "难以排队等候", "item.18": "打断或侵扰他人（例如打断谈话/游戏）",
+    "item.19": "容易发脾气", "item.20": "主动违抗或拒绝遵守成人的要求或规则",
+    "item.21": "愤怒且怨恨", "item.22": "怀恨且报复心强",
+    "item.23": "欺凌、威胁或恐吓他人", "item.24": "挑起肢体冲突",
+    "item.25": "为获取利益或逃避责任而说谎（例如\"欺骗\"他人）",
+    "item.26": "对他人身体残忍", "item.27": "偷窃过有价值的物品",
+    "item.28": "故意破坏他人财物",
+    "item.29": "感到害怕、焦虑或担忧", "item.30": "容易感到不自在或尴尬",
+    "item.31": "因害怕犯错而不敢尝试新事物",
+    "item.32": "感到毫无价值或自卑", "item.33": "为问题责怪自己；感到内疚",
+    "item.34": "感到孤独、不被需要或不被爱；抱怨\"没有人爱他/她\"",
+    "item.35": "感到悲伤、不快乐或抑郁",
+    "item.36": "阅读", "item.37": "数学", "item.38": "书写表达",
+    "item.39": "同侪关系", "item.40": "遵循指示", "item.41": "扰乱课堂",
+    "item.42": "完成作业", "item.43": "组织能力",
+    perf_scale_legend: "<strong>1 = 优秀 · 2 = 高于平均 · 3 = 平均 · 4 = 略有问题 · 5 = 有问题</strong>",
+    comments_label: "备注：",
+    office_use_title: "仅供办公室／辅导员使用",
+    "office.row1": "第1–9项中评分为2或3的题数（注意力不集中；临床临界值 ≥ 9项中的6项）：",
+    "office.row2": "第10–18项中评分为2或3的题数（多动冲动；临床临界值 ≥ 9项中的6项）：",
+    "office.row3": "第1–18项症状总分：",
+    "office.row4": "第19–28项中评分为2或3的题数（对立违抗／品行障碍；临床临界值 ≥ 10项中的3项）：",
+    "office.row5": "第29–35项中评分为2或3的题数（焦虑／抑郁；临床临界值 ≥ 7项中的3项）：",
+    "office.row6": "第36–43项中评分为4或5的题数（表现；至少需要1项方可视为功能受损）：",
+    "office.row7": "平均表现评分（第36–43项）：",
+    scoring_note: "注：多动症诊断标准除达到上述症状临床临界值外，<strong>还须</strong>至少一项表现题（第36–43项）评分为4或5（功能受损）。本量表仅为筛查工具，不得单独用于作出任何诊断。",
     classification_title: "建议分类：",
-    "class.1": "多动症 — 以注意力不集中为主（仅A显著）",
-    "class.2": "多动症 — 以多动冲动为主（仅B显著）",
-    "class.3": "多动症 — 混合型（A和B均显著）", "class.4": "对立违抗／品行障碍（C或D显著）",
-    "class.5": "焦虑／抑郁（E显著）", "class.6": "无显著问题",
+    "class.1": "多动症 — 以注意力不集中为主（A部分达到临界值 + 表现功能受损）",
+    "class.2": "多动症 — 以多动冲动为主（B部分达到临界值 + 表现功能受损）",
+    "class.3": "多动症 — 混合型（A和B部分均达到临界值 + 表现功能受损）",
+    "class.4": "对立违抗／品行障碍（第二部分达到临界值 + 表现功能受损）",
+    "class.5": "焦虑／抑郁（第三部分达到临界值 + 表现功能受损）",
+    "class.6": "未发现显著问题",
     counselor_notes: "辅导老师备注：",
-    "sig.informant": "信息提供者签名", "sig.name_label": "姓名：", "sig.relationship_label": "关系：",
+    "sig.informant": "教师签名", "sig.name_label": "姓名：",
     "sig.date_label": "日期：", "sig.counselor": "辅导老师签名", "sig.reg_no_label": "BKM注册编号：",
     "disclaimer.confidential": "机密 — 仅供内部使用",
-    "disclaimer.text": "此NICHQ Vanderbilt量表是筛查工具，并非临床诊断。达到任何临界值只是一个指标，而非确诊。达到临界值的学生应转介给合格的心理学家或精神科医生。请根据2010年个人资料保护法（PDPA）妥善保存本表格。",
+    "disclaimer.text": "此NICHQ Vanderbilt量表是筛查工具，并非临床诊断。达到临床临界值只是一个指标，而非确诊。当学生被转介给合格的心理学家或精神科医生作进一步评估时，本表格作为支持文件的一部分使用。请根据2010年个人资料保护法（PDPA）妥善保存本表格。",
     "disclaimer.footer": "学生福祉早期预警系统 — 智能代理AI · 马来西亚教育部",
+    attribution_text: "改编自NICHQ Vanderbilt Assessment Scale — Teacher Informant。版权 © 2002 美国儿科学会（American Academy of Pediatrics）及National Initiative for Children's Healthcare Quality所有。改编自Mark L. Wolraich医学博士开发的Vanderbilt Rating Scales。本表格不能替代学生儿科医生或心理健康专业人员的医疗建议。",
   },
   ta: {
     print_btn: "🖨️ PDF ஆக அச்சிடு",
     org1: "மலேசியா கல்வி அமைச்சு", org2: "பள்ளி மேலாண்மைப் பிரிவு",
     org3: "மாணவர் நல்வாழ்வு முன்கூட்டிய கண்டறிதல் அமைப்பு — Agentic AI",
-    form_sub1: "ADHD மற்றும் நடத்தை பிரச்சினைகள் மதிப்பீட்டு அளவுகோல்", form_sub2: "பள்ளி ஆலோசகர் பயன்பாட்டிற்கு",
-    version_label: "தகவல் அளிப்பவர் வகை:", version_parent: "பெற்றோர்", version_teacher: "ஆசிரியர்",
-    "info.name": "மாணவர் பெயர்:", "info.id": "அடையாள எண் / மாணவர் அட்டை எண்:", "info.class": "வகுப்பு:",
-    "info.dob": "பிறந்த தேதி:", "info.school": "பள்ளி பெயர்:", "info.assess_date": "மதிப்பீட்டு தேதி:",
-    "info.informant": "தகவல் அளிப்பவர் பெயர் (பெற்றோர் / ஆசிரியர்):", "info.relationship": "மாணவருடனான உறவு:",
+    form_sub1: "ADHD மற்றும் நடத்தை பிரச்சினைகள் மதிப்பீட்டு அளவுகோல் — ஆசிரியர் பதிப்பு",
+    referral_note: "மாணவர் ஒரு உளவியலாளர் அல்லது மனநல மருத்துவரிடம் பரிந்துரைக்கப்படும்போது, இந்த படிவம் ஆதரவு ஆவணங்களின் ஒரு பகுதியாக பயன்படுத்தப்படுகிறது.",
+    "info.teacher_name": "ஆசிரியர் பெயர்:", "info.class_time": "வகுப்பு நேரம்:", "info.class_period": "வகுப்பு பெயர்/காலம்:",
+    "info.assess_date": "மதிப்பீட்டு தேதி:", "info.name": "மாணவர் பெயர்:", "info.id": "அடையாள எண் / மாணவர் அட்டை எண்:",
+    "info.grade": "தரம்/படிவம்:", "info.school": "பள்ளி பெயர்:",
+    "info.weeks_observed": "மாணவரின் நடத்தையை நீங்கள் மதிப்பிட்ட வார/மாத எண்ணிக்கை:",
+    "info.medication": "இந்த மதிப்பீடு மாணவரின் பின்வரும் நிலையை அடிப்படையாகக் கொண்டதா:",
+    "med.on": "மருந்து எடுத்துக்கொண்டிருந்தார்", "med.off": "மருந்து எடுத்துக்கொள்ளவில்லை", "med.unsure": "உறுதியாகத் தெரியவில்லை",
     instr_title: "வழிமுறைகள்",
-    instr_text: "ஒவ்வொரு கூற்றையும் கவனமாகப் படிக்கவும். கடந்த <strong>6 மாதங்களில்</strong> (பெற்றோருக்கு) அல்லது <strong>இந்த பள்ளி காலாண்டில்</strong> (ஆசிரியர்களுக்கு) மாணவரின் நடத்தையை சிறப்பாக விவரிக்கும் எண்ணை வட்டமிடவும்.<br/><strong>0 = ஒருபோதும் இல்லை · 1 = சில சமயம் · 2 = அடிக்கடி · 3 = மிக அடிக்கடி</strong>",
-    part1_title: "பகுதி I — ADHD அறிகுறிகள்", part2_title: "பகுதி II — எதிர்ப்பு மற்றும் நடத்தைக் கோளாறு",
-    part3_title: "பகுதி III — கவலை / மனச்சோர்வு", part4_title: "பகுதி IV — செயல்திறன் மதிப்பீடு",
+    instr_text: "ஒவ்வொரு மதிப்பீடும் மாணவரின் வயதுக்கு ஏற்றதைக் கருத்தில் கொள்ள வேண்டும், மேலும் <strong>தற்போதைய பள்ளி காலாண்டு தொடங்கியதிலிருந்து</strong> மாணவரின் நடத்தையை பிரதிபலிக்க வேண்டும்.<br/><strong>0 = ஒருபோதும் இல்லை · 1 = சில சமயம் · 2 = அடிக்கடி · 3 = மிக அடிக்கடி</strong>",
+    part1_title: "பகுதி I — ADHD அறிகுறிகள்",
+    part2_title: "பகுதி II — எதிர்ப்புத் தன்மை / நடத்தைக் கோளாறு (உருப்படி 19–28)",
+    part3_title: "பகுதி III — கவலை / மனச்சோர்வு (உருப்படி 29–35)",
+    part4_title: "பகுதி IV — செயல்திறன் மதிப்பீடு (உருப்படி 36–43)",
+    part4a_title: "கல்வி செயல்திறன்", part4b_title: "வகுப்பறை நடத்தைச் செயல்திறன்",
     "th.no": "எண்.", "th.behaviour": "நடத்தை", "th.never": "ஒருபோதும்<br/>இல்லை (0)", "th.sometimes": "சில<br/>சமயம் (1)",
     "th.often": "அடிக்கடி<br/>(2)", "th.very_often": "மிக<br/>அடிக்கடி<br/>(3)", "th.subscale": "துணை அளவுகோல்", "th.area": "பகுதி",
     "sub.a_header": "A — கவனக்குறைவு (உருப்படி 1–9)", "sub.b_header": "B — அதிநடமாட்டம்-தூண்டுதல் (உருப்படி 10–18)",
-    "sub.c_header": "C — எதிர்ப்புத் தன்மைக் கோளாறு (உருப்படி 19–26)", "sub.d_header": "D — நடத்தைக் கோளாறு (உருப்படி 27–40)",
-    cutoff_label: "எல்லைமதிப்பு:",
     "item.1": "விவரங்களில் கவனம் செலுத்தத் தவறுதல் அல்லது பள்ளி வேலையில் கவனக்குறைவான தவறுகள் செய்தல்",
-    "item.2": "பணிகளில் கவனத்தைத் தொடர்வது கடினமாக இருத்தல்", "item.3": "நேரடியாகப் பேசும்போது கேட்காதது போல் தோன்றுதல்",
-    "item.4": "வழிமுறைகளைப் பின்பற்றாமல் பள்ளி வேலையை முடிக்கத் தவறுதல்", "item.5": "பணிகள் மற்றும் செயல்பாடுகளை ஒழுங்கமைப்பதில் சிரமம்",
-    "item.6": "தொடர் மன முயற்சி தேவைப்படும் பணிகளைத் தவிர்த்தல் அல்லது விரும்பாதிருத்தல்",
-    "item.7": "பணிகளுக்குத் தேவையான பொருட்களை இழத்தல்", "item.8": "வெளிப்புற தூண்டல்களால் எளிதில் கவனம் சிதறுதல்",
-    "item.9": "தினசரி செயல்பாடுகளில் மறதி",
+    "item.2": "பணிகள் அல்லது செயல்பாடுகளில் கவனத்தைத் தொடர்வது கடினமாக இருத்தல்",
+    "item.3": "நேரடியாகப் பேசும்போது கேட்காதது போல் தோன்றுதல்",
+    "item.4": "வழிமுறைகளைப் பின்பற்றாமல் பள்ளி வேலையை முடிக்கத் தவறுதல் (எதிர்ப்பு நடத்தை அல்லது புரிந்துகொள்ளாமையால் அல்ல)",
+    "item.5": "பணிகள் மற்றும் செயல்பாடுகளை ஒழுங்கமைப்பதில் சிரமம்",
+    "item.6": "தொடர் மன முயற்சி தேவைப்படும் பணிகளைத் தவிர்த்தல், விரும்பாதிருத்தல் அல்லது தயங்குதல்",
+    "item.7": "பணிகள் அல்லது செயல்பாடுகளுக்குத் தேவையான பொருட்களை இழத்தல் (பள்ளி வேலைகள், பென்சில்கள் அல்லது புத்தகங்கள்)",
+    "item.8": "வெளிப்புற தூண்டல்களால் எளிதில் கவனம் சிதறுதல்", "item.9": "தினசரி செயல்பாடுகளில் மறதி",
     "item.10": "கைகள் அல்லது கால்களை அசைத்தல் அல்லது இருக்கையில் முறுக்குதல்",
-    "item.11": "அமர்ந்திருக்க வேண்டிய சூழலில் இருக்கையை விட்டு எழுதல்",
-    "item.12": "பொருந்தாத சூழல்களில் அளவுக்கு அதிகமாக ஓடுதல் அல்லது ஏறுதல்",
-    "item.13": "அமைதியாக விளையாடுவதில் சிரமம்", "item.14": "எப்போதும் அசைவில் இருத்தல் அல்லது \"மோட்டாரால் இயக்கப்படுவது\" போல் நடத்தல்",
-    "item.15": "அதிகமாகப் பேசுதல்", "item.16": "கேள்வி முடிவதற்கு முன் பதிலளித்தல்", "item.17": "முறை காத்திருப்பதில் சிரமம்",
-    "item.18": "மற்றவர்களை இடையூறு செய்தல் அல்லது குறுக்கிடுதல்",
-    "item.19": "பொறுமை இழத்தல்", "item.20": "பெரியவர்களுடன் வாதிடுதல்",
-    "item.21": "தீவிரமாக மறுத்தல் அல்லது கோரிக்கைகளுக்கு இணங்க மறுத்தல்", "item.22": "வேண்டுமென்றே மற்றவர்களை எரிச்சலூட்டுதல்",
-    "item.23": "தன் தவறுகளுக்கு மற்றவர்களைக் குற்றம் சாட்டுதல்", "item.24": "மற்றவர்களால் எளிதில் எரிச்சலடைதல்",
-    "item.25": "கோபமாகவும் வெறுப்புடனும் இருத்தல்", "item.26": "பழிவாங்கும் அல்லது துன்புறுத்தும் மனப்பான்மை",
-    "item.27": "மற்றவர்களை கொடுமைப்படுத்துதல், அச்சுறுத்துதல் அல்லது பயமுறுத்துதல்", "item.28": "உடல் ரீதியான சண்டைகளைத் தொடங்குதல்",
-    "item.29": "மற்றவர்களின் சொத்தை வேண்டுமென்றே அழித்தல்", "item.30": "ஏமாற்றுதல் அல்லது திருடுதல்",
-    "item.31": "பள்ளி விதிகளை மீறுதல்", "item.32": "அனுமதியின்றி இரவில் வெளியே தங்குதல்", "item.33": "பள்ளிக்குச் செல்லாமல் இருத்தல்",
-    "item.41": "பல விஷயங்களைப் பற்றி கவலைப்படுதல்", "item.42": "புதிய விஷயங்களை முயற்சிக்க பயப்படுதல்",
-    "item.43": "மகிழ்ச்சியின்மை, சோகம் அல்லது மனச்சோர்வு உணர்தல்", "item.44": "நம்பிக்கையின்மை அல்லது உதவியற்ற தன்மை உணர்தல்",
-    "item.45": "குறைந்த சுயமரியாதை", "item.46": "பிரச்சினைகளுக்குத் தன்னைக் குற்றம் சாட்டுதல்",
-    "item.47": "மருத்துவ காரணமின்றி அடிக்கடி வயிற்று வலி, தலைவலி அல்லது பிற வலிகள்",
-    "total.a": "கவனக்குறைவு துணை அளவுகோல் மொத்தம் (உருப்படி 1–9):", "total.b": "அதிநடமாட்டம்-தூண்டுதல் துணை அளவுகோல் மொத்தம் (உருப்படி 10–18):",
-    "total.c": "ODD துணை அளவுகோல் மொத்தம் (உருப்படி 19–26):", "total.d": "CD துணை அளவுகோல் மொத்தம் (உருப்படி 27–40, பொருந்தும் வகையில்):",
-    "total.e": "கவலை/மனச்சோர்வு துணை அளவுகோல் மொத்தம் (உருப்படி 41–47):",
-    part4_instr: "ஒவ்வொரு பகுதிக்கும், மாணவரின் செயல்திறனை விவரிக்கும் எண்ணை வட்டமிடவும்: <strong>1 = சிறந்தது · 2 = சராசரிக்கு மேல் · 3 = சராசரி · 4 = சராசரிக்குக் கீழ் · 5 = பிரச்சினைக்குரியது</strong>",
-    "perf.academic": "கல்வி செயல்திறன்", "perf.peer": "சக மாணவர் உறவுகள்", "perf.rules": "வகுப்பு விதிகளைப் பின்பற்றுதல்",
-    "perf.average": "சராசரி செயல்திறன் மதிப்பீடு:",
-    perf_note: "* சராசரி ≤ 2 = திருப்திகரமான கல்வி/சமூக செயல்திறன் &nbsp;|&nbsp; சராசரி ≥ 4 = கவனம் தேவை &nbsp;|&nbsp; சராசரி = 5 = உடனடி தலையீடு தேவை",
-    summary_title: "துணை அளவுகோல் சுருக்கம்", "th.subscale2": "துணை அளவுகோல்", "th.score": "மதிப்பெண்", "th.max_score": "அதிகபட்ச மதிப்பெண்",
-    "th.clinical_cutoff": "மருத்துவ எல்லைமதிப்பு", "th.significant": "குறிப்பிடத்தக்கதா?",
-    "subrow.a": "A — கவனக்குறைவு (உருப்படி 1–9)", "subrow.b": "B — அதிநடமாட்டம்-தூண்டுதல் (உருப்படி 10–18)",
-    "subrow.c": "C — எதிர்ப்புத் தன்மை (உருப்படி 19–26)", "subrow.d": "D — நடத்தைக் கோளாறு (உருப்படி 27–40)",
-    "subrow.e": "E — கவலை / மனச்சோர்வு (உருப்படி 41–47)", "subrow.f": "F — செயல்திறன் மதிப்பீடு (சராசரி)",
-    yes: "ஆம்", no: "இல்லை",
+    "item.11": "வகுப்பறையில் அல்லது அமர்ந்திருக்க வேண்டிய பிற சூழல்களில் இருக்கையை விட்டு எழுதல்",
+    "item.12": "அமர்ந்திருக்க வேண்டிய சூழல்களில் அளவுக்கு அதிகமாக ஓடுதல் அல்லது ஏறுதல்",
+    "item.13": "அமைதியாக விளையாடுவதில் அல்லது ஓய்வு நேர செயல்பாடுகளில் ஈடுபடுவதில் சிரமம்",
+    "item.14": "எப்போதும் அசைவில் இருத்தல் அல்லது \"மோட்டாரால் இயக்கப்படுவது\" போல் நடத்தல்",
+    "item.15": "அதிகமாகப் பேசுதல்", "item.16": "கேள்வி முடிவதற்கு முன் பதிலளித்தல்", "item.17": "வரிசையில் காத்திருப்பதில் சிரமம்",
+    "item.18": "மற்றவர்களை இடையூறு செய்தல் அல்லது குறுக்கிடுதல் (எ.கா. உரையாடல்/விளையாட்டில் குறுக்கிடுதல்)",
+    "item.19": "பொறுமை இழத்தல்", "item.20": "பெரியவர்களின் கோரிக்கைகள் அல்லது விதிகளுக்கு தீவிரமாக மறுத்தல் அல்லது இணங்க மறுத்தல்",
+    "item.21": "கோபமாகவும் வெறுப்புடனும் இருத்தல்", "item.22": "பழிவாங்கும் மற்றும் துன்புறுத்தும் மனப்பான்மை",
+    "item.23": "மற்றவர்களை கொடுமைப்படுத்துதல், அச்சுறுத்துதல் அல்லது பயமுறுத்துதல்", "item.24": "உடல் ரீதியான சண்டைகளைத் தொடங்குதல்",
+    "item.25": "பொருட்கள்/நன்மைகளைப் பெற அல்லது பொறுப்புகளைத் தவிர்க்க பொய் சொல்லுதல் (எ.கா. மற்றவர்களை \"ஏமாற்றுதல்\")",
+    "item.26": "மற்றவர்களிடம் உடல் ரீதியாக கொடூரமாக நடந்துகொள்ளுதல்", "item.27": "மதிப்புள்ள பொருட்களைத் திருடியிருத்தல்",
+    "item.28": "வேண்டுமென்றே மற்றவர்களின் சொத்தை அழித்தல்",
+    "item.29": "பயம், கவலை அல்லது கவலைப்படுதல்", "item.30": "எளிதில் சங்கடமாக அல்லது வெட்கமாக உணர்தல்",
+    "item.31": "தவறு செய்வோமோ என்ற பயத்தால் புதிய விஷயங்களை முயற்சிக்க பயப்படுதல்",
+    "item.32": "மதிப்பற்றவராக அல்லது தாழ்வாக உணர்தல்", "item.33": "பிரச்சினைகளுக்குத் தன்னைக் குற்றம் சாட்டுதல்; குற்ற உணர்வு",
+    "item.34": "தனிமையாக, தேவையற்றவராக அல்லது நேசிக்கப்படாதவராக உணர்தல்; \"யாரும் அவரை/அவளை நேசிக்கவில்லை\" என்று புகார் கூறுதல்",
+    "item.35": "சோகமாக, மகிழ்ச்சியின்றி அல்லது மனச்சோர்வுடன் உணர்தல்",
+    "item.36": "வாசிப்பு", "item.37": "கணிதம்", "item.38": "எழுத்து வெளிப்பாடு",
+    "item.39": "சக மாணவர் உறவுகள்", "item.40": "வழிமுறைகளைப் பின்பற்றுதல்", "item.41": "வகுப்பைத் தொந்தரவு செய்தல்",
+    "item.42": "பணி நிறைவு", "item.43": "ஒழுங்கமைப்புத் திறன்கள்",
+    perf_scale_legend: "<strong>1 = சிறந்தது · 2 = சராசரிக்கு மேல் · 3 = சராசரி · 4 = ஓரளவு பிரச்சினைக்குரியது · 5 = பிரச்சினைக்குரியது</strong>",
+    comments_label: "குறிப்புகள்:",
+    office_use_title: "அலுவலக / ஆலோசகர் பயன்பாட்டிற்கு மட்டும்",
+    "office.row1": "கேள்வி 1–9இல் 2 அல்லது 3 எனக் குறிக்கப்பட்ட கேள்விகளின் எண்ணிக்கை (கவனக்குறைவு; மருத்துவ எல்லைமதிப்பு ≥ 9இல் 6):",
+    "office.row2": "கேள்வி 10–18இல் 2 அல்லது 3 எனக் குறிக்கப்பட்ட கேள்விகளின் எண்ணிக்கை (அதிநடமாட்டம்-தூண்டுதல்; மருத்துவ எல்லைமதிப்பு ≥ 9இல் 6):",
+    "office.row3": "கேள்வி 1–18க்கான மொத்த அறிகுறி மதிப்பெண்:",
+    "office.row4": "கேள்வி 19–28இல் 2 அல்லது 3 எனக் குறிக்கப்பட்ட கேள்விகளின் எண்ணிக்கை (எதிர்ப்புத் தன்மை/நடத்தைக் கோளாறு; மருத்துவ எல்லைமதிப்பு ≥ 10இல் 3):",
+    "office.row5": "கேள்வி 29–35இல் 2 அல்லது 3 எனக் குறிக்கப்பட்ட கேள்விகளின் எண்ணிக்கை (கவலை/மனச்சோர்வு; மருத்துவ எல்லைமதிப்பு ≥ 7இல் 3):",
+    "office.row6": "கேள்வி 36–43இல் 4 அல்லது 5 எனக் குறிக்கப்பட்ட கேள்விகளின் எண்ணிக்கை (செயல்திறன்; பாதிப்பைக் காட்ட ≥ 1 தேவை):",
+    "office.row7": "சராசரி செயல்திறன் மதிப்பெண் (கேள்வி 36–43):",
+    scoring_note: "குறிப்பு: ADHD நிபந்தனைகளுக்கு மேலே உள்ள அறிகுறி மருத்துவ எல்லைமதிப்பை அடைவதுடன், <strong>கூடுதலாக</strong> குறைந்தது ஒரு செயல்திறன் உருப்படி (36–43) 4 அல்லது 5 எனக் குறிக்கப்பட வேண்டும் (பாதிப்பு). இந்த அளவுகோல் ஒரு ஸ்கிரீனிங் கருவி மட்டுமே, தனியாக எந்த நோய் கண்டறிதலுக்கும் பயன்படுத்தப்படக் கூடாது.",
     classification_title: "பரிந்துரைக்கப்பட்ட வகைப்பாடு:",
-    "class.1": "ADHD — முதன்மையாக கவனக்குறைவு (A மட்டும் குறிப்பிடத்தக்கது)",
-    "class.2": "ADHD — முதன்மையாக அதிநடமாட்டம்-தூண்டுதல் (B மட்டும் குறிப்பிடத்தக்கது)",
-    "class.3": "ADHD — கலப்பு வகை (A மற்றும் B குறிப்பிடத்தக்கது)", "class.4": "ODD / CD (C அல்லது D குறிப்பிடத்தக்கது)",
-    "class.5": "கவலை / மனச்சோர்வு (E குறிப்பிடத்தக்கது)", "class.6": "குறிப்பிடத்தக்க பிரச்சினைகள் இல்லை",
+    "class.1": "ADHD — முதன்மையாக கவனக்குறைவு (பகுதி A எல்லைமதிப்பு எட்டப்பட்டது + செயல்திறன் பாதிப்பு)",
+    "class.2": "ADHD — முதன்மையாக அதிநடமாட்டம்-தூண்டுதல் (பகுதி B எல்லைமதிப்பு எட்டப்பட்டது + செயல்திறன் பாதிப்பு)",
+    "class.3": "ADHD — கலப்பு வகை (பகுதி A மற்றும் B எல்லைமதிப்பு எட்டப்பட்டது + செயல்திறன் பாதிப்பு)",
+    "class.4": "எதிர்ப்புத் தன்மை / நடத்தைக் கோளாறு (பகுதி II எல்லைமதிப்பு எட்டப்பட்டது + செயல்திறன் பாதிப்பு)",
+    "class.5": "கவலை / மனச்சோர்வு (பகுதி III எல்லைமதிப்பு எட்டப்பட்டது + செயல்திறன் பாதிப்பு)",
+    "class.6": "குறிப்பிடத்தக்க பிரச்சினைகள் இல்லை",
     counselor_notes: "ஆலோசகர் குறிப்புகள்:",
-    "sig.informant": "தகவல் அளிப்பவரின் கையொப்பம்", "sig.name_label": "பெயர்:", "sig.relationship_label": "உறவு:",
+    "sig.informant": "ஆசிரியரின் கையொப்பம்", "sig.name_label": "பெயர்:",
     "sig.date_label": "தேதி:", "sig.counselor": "ஆலோசகரின் கையொப்பம்", "sig.reg_no_label": "BKM பதிவு எண்:",
     "disclaimer.confidential": "இரகசியம் — உள் பயன்பாட்டிற்கு மட்டும்",
-    "disclaimer.text": "இந்த NICHQ Vanderbilt அளவுகோல் ஒரு ஸ்கிரீனிங் கருவி, மருத்துவ நோய் கண்டறிதல் அல்ல. ஏதேனும் எல்லைமதிப்பை எட்டுவது ஒரு அறிகுறியே தவிர, உறுதிப்படுத்தப்பட்ட நோய் கண்டறிதல் அல்ல. எல்லைமதிப்பை எட்டும் மாணவர்களை தகுதி வாய்ந்த உளவியலாளர் அல்லது மனநல மருத்துவரிடம் பரிந்துரைக்கவும். PDPA 2010ன் படி பாதுகாப்பாக சேமிக்கவும்.",
+    "disclaimer.text": "இந்த NICHQ Vanderbilt அளவுகோல் ஒரு ஸ்கிரீனிங் கருவி, மருத்துவ நோய் கண்டறிதல் அல்ல. மருத்துவ எல்லைமதிப்பை எட்டுவது ஒரு அறிகுறியே தவிர, உறுதிப்படுத்தப்பட்ட நோய் கண்டறிதல் அல்ல. மாணவர் தகுதி வாய்ந்த உளவியலாளர் அல்லது மனநல மருத்துவரிடம் மேலும் மதிப்பீட்டிற்காக பரிந்துரைக்கப்படும்போது, இந்த படிவம் ஆதரவு ஆவணங்களின் ஒரு பகுதியாக பயன்படுத்தப்படுகிறது. PDPA 2010ன் படி பாதுகாப்பாக சேமிக்கவும்.",
     "disclaimer.footer": "மாணவர் நல்வாழ்வு முன்கூட்டிய கண்டறிதல் அமைப்பு — Agentic AI · மலேசியா கல்வி அமைச்சு",
+    attribution_text: "NICHQ Vanderbilt Assessment Scale — Teacher Informant இலிருந்து தழுவப்பட்டது. பதிப்புரிமை © 2002 American Academy of Pediatrics மற்றும் National Initiative for Children's Healthcare Quality. Mark L. Wolraich, MD ஆல் உருவாக்கப்பட்ட Vanderbilt Rating Scales இலிருந்து தழுவப்பட்டது. இந்த படிவம் மாணவரின் குழந்தை மருத்துவர் அல்லது மனநல நிபுணரின் மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை.",
   },
 };
 
 function setLang(lang) {
   // Malay is the canonical/official wording and is always shown; a non-Malay
   // selection is shown alongside it (Malay/Mandarin, Malay/Tamil, Malay/English)
-  // rather than replacing it, mirroring the form's original bilingual design.
+  // rather than replacing it, mirroring this form's established bilingual design.
   const msDict = TRANSLATIONS.ms;
   const dict = TRANSLATIONS[lang] || msDict;
   document.documentElement.lang = lang;
