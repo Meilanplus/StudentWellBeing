@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8"/>
-<title>Borang Saringan Minda Sihat (SMS) — KPM</title>
+<title>Instrumen Saringan Minda Sihat — Murid Sekolah Rendah — KPM</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Times New Roman',serif;font-size:13px;color:#000;background:#fff;padding:20px}
@@ -15,7 +15,8 @@ body{font-family:'Times New Roman',serif;font-size:13px;color:#000;background:#f
 .org-info p{font-size:11px;margin-top:2px}
 hr{border:none;border-top:2px solid #000;margin:8px 0}
 hr.thin{border-top:1px solid #000}
-.form-title{text-align:center;font-size:15px;font-weight:700;text-decoration:underline;margin:12px 0 8px}
+.form-title{text-align:center;font-size:15px;font-weight:700;text-decoration:underline;margin:12px 0 4px}
+.form-title2{text-align:center;font-size:13px;font-weight:700;margin-bottom:8px}
 .subtitle{text-align:center;font-size:12px;font-style:italic;margin-bottom:14px}
 .lang-bar{text-align:center;margin-bottom:14px}
 .lang-bar select{font-size:13px;padding:4px 8px}
@@ -25,17 +26,20 @@ hr.thin{border-top:1px solid #000}
 .info-line{flex:1;border-bottom:none}
 .section-title{font-size:13px;font-weight:700;background:#e8e8e8;padding:4px 8px;margin:14px 0 8px}
 .instr{font-size:11px;font-style:italic;margin-bottom:8px;line-height:1.5}
+.scale-note{font-size:10.5px;margin-bottom:10px;line-height:1.5}
 table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px}
 th{background:#d0d0d0;border:1px solid #000;padding:4px 6px;text-align:center;font-weight:700}
 td{border:1px solid #000;padding:4px 6px;vertical-align:top}
-td.no{text-align:center;width:28px}
-td.item{width:55%}
-td.score{text-align:center;width:60px}
+td.no{text-align:center;width:26px}
+td.item{width:58%}
+td.score{text-align:center;width:50px}
 td.total-row{font-weight:700;background:#f0f0f0}
-.answer-box{display:inline-block;width:18px;height:18px;border:1px solid #000;vertical-align:middle;margin:0 4px}
+.answer-box{display:inline-block;width:16px;height:16px;border-radius:50%;border:1px solid #000;vertical-align:middle}
 .tahap-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
 .tahap-table th,.tahap-table td{border:1px solid #000;padding:5px 8px}
 .tahap-table th{background:#d0d0d0;font-weight:700;text-align:center}
+.checklist label{display:block;font-size:11.5px;margin-bottom:5px}
+.checklist .box{display:inline-block;width:13px;height:13px;border:1px solid #000;vertical-align:middle;margin-right:6px}
 .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}
 .sig-box{text-align:center}
 .sig-line{border-top:1px solid #000;margin-top:36px;margin-bottom:4px}
@@ -68,202 +72,197 @@ td.total-row{font-weight:700;background:#f0f0f0}
     <div class="kpm-logo">KPM<br/>MOE</div>
     <div class="org-info">
       <h1 data-i18n="org1">KEMENTERIAN PENDIDIKAN MALAYSIA</h1>
-      <h2 data-i18n="org2">BAHAGIAN PENGURUSAN SEKOLAH HARIAN</h2>
+      <h2 data-i18n="org2">Unit Bimbingan dan Kaunseling</h2>
       <p data-i18n="org3">Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI</p>
     </div>
   </div>
   <hr/>
 
-  <div class="form-title" data-i18n="form_title">BORANG SARINGAN MINDA SIHAT (SMS)</div>
-  <div class="subtitle" data-i18n="form_subtitle">Mental Health Screening Form · Untuk Kegunaan Kaunselor Sekolah Sahaja</div>
+  <div class="form-title" data-i18n="form_title">INSTRUMEN SARINGAN MINDA SIHAT</div>
+  <div class="form-title2" data-i18n="form_title2">MURID SEKOLAH RENDAH (Tahun 4, 5 &amp; 6)</div>
+  <div class="subtitle" data-i18n="form_subtitle">Untuk Kegunaan Guru Bimbingan &amp; Kaunseling Sahaja</div>
 
-  <!-- Student Info -->
+  <!-- A. Student Info -->
+  <div class="section-title" data-i18n="sectionA_title">A. MAKLUMAT MURID</div>
   <div class="info-grid">
     <div class="info-row"><span class="info-label" data-i18n="info.name">Nama Murid:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label" data-i18n="info.id">No. ID / Kad Pelajar:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.dob">Tarikh Lahir:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.ic">Nombor Kad Pengenalan:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.gender">Jantina:</span><span class="info-line">&nbsp;L / P</span></div>
     <div class="info-row"><span class="info-label" data-i18n="info.class">Kelas:</span><span class="info-line">&nbsp;</span></div>
     <div class="info-row"><span class="info-label" data-i18n="info.year">Tahun:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label" data-i18n="info.gender">Jantina:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label" data-i18n="info.dob">Tarikh Lahir:</span><span class="info-line">&nbsp;</span></div>
     <div class="info-row"><span class="info-label" data-i18n="info.school">Nama Sekolah:</span><span class="info-line">&nbsp;</span></div>
-    <div class="info-row"><span class="info-label" data-i18n="info.screening_date">Tarikh Saringan:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.district">Daerah:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.counselor_name">Nama Guru Bimbingan:</span><span class="info-line">&nbsp;</span></div>
+    <div class="info-row"><span class="info-label" data-i18n="info.date">Tarikh:</span><span class="info-line">&nbsp;</span></div>
   </div>
   <hr class="thin"/>
 
-  <!-- Instructions -->
-  <div class="section-title" data-i18n="instr_title">ARAHAN / INSTRUCTIONS</div>
-  <div class="instr" data-i18n="instr_text">
-    Baca setiap pernyataan di bawah dengan teliti. Tandakan (✓) dalam kotak yang paling menggambarkan perasaan atau keadaan murid dalam <strong>tempoh 2 minggu yang lalu</strong>.
-  </div>
-
-  <!-- Section A: Emosi -->
-  <div class="section-title" data-i18n="section.a_title">BAHAGIAN A — KESEJAHTERAAN EMOSI (Emotional Well-being)</div>
+  <!-- B. Instructions -->
+  <div class="section-title" data-i18n="sectionB_title">B. ARAHAN / CARA MENJAWAB</div>
+  <div class="instr" data-i18n="instr_text1">Instrumen ini mengandungi 36 pernyataan berkaitan kesejahteraan mental dan emosi anda. Baca setiap pernyataan dengan teliti dan pilih jawapan yang paling tepat menggambarkan keadaan anda dalam tempoh <strong>SEBULAN yang lalu</strong>.</div>
+  <div class="instr" data-i18n="instr_text2">Tandakan (✓) pada bulatan (○) yang bersesuaian berdasarkan skala berikut:</div>
   <table>
-    <thead>
-      <tr>
-        <th class="no" data-i18n="th.no">Bil.</th>
-        <th class="item" data-i18n="th.statement">Pernyataan</th>
-        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
-        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
-        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
-        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
-      </tr>
-    </thead>
+    <thead><tr>
+      <th data-i18n="scale.never_title">Tidak Pernah (1)</th>
+      <th data-i18n="scale.sometimes_title">Kadang-kadang (2)</th>
+      <th data-i18n="scale.often_title">Kerap (3)</th>
+      <th data-i18n="scale.always_title">Selalu (4)</th>
+    </tr></thead>
+    <tbody><tr>
+      <td data-i18n="scale.never_desc">Saya langsung tidak pernah mengalami perkara ini</td>
+      <td data-i18n="scale.sometimes_desc">Saya jarang-jarang mengalaminya</td>
+      <td data-i18n="scale.often_desc">Saya agak kerap mengalaminya</td>
+      <td data-i18n="scale.always_desc">Saya sering mengalami perkara ini</td>
+    </tr></tbody>
+  </table>
+  <div class="scale-note" data-i18n="scale_note">NOTA: Tiada jawapan betul atau salah. Jawab dengan jujur berdasarkan perasaan dan pengalaman sebenar anda.</div>
+
+  <!-- BAHAGIAN A -->
+  <div class="section-title" data-i18n="partA_title">BAHAGIAN A: EMOSI DIRI</div>
+  <div class="instr" data-i18n="partA_instr">Soalan 1 – 8: Nyatakan sejauh mana pernyataan berikut menerangkan perasaan anda.</div>
+  <table>
+    <thead><tr><th class="no" data-i18n="th.no">Bil.</th><th class="item" data-i18n="th.item">Pernyataan / Soalan</th><th class="score" data-i18n="th.s1">Tidak Pernah (1)</th><th class="score" data-i18n="th.s2">Kadang-kadang (2)</th><th class="score" data-i18n="th.s3">Kerap (3)</th><th class="score" data-i18n="th.s4">Selalu (4)</th></tr></thead>
     <tbody>
-      <tr><td class="no">1</td><td data-i18n="item.a1">Saya berasa sedih atau murung</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">2</td><td data-i18n="item.a2">Saya berasa bimbang atau cemas</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">3</td><td data-i18n="item.a3">Saya berasa tidak berharga atau tidak berguna</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">4</td><td data-i18n="item.a4">Saya mengalami perubahan mood yang tiba-tiba</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">5</td><td data-i18n="item.a5">Saya berasa tertekan dan tidak dapat bersuka ria</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" class="total-row" style="text-align:right;font-weight:700"><span data-i18n="total.a">Jumlah Markah Bahagian A:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">1</td><td data-i18n="item.1">Saya berasa gembira dan ceria dalam kehidupan seharian saya.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">2</td><td data-i18n="item.2">Saya mudah berasa sedih atau kecewa tanpa sebab yang jelas.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">3</td><td data-i18n="item.3">Saya dapat mengawal perasaan marah saya dengan baik.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">4</td><td data-i18n="item.4">Saya berasa selamat dan selesa berada di sekolah.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">5</td><td data-i18n="item.5">Saya mudah berasa takut atau bimbang tentang perkara yang akan berlaku.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">6</td><td data-i18n="item.6">Saya dapat menangani perasaan sedih dan kecewa dengan cara yang sihat.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">7</td><td data-i18n="item.7">Saya berasa bersyukur dan menghargai kehidupan saya.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">8</td><td data-i18n="item.8">Saya sering berasa tidak bersemangat atau tidak bermotivasi untuk melakukan aktiviti.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
     </tbody>
   </table>
 
-  <!-- Section B: Sosial -->
-  <div class="section-title" data-i18n="section.b_title">BAHAGIAN B — KESEJAHTERAAN SOSIAL (Social Well-being)</div>
+  <!-- BAHAGIAN B -->
+  <div class="section-title" data-i18n="partB_title">BAHAGIAN B: HUBUNGAN SOSIAL</div>
+  <div class="instr" data-i18n="partB_instr">Soalan 9 – 16: Nyatakan pengalaman anda dalam menjalin hubungan dengan orang lain.</div>
   <table>
-    <thead>
-      <tr>
-        <th class="no" data-i18n="th.no">Bil.</th>
-        <th class="item" data-i18n="th.statement">Pernyataan</th>
-        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
-        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
-        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
-        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="no" data-i18n="th.no">Bil.</th><th class="item" data-i18n="th.item">Pernyataan / Soalan</th><th class="score" data-i18n="th.s1">Tidak Pernah (1)</th><th class="score" data-i18n="th.s2">Kadang-kadang (2)</th><th class="score" data-i18n="th.s3">Kerap (3)</th><th class="score" data-i18n="th.s4">Selalu (4)</th></tr></thead>
     <tbody>
-      <tr><td class="no">6</td><td data-i18n="item.b6">Saya mengasingkan diri daripada rakan-rakan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">7</td><td data-i18n="item.b7">Saya mengalami konflik dengan rakan sebaya</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">8</td><td data-i18n="item.b8">Saya berasa sukar untuk berkomunikasi dengan orang lain</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">9</td><td data-i18n="item.b9">Saya berasa dibuli atau diabaikan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">10</td><td data-i18n="item.b10">Saya berasa keseorangan walaupun berada dalam kumpulan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700"><span data-i18n="total.b">Jumlah Markah Bahagian B:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">9</td><td data-i18n="item.9">Saya mempunyai rakan-rakan yang memahami dan menyokong saya.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">10</td><td data-i18n="item.10">Saya mudah bergaul dan berkomunikasi dengan rakan sebaya.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">11</td><td data-i18n="item.11">Saya berasa diterima dan disayangi oleh ahli keluarga saya.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">12</td><td data-i18n="item.12">Saya terlibat dalam pertengkaran atau konflik dengan rakan-rakan.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">13</td><td data-i18n="item.13">Saya dapat membantu rakan-rakan yang menghadapi masalah.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">14</td><td data-i18n="item.14">Saya merasa keseorangan walaupun berada di dalam kumpulan.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">15</td><td data-i18n="item.15">Saya dihormati dan dihargai oleh rakan-rakan dan guru-guru di sekolah.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">16</td><td data-i18n="item.16">Saya berani bercakap atau menyuarakan pendapat di hadapan orang lain.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
     </tbody>
   </table>
 
-  <!-- Section C: Akademik -->
-  <div class="section-title" data-i18n="section.c_title">BAHAGIAN C — KESEJAHTERAAN AKADEMIK (Academic Well-being)</div>
+  <!-- BAHAGIAN C -->
+  <div class="section-title" data-i18n="partC_title">BAHAGIAN C: TINGKAH LAKU</div>
+  <div class="instr" data-i18n="partC_instr">Soalan 17 – 24: Nyatakan tingkah laku anda dalam situasi berikut.</div>
   <table>
-    <thead>
-      <tr>
-        <th class="no" data-i18n="th.no">Bil.</th>
-        <th class="item" data-i18n="th.statement">Pernyataan</th>
-        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
-        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
-        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
-        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="no" data-i18n="th.no">Bil.</th><th class="item" data-i18n="th.item">Pernyataan / Soalan</th><th class="score" data-i18n="th.s1">Tidak Pernah (1)</th><th class="score" data-i18n="th.s2">Kadang-kadang (2)</th><th class="score" data-i18n="th.s3">Kerap (3)</th><th class="score" data-i18n="th.s4">Selalu (4)</th></tr></thead>
     <tbody>
-      <tr><td class="no">11</td><td data-i18n="item.c11">Saya sukar menumpukan perhatian di dalam kelas</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">12</td><td data-i18n="item.c12">Saya tidak menyiapkan kerja sekolah</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">13</td><td data-i18n="item.c13">Saya berasa tertekan dengan peperiksaan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">14</td><td data-i18n="item.c14">Saya tidak berminat untuk belajar</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">15</td><td data-i18n="item.c15">Saya sering tidak hadir ke sekolah</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700"><span data-i18n="total.c">Jumlah Markah Bahagian C:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">17</td><td data-i18n="item.17">Saya menyelesaikan tugasan sekolah dengan teliti dan bersungguh-sungguh.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">18</td><td data-i18n="item.18">Saya mematuhi peraturan sekolah dan arahan guru.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">19</td><td data-i18n="item.19">Saya mudah terganggu dan tidak dapat menumpukan perhatian di dalam kelas.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">20</td><td data-i18n="item.20">Saya gemar melakukan aktiviti fizikal seperti sukan dan permainan.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">21</td><td data-i18n="item.21">Saya membuat keputusan dengan baik sebelum bertindak.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">22</td><td data-i18n="item.22">Saya bertindak balas dengan tenang apabila menghadapi masalah.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">23</td><td data-i18n="item.23">Saya menghormati harta benda orang lain dan harta sekolah.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">24</td><td data-i18n="item.24">Saya mengamalkan gaya hidup sihat seperti tidur cukup, makan berkhasiat dan bersenam.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
     </tbody>
   </table>
 
-  <!-- Section D: Fizikal -->
-  <div class="section-title" data-i18n="section.d_title">BAHAGIAN D — KESEJAHTERAAN FIZIKAL (Physical Well-being)</div>
+  <!-- BAHAGIAN D -->
+  <div class="section-title" data-i18n="partD_title">BAHAGIAN D: KONSEP KENDIRI</div>
+  <div class="instr" data-i18n="partD_instr">Soalan 25 – 30: Nyatakan pandangan anda tentang diri sendiri.</div>
   <table>
-    <thead>
-      <tr>
-        <th class="no" data-i18n="th.no">Bil.</th>
-        <th class="item" data-i18n="th.statement">Pernyataan</th>
-        <th class="score" data-i18n="th.never">Tidak Pernah<br/>(0)</th>
-        <th class="score" data-i18n="th.sometimes">Kadang-<br/>kadang (1)</th>
-        <th class="score" data-i18n="th.often">Kerap<br/>(2)</th>
-        <th class="score" data-i18n="th.very_often">Sangat<br/>Kerap (3)</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="no" data-i18n="th.no">Bil.</th><th class="item" data-i18n="th.item">Pernyataan / Soalan</th><th class="score" data-i18n="th.s1">Tidak Pernah (1)</th><th class="score" data-i18n="th.s2">Kadang-kadang (2)</th><th class="score" data-i18n="th.s3">Kerap (3)</th><th class="score" data-i18n="th.s4">Selalu (4)</th></tr></thead>
     <tbody>
-      <tr><td class="no">16</td><td data-i18n="item.d16">Saya mengalami masalah tidur</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">17</td><td data-i18n="item.d17">Selera makan saya berkurangan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">18</td><td data-i18n="item.d18">Saya sering merasa sakit kepala atau sakit badan</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">19</td><td data-i18n="item.d19">Saya berasa keletihan walaupun rehat yang cukup</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no">20</td><td data-i18n="item.d20">Saya mengabaikan kebersihan diri</td><td class="score"></td><td class="score"></td><td class="score"></td><td class="score"></td></tr>
-      <tr><td class="no" colspan="2" style="text-align:right;font-weight:700"><span data-i18n="total.d">Jumlah Markah Bahagian D:</span></td><td class="score total-row" colspan="4" style="text-align:center;font-size:13px;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 15</td></tr>
+      <tr><td class="no">25</td><td data-i18n="item.25">Saya percaya bahawa saya mampu berjaya dalam pelajaran.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">26</td><td data-i18n="item.26">Saya berasa bangga dengan diri saya sendiri.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">27</td><td data-i18n="item.27">Saya menerima kelemahan dan kekurangan diri saya dengan positif.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">28</td><td data-i18n="item.28">Saya yakin bahawa saya mempunyai bakat dan kelebihan yang tersendiri.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">29</td><td data-i18n="item.29">Saya membandingkan diri saya dengan orang lain dan berasa rendah diri.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">30</td><td data-i18n="item.30">Saya menetapkan matlamat dan berusaha untuk mencapainya.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
     </tbody>
   </table>
 
-  <!-- Scoring Summary -->
-  <hr/>
-  <div class="section-title" data-i18n="summary.title">RUMUSAN MARKAH / SCORING SUMMARY</div>
+  <!-- BAHAGIAN E -->
+  <div class="section-title" data-i18n="partE_title">BAHAGIAN E: TEKANAN DAN KEBIMBANGAN</div>
+  <div class="instr" data-i18n="partE_instr">Soalan 31 – 36: Nyatakan pengalaman anda berkaitan tekanan dan kebimbangan.</div>
   <table>
-    <thead><tr><th data-i18n="summary.section_col">Bahagian</th><th data-i18n="summary.score_col">Markah Diperoleh</th><th data-i18n="summary.max_col">Markah Maksimum</th></tr></thead>
+    <thead><tr><th class="no" data-i18n="th.no">Bil.</th><th class="item" data-i18n="th.item">Pernyataan / Soalan</th><th class="score" data-i18n="th.s1">Tidak Pernah (1)</th><th class="score" data-i18n="th.s2">Kadang-kadang (2)</th><th class="score" data-i18n="th.s3">Kerap (3)</th><th class="score" data-i18n="th.s4">Selalu (4)</th></tr></thead>
     <tbody>
-      <tr><td data-i18n="summary.row_a">A — Kesejahteraan Emosi</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td data-i18n="summary.row_b">B — Kesejahteraan Sosial</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td data-i18n="summary.row_c">C — Kesejahteraan Akademik</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td data-i18n="summary.row_d">D — Kesejahteraan Fizikal</td><td style="text-align:center"></td><td style="text-align:center">15</td></tr>
-      <tr><td style="font-weight:700;background:#f0f0f0" data-i18n="summary.grand_total">JUMLAH KESELURUHAN / GRAND TOTAL</td><td style="text-align:center;font-weight:700;font-size:14px;background:#f0f0f0"></td><td style="text-align:center;font-weight:700;background:#f0f0f0">60</td></tr>
+      <tr><td class="no">31</td><td data-i18n="item.31">Saya berasa tertekan akibat tuntutan pelajaran dan peperiksaan.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">32</td><td data-i18n="item.32">Saya sukar untuk tidur kerana memikirkan masalah yang dihadapi.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">33</td><td data-i18n="item.33">Saya mempunyai cara tersendiri untuk mengurangkan tekanan (hobi, sukan, bercerita).</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">34</td><td data-i18n="item.34">Saya berasa cemas apabila perlu bercakap di hadapan orang ramai.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">35</td><td data-i18n="item.35">Saya merasakan tekanan daripada keluarga untuk mencapai keputusan yang cemerlang.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+      <tr><td class="no">36</td><td data-i18n="item.36">Saya dapat meminta bantuan orang dewasa apabila berasa tertekan atau bimbang.</td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td><td class="score"><span class="answer-box"></span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Scoring summary -->
+  <div class="section-title" data-i18n="summary_title">RUMUSAN PEMARKAHAN</div>
+  <table class="tahap-table">
+    <thead><tr><th data-i18n="sum.construct">Konstruk</th><th data-i18n="sum.qnum">Nombor Soalan</th><th data-i18n="sum.max">Markah Maksimum</th><th data-i18n="sum.score">Markah Murid</th></tr></thead>
+    <tbody>
+      <tr><td data-i18n="sum.a">A. Emosi Diri</td><td style="text-align:center">1 – 8</td><td style="text-align:center">32</td><td></td></tr>
+      <tr><td data-i18n="sum.b">B. Hubungan Sosial</td><td style="text-align:center">9 – 16</td><td style="text-align:center">32</td><td></td></tr>
+      <tr><td data-i18n="sum.c">C. Tingkah Laku</td><td style="text-align:center">17 – 24</td><td style="text-align:center">32</td><td></td></tr>
+      <tr><td data-i18n="sum.d">D. Konsep Kendiri</td><td style="text-align:center">25 – 30</td><td style="text-align:center">24</td><td></td></tr>
+      <tr><td data-i18n="sum.e">E. Tekanan &amp; Kebimbangan</td><td style="text-align:center">31 – 36</td><td style="text-align:center">24</td><td></td></tr>
+      <tr class="total-row"><td data-i18n="sum.total">JUMLAH KESELURUHAN</td><td style="text-align:center">1 – 36</td><td style="text-align:center">144</td><td>________</td></tr>
     </tbody>
   </table>
 
   <!-- Interpretation -->
-  <div class="section-title" data-i18n="interp.title">TAFSIRAN / INTERPRETATION</div>
+  <div class="section-title" data-i18n="interp_title">PENTAFSIRAN DAN CADANGAN TINDAKAN</div>
   <table class="tahap-table">
-    <thead>
-      <tr><th data-i18n="interp.score_col">Jumlah Markah</th><th data-i18n="interp.level_col">Tahap / Level</th><th data-i18n="interp.action_col">Tindakan / Action Required</th></tr>
-    </thead>
+    <thead><tr><th data-i18n="interp.level">Tahap Minda Sihat</th><th data-i18n="interp.total">Jumlah Markah</th><th data-i18n="interp.action">Cadangan Tindakan</th></tr></thead>
     <tbody>
-      <tr>
-        <td style="text-align:center">0 – 15</td>
-        <td data-i18n="interp.level1_title"><strong>Tahap 1 — Baik</strong><br/><em>Level 1 — Good (No Risk)</em></td>
-        <td data-i18n="interp.level1_action">Tiada intervensi khusus diperlukan. Kekalkan pemantauan biasa.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center">16 – 35</td>
-        <td data-i18n="interp.level2_title"><strong>Tahap 2 — Sederhana</strong><br/><em>Level 2 — Moderate (Low Risk)</em></td>
-        <td data-i18n="interp.level2_action">Sesi kaunseling individu disyorkan. Maklumkan kepada ibu bapa / penjaga.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center">36 – 60</td>
-        <td data-i18n="interp.level3_title"><strong>Tahap 3 — Membimbangkan</strong><br/><em>Level 3 — Concerning (High Risk)</em></td>
-        <td data-i18n="interp.level3_action">Intervensi segera dan kemungkinan rujukan kepada pakar diperlukan.</td>
-      </tr>
+      <tr><td data-i18n="interp.high_label">Tinggi (Minda Sihat)</td><td style="text-align:center">109 – 144</td><td data-i18n="interp.high_action">Teruskan amalan positif. Murid menunjukkan kesejahteraan mental yang baik.</td></tr>
+      <tr><td data-i18n="interp.mid_label">Sederhana (Perlu Perhatian)</td><td style="text-align:center">73 – 108</td><td data-i18n="interp.mid_action">Murid memerlukan bimbingan dan sokongan. Guru bimbingan perlu memantau secara berkala.</td></tr>
+      <tr><td data-i18n="interp.low_label">Rendah (Berisiko)</td><td style="text-align:center">36 – 72</td><td data-i18n="interp.low_action">Murid memerlukan intervensi segera. Rujukan kepada Guru Bimbingan &amp; Kaunseling atau pakar perlu dibuat.</td></tr>
     </tbody>
   </table>
 
-  <!-- Interpretation box -->
-  <div style="border:1px solid #000;padding:10px 14px;margin-bottom:14px">
-    <div style="font-weight:700;margin-bottom:6px" data-i18n="result_box.title">Keputusan Saringan / Screening Result:</div>
-    <div style="display:flex;gap:28px;flex-wrap:wrap;font-size:12px">
-      <label><span class="answer-box"></span> <span data-i18n="result_box.level1">Tahap 1 — Baik</span></label>
-      <label><span class="answer-box"></span> <span data-i18n="result_box.level2">Tahap 2 — Sederhana</span></label>
-      <label><span class="answer-box"></span> <span data-i18n="result_box.level3">Tahap 3 — Membimbangkan</span></label>
-    </div>
-    <div style="margin-top:10px;border-bottom:1px solid #000;padding-bottom:4px">
-      <strong data-i18n="result_box.total_label">Jumlah Markah Keseluruhan / Total Score: ___________</strong>
-    </div>
-    <div style="margin-top:8px;font-size:12px" data-i18n="result_box.notes_label">Catatan / Notes:</div>
-    <div style="border-bottom:1px solid #999;margin-top:26px"></div>
-    <div style="border-bottom:1px solid #999;margin-top:20px"></div>
+  <!-- Follow-up checklist -->
+  <div class="checklist">
+    <label><span class="box"></span> <span data-i18n="check.1">Pemantauan berkala oleh guru bimbingan</span></label>
+    <label><span class="box"></span> <span data-i18n="check.2">Sesi kaunseling individu</span></label>
+    <label><span class="box"></span> <span data-i18n="check.3">Sesi kaunseling kelompok</span></label>
+    <label><span class="box"></span> <span data-i18n="check.4">Rujukan kepada pakar / klinik psikiatri</span></label>
+    <label><span class="box"></span> <span data-i18n="check.5">Makluman kepada ibu bapa / penjaga</span></label>
+    <label><span class="box"></span> <span data-i18n="check.6">Lain-lain:</span> ___________________________</label>
   </div>
+  <hr class="thin"/>
+
+  <!-- Counselor comments -->
+  <div class="section-title" data-i18n="review_title">ULASAN DAN TINDAKAN GURU BIMBINGAN &amp; KAUNSELING</div>
+  <div class="instr" data-i18n="review.comments_label">Ulasan:</div>
+  <div style="border-bottom:1px solid #bbb;margin:22px 0"></div>
+  <div style="border-bottom:1px solid #bbb;margin-bottom:18px"></div>
+  <div class="instr" data-i18n="review.followup_label">Tindakan Susulan:</div>
+  <div style="border-bottom:1px solid #bbb;margin:22px 0"></div>
+  <div style="border-bottom:1px solid #bbb;margin-bottom:18px"></div>
 
   <!-- Signatures -->
   <div class="sig-grid">
     <div class="sig-box">
       <div class="sig-line"></div>
-      <div><strong data-i18n="sig.counselor">Tandatangan Kaunselor / Counselor's Signature</strong></div>
-      <div style="font-size:11px;margin-top:4px"><span data-i18n="sig.name_label">Nama:</span> _______________________________</div>
-      <div style="font-size:11px"><span data-i18n="sig.reg_no_label">No. Daftar BKM:</span> ________________________</div>
-      <div style="font-size:11px"><span data-i18n="sig.date_label">Tarikh:</span> ________________________________</div>
+      <div><strong data-i18n="sig.counselor">Tandatangan Guru Bimbingan &amp; Kaunseling</strong></div>
+      <div style="font-size:10px;margin-top:3px"><span data-i18n="sig.name_label">Nama:</span> ___________________________</div>
+      <div style="font-size:10px"><span data-i18n="sig.date_label">Tarikh:</span> __________________________</div>
     </div>
     <div class="sig-box">
       <div class="sig-line"></div>
       <div><strong data-i18n="sig.principal">Tandatangan Pengetua / Guru Besar</strong></div>
-      <div style="font-size:11px;margin-top:4px"><span data-i18n="sig.name_label">Nama:</span> _______________________________</div>
-      <div style="font-size:11px" data-i18n="sig.school_stamp">Cop Sekolah:</div>
-      <div style="font-size:11px"><span data-i18n="sig.date_label">Tarikh:</span> ________________________________</div>
+      <div style="font-size:10px;margin-top:3px"><span data-i18n="sig.name_label">Nama:</span> ___________________________</div>
+      <div style="font-size:10px"><span data-i18n="sig.date_label">Tarikh:</span> __________________________</div>
     </div>
   </div>
 
   <div class="disclaimer">
-    <strong data-i18n="disclaimer.confidential">SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA / CONFIDENTIAL — FOR INTERNAL USE ONLY</strong><br/>
-    <span data-i18n="disclaimer.text">Borang ini adalah alat saringan dan BUKAN diagnosis klinikal. Keputusan saringan mesti ditafsirkan oleh kaunselor sekolah yang berkelayakan. Keputusan yang membimbangkan hendaklah dirujuk kepada pakar yang bersesuaian. Simpan maklumat ini dengan selamat mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).</span><br/>
+    <strong data-i18n="disclaimer.confidential">Instrumen ini adalah SULIT. Hanya untuk kegunaan Guru Bimbingan &amp; Kaunseling yang bertauliah.</strong><br/>
+    <span data-i18n="disclaimer.source">Dibangunkan berdasarkan garis panduan Bahagian Psikologi &amp; Kaunseling, KPM · Versi 2024</span><br/>
     <span data-i18n="disclaimer.footer">Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia</span>
   </div>
 </div>
@@ -272,196 +271,326 @@ td.total-row{font-weight:700;background:#f0f0f0}
 const TRANSLATIONS = {
   ms: {
     print_btn: "🖨️ Cetak",
-    org1: "KEMENTERIAN PENDIDIKAN MALAYSIA",
-    org2: "BAHAGIAN PENGURUSAN SEKOLAH HARIAN",
+    org1: "KEMENTERIAN PENDIDIKAN MALAYSIA", org2: "Unit Bimbingan dan Kaunseling",
     org3: "Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI",
-    form_title: "BORANG SARINGAN MINDA SIHAT (SMS)",
-    form_subtitle: "Untuk Kegunaan Kaunselor Sekolah Sahaja",
-    "info.name": "Nama Murid:", "info.id": "No. ID / Kad Pelajar:", "info.class": "Kelas:", "info.year": "Tahun:",
-    "info.gender": "Jantina:", "info.dob": "Tarikh Lahir:", "info.school": "Nama Sekolah:", "info.screening_date": "Tarikh Saringan:",
-    instr_title: "ARAHAN",
-    instr_text: "Baca setiap pernyataan di bawah dengan teliti. Tandakan (✓) dalam kotak yang paling menggambarkan perasaan atau keadaan murid dalam <strong>tempoh 2 minggu yang lalu</strong>.",
-    "section.a_title": "BAHAGIAN A — KESEJAHTERAAN EMOSI", "section.b_title": "BAHAGIAN B — KESEJAHTERAAN SOSIAL",
-    "section.c_title": "BAHAGIAN C — KESEJAHTERAAN AKADEMIK", "section.d_title": "BAHAGIAN D — KESEJAHTERAAN FIZIKAL",
-    "th.no": "Bil.", "th.statement": "Pernyataan", "th.never": "Tidak Pernah<br/>(0)", "th.sometimes": "Kadang-<br/>kadang (1)",
-    "th.often": "Kerap<br/>(2)", "th.very_often": "Sangat<br/>Kerap (3)",
-    "item.a1": "Saya berasa sedih atau murung", "item.a2": "Saya berasa bimbang atau cemas",
-    "item.a3": "Saya berasa tidak berharga atau tidak berguna", "item.a4": "Saya mengalami perubahan mood yang tiba-tiba",
-    "item.a5": "Saya berasa tertekan dan tidak dapat bersuka ria",
-    "item.b6": "Saya mengasingkan diri daripada rakan-rakan", "item.b7": "Saya mengalami konflik dengan rakan sebaya",
-    "item.b8": "Saya berasa sukar untuk berkomunikasi dengan orang lain", "item.b9": "Saya berasa dibuli atau diabaikan",
-    "item.b10": "Saya berasa keseorangan walaupun berada dalam kumpulan",
-    "item.c11": "Saya sukar menumpukan perhatian di dalam kelas", "item.c12": "Saya tidak menyiapkan kerja sekolah",
-    "item.c13": "Saya berasa tertekan dengan peperiksaan", "item.c14": "Saya tidak berminat untuk belajar",
-    "item.c15": "Saya sering tidak hadir ke sekolah",
-    "item.d16": "Saya mengalami masalah tidur", "item.d17": "Selera makan saya berkurangan",
-    "item.d18": "Saya sering merasa sakit kepala atau sakit badan", "item.d19": "Saya berasa keletihan walaupun rehat yang cukup",
-    "item.d20": "Saya mengabaikan kebersihan diri",
-    "total.a": "Jumlah Markah Bahagian A:", "total.b": "Jumlah Markah Bahagian B:",
-    "total.c": "Jumlah Markah Bahagian C:", "total.d": "Jumlah Markah Bahagian D:",
-    "summary.title": "RUMUSAN MARKAH", "summary.section_col": "Bahagian", "summary.score_col": "Markah Diperoleh", "summary.max_col": "Markah Maksimum",
-    "summary.row_a": "A — Kesejahteraan Emosi", "summary.row_b": "B — Kesejahteraan Sosial",
-    "summary.row_c": "C — Kesejahteraan Akademik", "summary.row_d": "D — Kesejahteraan Fizikal",
-    "summary.grand_total": "JUMLAH KESELURUHAN",
-    "interp.title": "TAFSIRAN", "interp.score_col": "Jumlah Markah", "interp.level_col": "Tahap", "interp.action_col": "Tindakan Diperlukan",
-    "interp.level1_title": "<strong>Tahap 1 — Baik</strong><br/><em>(Tiada Risiko)</em>",
-    "interp.level1_action": "Tiada intervensi khusus diperlukan. Kekalkan pemantauan biasa.",
-    "interp.level2_title": "<strong>Tahap 2 — Sederhana</strong><br/><em>(Risiko Rendah)</em>",
-    "interp.level2_action": "Sesi kaunseling individu disyorkan. Maklumkan kepada ibu bapa / penjaga.",
-    "interp.level3_title": "<strong>Tahap 3 — Membimbangkan</strong><br/><em>(Risiko Tinggi)</em>",
-    "interp.level3_action": "Intervensi segera dan kemungkinan rujukan kepada pakar diperlukan.",
-    "result_box.title": "Keputusan Saringan:", "result_box.level1": "Tahap 1 — Baik", "result_box.level2": "Tahap 2 — Sederhana",
-    "result_box.level3": "Tahap 3 — Membimbangkan", "result_box.total_label": "Jumlah Markah Keseluruhan: ___________",
-    "result_box.notes_label": "Catatan:",
-    "sig.counselor": "Tandatangan Kaunselor", "sig.name_label": "Nama:", "sig.reg_no_label": "No. Daftar BKM:", "sig.date_label": "Tarikh:",
-    "sig.principal": "Tandatangan Pengetua / Guru Besar", "sig.school_stamp": "Cop Sekolah:",
-    "disclaimer.confidential": "SULIT — UNTUK KEGUNAAN DALAMAN SAHAJA",
-    "disclaimer.text": "Borang ini adalah alat saringan dan BUKAN diagnosis klinikal. Keputusan saringan mesti ditafsirkan oleh kaunselor sekolah yang berkelayakan. Keputusan yang membimbangkan hendaklah dirujuk kepada pakar yang bersesuaian. Simpan maklumat ini dengan selamat mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).",
+    form_title: "INSTRUMEN SARINGAN MINDA SIHAT", form_title2: "MURID SEKOLAH RENDAH (Tahun 4, 5 &amp; 6)",
+    form_subtitle: "Untuk Kegunaan Guru Bimbingan &amp; Kaunseling Sahaja",
+    sectionA_title: "A. MAKLUMAT MURID",
+    "info.name": "Nama Murid:", "info.dob": "Tarikh Lahir:", "info.ic": "Nombor Kad Pengenalan:",
+    "info.gender": "Jantina:", "info.class": "Kelas:", "info.year": "Tahun:", "info.school": "Nama Sekolah:",
+    "info.district": "Daerah:", "info.counselor_name": "Nama Guru Bimbingan:", "info.date": "Tarikh:",
+    sectionB_title: "B. ARAHAN / CARA MENJAWAB",
+    instr_text1: "Instrumen ini mengandungi 36 pernyataan berkaitan kesejahteraan mental dan emosi anda. Baca setiap pernyataan dengan teliti dan pilih jawapan yang paling tepat menggambarkan keadaan anda dalam tempoh <strong>SEBULAN yang lalu</strong>.",
+    instr_text2: "Tandakan (✓) pada bulatan (○) yang bersesuaian berdasarkan skala berikut:",
+    "scale.never_title": "Tidak Pernah (1)", "scale.sometimes_title": "Kadang-kadang (2)", "scale.often_title": "Kerap (3)", "scale.always_title": "Selalu (4)",
+    "scale.never_desc": "Saya langsung tidak pernah mengalami perkara ini",
+    "scale.sometimes_desc": "Saya jarang-jarang mengalaminya",
+    "scale.often_desc": "Saya agak kerap mengalaminya",
+    "scale.always_desc": "Saya sering mengalami perkara ini",
+    scale_note: "NOTA: Tiada jawapan betul atau salah. Jawab dengan jujur berdasarkan perasaan dan pengalaman sebenar anda.",
+    "th.no": "Bil.", "th.item": "Pernyataan / Soalan", "th.s1": "Tidak Pernah (1)", "th.s2": "Kadang-kadang (2)", "th.s3": "Kerap (3)", "th.s4": "Selalu (4)",
+    partA_title: "BAHAGIAN A: EMOSI DIRI", partA_instr: "Soalan 1 – 8: Nyatakan sejauh mana pernyataan berikut menerangkan perasaan anda.",
+    "item.1": "Saya berasa gembira dan ceria dalam kehidupan seharian saya.",
+    "item.2": "Saya mudah berasa sedih atau kecewa tanpa sebab yang jelas.",
+    "item.3": "Saya dapat mengawal perasaan marah saya dengan baik.",
+    "item.4": "Saya berasa selamat dan selesa berada di sekolah.",
+    "item.5": "Saya mudah berasa takut atau bimbang tentang perkara yang akan berlaku.",
+    "item.6": "Saya dapat menangani perasaan sedih dan kecewa dengan cara yang sihat.",
+    "item.7": "Saya berasa bersyukur dan menghargai kehidupan saya.",
+    "item.8": "Saya sering berasa tidak bersemangat atau tidak bermotivasi untuk melakukan aktiviti.",
+    partB_title: "BAHAGIAN B: HUBUNGAN SOSIAL", partB_instr: "Soalan 9 – 16: Nyatakan pengalaman anda dalam menjalin hubungan dengan orang lain.",
+    "item.9": "Saya mempunyai rakan-rakan yang memahami dan menyokong saya.",
+    "item.10": "Saya mudah bergaul dan berkomunikasi dengan rakan sebaya.",
+    "item.11": "Saya berasa diterima dan disayangi oleh ahli keluarga saya.",
+    "item.12": "Saya terlibat dalam pertengkaran atau konflik dengan rakan-rakan.",
+    "item.13": "Saya dapat membantu rakan-rakan yang menghadapi masalah.",
+    "item.14": "Saya merasa keseorangan walaupun berada di dalam kumpulan.",
+    "item.15": "Saya dihormati dan dihargai oleh rakan-rakan dan guru-guru di sekolah.",
+    "item.16": "Saya berani bercakap atau menyuarakan pendapat di hadapan orang lain.",
+    partC_title: "BAHAGIAN C: TINGKAH LAKU", partC_instr: "Soalan 17 – 24: Nyatakan tingkah laku anda dalam situasi berikut.",
+    "item.17": "Saya menyelesaikan tugasan sekolah dengan teliti dan bersungguh-sungguh.",
+    "item.18": "Saya mematuhi peraturan sekolah dan arahan guru.",
+    "item.19": "Saya mudah terganggu dan tidak dapat menumpukan perhatian di dalam kelas.",
+    "item.20": "Saya gemar melakukan aktiviti fizikal seperti sukan dan permainan.",
+    "item.21": "Saya membuat keputusan dengan baik sebelum bertindak.",
+    "item.22": "Saya bertindak balas dengan tenang apabila menghadapi masalah.",
+    "item.23": "Saya menghormati harta benda orang lain dan harta sekolah.",
+    "item.24": "Saya mengamalkan gaya hidup sihat seperti tidur cukup, makan berkhasiat dan bersenam.",
+    partD_title: "BAHAGIAN D: KONSEP KENDIRI", partD_instr: "Soalan 25 – 30: Nyatakan pandangan anda tentang diri sendiri.",
+    "item.25": "Saya percaya bahawa saya mampu berjaya dalam pelajaran.",
+    "item.26": "Saya berasa bangga dengan diri saya sendiri.",
+    "item.27": "Saya menerima kelemahan dan kekurangan diri saya dengan positif.",
+    "item.28": "Saya yakin bahawa saya mempunyai bakat dan kelebihan yang tersendiri.",
+    "item.29": "Saya membandingkan diri saya dengan orang lain dan berasa rendah diri.",
+    "item.30": "Saya menetapkan matlamat dan berusaha untuk mencapainya.",
+    partE_title: "BAHAGIAN E: TEKANAN DAN KEBIMBANGAN", partE_instr: "Soalan 31 – 36: Nyatakan pengalaman anda berkaitan tekanan dan kebimbangan.",
+    "item.31": "Saya berasa tertekan akibat tuntutan pelajaran dan peperiksaan.",
+    "item.32": "Saya sukar untuk tidur kerana memikirkan masalah yang dihadapi.",
+    "item.33": "Saya mempunyai cara tersendiri untuk mengurangkan tekanan (hobi, sukan, bercerita).",
+    "item.34": "Saya berasa cemas apabila perlu bercakap di hadapan orang ramai.",
+    "item.35": "Saya merasakan tekanan daripada keluarga untuk mencapai keputusan yang cemerlang.",
+    "item.36": "Saya dapat meminta bantuan orang dewasa apabila berasa tertekan atau bimbang.",
+    summary_title: "RUMUSAN PEMARKAHAN",
+    "sum.construct": "Konstruk", "sum.qnum": "Nombor Soalan", "sum.max": "Markah Maksimum", "sum.score": "Markah Murid",
+    "sum.a": "A. Emosi Diri", "sum.b": "B. Hubungan Sosial", "sum.c": "C. Tingkah Laku",
+    "sum.d": "D. Konsep Kendiri", "sum.e": "E. Tekanan &amp; Kebimbangan", "sum.total": "JUMLAH KESELURUHAN",
+    interp_title: "PENTAFSIRAN DAN CADANGAN TINDAKAN",
+    "interp.level": "Tahap Minda Sihat", "interp.total": "Jumlah Markah", "interp.action": "Cadangan Tindakan",
+    "interp.high_label": "Tinggi (Minda Sihat)", "interp.high_action": "Teruskan amalan positif. Murid menunjukkan kesejahteraan mental yang baik.",
+    "interp.mid_label": "Sederhana (Perlu Perhatian)", "interp.mid_action": "Murid memerlukan bimbingan dan sokongan. Guru bimbingan perlu memantau secara berkala.",
+    "interp.low_label": "Rendah (Berisiko)", "interp.low_action": "Murid memerlukan intervensi segera. Rujukan kepada Guru Bimbingan &amp; Kaunseling atau pakar perlu dibuat.",
+    "check.1": "Pemantauan berkala oleh guru bimbingan", "check.2": "Sesi kaunseling individu",
+    "check.3": "Sesi kaunseling kelompok", "check.4": "Rujukan kepada pakar / klinik psikiatri",
+    "check.5": "Makluman kepada ibu bapa / penjaga", "check.6": "Lain-lain:",
+    review_title: "ULASAN DAN TINDAKAN GURU BIMBINGAN &amp; KAUNSELING",
+    "review.comments_label": "Ulasan:", "review.followup_label": "Tindakan Susulan:",
+    "sig.counselor": "Tandatangan Guru Bimbingan &amp; Kaunseling", "sig.principal": "Tandatangan Pengetua / Guru Besar",
+    "sig.name_label": "Nama:", "sig.date_label": "Tarikh:",
+    "disclaimer.confidential": "Instrumen ini adalah SULIT. Hanya untuk kegunaan Guru Bimbingan &amp; Kaunseling yang bertauliah.",
+    "disclaimer.source": "Dibangunkan berdasarkan garis panduan Bahagian Psikologi &amp; Kaunseling, KPM · Versi 2024",
     "disclaimer.footer": "Sistem Pengesanan Awal Kesejahteraan Murid — Agentic AI · Kementerian Pendidikan Malaysia",
   },
   en: {
     print_btn: "🖨️ Print to PDF",
-    org1: "MINISTRY OF EDUCATION MALAYSIA",
-    org2: "SCHOOL MANAGEMENT DIVISION",
+    org1: "MINISTRY OF EDUCATION MALAYSIA", org2: "Guidance and Counseling Unit",
     org3: "Student Well-Being Early Detection System — Agentic AI",
-    form_title: "MENTAL HEALTH SCREENING FORM (SMS)",
-    form_subtitle: "For School Counselor Use Only",
-    "info.name": "Student Name:", "info.id": "ID / Student Card No.:", "info.class": "Class:", "info.year": "Year:",
-    "info.gender": "Gender:", "info.dob": "Date of Birth:", "info.school": "School Name:", "info.screening_date": "Screening Date:",
-    instr_title: "INSTRUCTIONS",
-    instr_text: "Read each statement below carefully. Tick (✓) the box that best describes the student's feelings or condition over the <strong>past 2 weeks</strong>.",
-    "section.a_title": "SECTION A — EMOTIONAL WELL-BEING", "section.b_title": "SECTION B — SOCIAL WELL-BEING",
-    "section.c_title": "SECTION C — ACADEMIC WELL-BEING", "section.d_title": "SECTION D — PHYSICAL WELL-BEING",
-    "th.no": "No.", "th.statement": "Statement", "th.never": "Never<br/>(0)", "th.sometimes": "Sometimes<br/>(1)",
-    "th.often": "Often<br/>(2)", "th.very_often": "Very<br/>Often (3)",
-    "item.a1": "I feel sad or depressed", "item.a2": "I feel worried or anxious",
-    "item.a3": "I feel worthless or useless", "item.a4": "I experience sudden mood changes",
-    "item.a5": "I feel stressed and unable to enjoy activities",
-    "item.b6": "I isolate myself from friends", "item.b7": "I experience conflict with peers",
-    "item.b8": "I find it hard to communicate with others", "item.b9": "I feel bullied or ignored",
-    "item.b10": "I feel lonely even in a group",
-    "item.c11": "I have difficulty focusing in class", "item.c12": "I do not complete schoolwork",
-    "item.c13": "I feel pressured by exams", "item.c14": "I have no interest in learning",
-    "item.c15": "I am frequently absent from school",
-    "item.d16": "I experience sleep problems", "item.d17": "My appetite has decreased",
-    "item.d18": "I often have headaches or body pain", "item.d19": "I feel tired even after adequate rest",
-    "item.d20": "I neglect personal hygiene",
-    "total.a": "Section A Total:", "total.b": "Section B Total:", "total.c": "Section C Total:", "total.d": "Section D Total:",
-    "summary.title": "SCORING SUMMARY", "summary.section_col": "Section", "summary.score_col": "Score Obtained", "summary.max_col": "Maximum Score",
-    "summary.row_a": "A — Emotional Well-being", "summary.row_b": "B — Social Well-being",
-    "summary.row_c": "C — Academic Well-being", "summary.row_d": "D — Physical Well-being",
-    "summary.grand_total": "GRAND TOTAL",
-    "interp.title": "INTERPRETATION", "interp.score_col": "Total Score", "interp.level_col": "Level", "interp.action_col": "Action Required",
-    "interp.level1_title": "<strong>Level 1 — Good</strong><br/><em>(No Risk)</em>",
-    "interp.level1_action": "No specific intervention needed. Continue routine monitoring.",
-    "interp.level2_title": "<strong>Level 2 — Moderate</strong><br/><em>(Low Risk)</em>",
-    "interp.level2_action": "Individual counseling session recommended. Inform parents/guardian.",
-    "interp.level3_title": "<strong>Level 3 — Concerning</strong><br/><em>(High Risk)</em>",
-    "interp.level3_action": "Immediate intervention required and possible referral to a specialist.",
-    "result_box.title": "Screening Result:", "result_box.level1": "Level 1 — Good", "result_box.level2": "Level 2 — Moderate",
-    "result_box.level3": "Level 3 — Concerning", "result_box.total_label": "Total Score: ___________",
-    "result_box.notes_label": "Notes:",
-    "sig.counselor": "Counselor's Signature", "sig.name_label": "Name:", "sig.reg_no_label": "BKM Registration No.:", "sig.date_label": "Date:",
-    "sig.principal": "Principal / Headmaster's Signature", "sig.school_stamp": "School Stamp:",
-    "disclaimer.confidential": "CONFIDENTIAL — FOR INTERNAL USE ONLY",
-    "disclaimer.text": "This form is a screening tool and is NOT a clinical diagnosis. Results must be interpreted by a qualified school counselor. Concerning results should be referred to appropriate specialists. Store this information securely in compliance with the Personal Data Protection Act 2010 (PDPA).",
+    form_title: "HEALTHY MIND SCREENING INSTRUMENT", form_title2: "PRIMARY SCHOOL STUDENTS (Year 4, 5 &amp; 6)",
+    form_subtitle: "For Use by Guidance &amp; Counseling Teachers Only",
+    sectionA_title: "A. STUDENT INFORMATION",
+    "info.name": "Student Name:", "info.dob": "Date of Birth:", "info.ic": "Identification Card Number:",
+    "info.gender": "Gender:", "info.class": "Class:", "info.year": "Year:", "info.school": "School Name:",
+    "info.district": "District:", "info.counselor_name": "Guidance Teacher's Name:", "info.date": "Date:",
+    sectionB_title: "B. INSTRUCTIONS / HOW TO ANSWER",
+    instr_text1: "This instrument contains 36 statements about your mental and emotional well-being. Read each statement carefully and choose the answer that best describes your condition over the <strong>PAST ONE MONTH</strong>.",
+    instr_text2: "Mark (✓) the appropriate circle (○) based on the following scale:",
+    "scale.never_title": "Never (1)", "scale.sometimes_title": "Sometimes (2)", "scale.often_title": "Often (3)", "scale.always_title": "Always (4)",
+    "scale.never_desc": "This never happens to me at all",
+    "scale.sometimes_desc": "This rarely happens to me",
+    "scale.often_desc": "This happens to me fairly often",
+    "scale.always_desc": "This happens to me frequently",
+    scale_note: "NOTE: There are no right or wrong answers. Answer honestly based on your true feelings and experiences.",
+    "th.no": "No.", "th.item": "Statement / Question", "th.s1": "Never (1)", "th.s2": "Sometimes (2)", "th.s3": "Often (3)", "th.s4": "Always (4)",
+    partA_title: "PART A: SELF-EMOTION", partA_instr: "Questions 1 – 8: Indicate how well the following statements describe your feelings.",
+    "item.1": "I feel happy and cheerful in my daily life.",
+    "item.2": "I easily feel sad or disappointed for no clear reason.",
+    "item.3": "I can control my feelings of anger well.",
+    "item.4": "I feel safe and comfortable being at school.",
+    "item.5": "I easily feel afraid or worried about things that might happen.",
+    "item.6": "I can cope with feelings of sadness and disappointment in a healthy way.",
+    "item.7": "I feel grateful and appreciate my life.",
+    "item.8": "I often feel unmotivated or lack the drive to do activities.",
+    partB_title: "PART B: SOCIAL RELATIONSHIPS", partB_instr: "Questions 9 – 16: Indicate your experience in forming relationships with others.",
+    "item.9": "I have friends who understand and support me.",
+    "item.10": "I find it easy to mix and communicate with my peers.",
+    "item.11": "I feel accepted and loved by my family members.",
+    "item.12": "I get into arguments or conflicts with friends.",
+    "item.13": "I am able to help friends who are facing problems.",
+    "item.14": "I feel lonely even when I am in a group.",
+    "item.15": "I am respected and valued by my friends and teachers at school.",
+    "item.16": "I am brave enough to speak up or voice my opinion in front of others.",
+    partC_title: "PART C: BEHAVIOR", partC_instr: "Questions 17 – 24: Indicate your behavior in the following situations.",
+    "item.17": "I complete my schoolwork carefully and diligently.",
+    "item.18": "I follow school rules and my teachers' instructions.",
+    "item.19": "I am easily distracted and unable to focus in class.",
+    "item.20": "I enjoy physical activities such as sports and games.",
+    "item.21": "I make good decisions before acting.",
+    "item.22": "I respond calmly when facing problems.",
+    "item.23": "I respect other people's belongings and school property.",
+    "item.24": "I practice a healthy lifestyle such as getting enough sleep, eating nutritious food, and exercising.",
+    partD_title: "PART D: SELF-CONCEPT", partD_instr: "Questions 25 – 30: Indicate your views about yourself.",
+    "item.25": "I believe I am capable of succeeding in my studies.",
+    "item.26": "I feel proud of myself.",
+    "item.27": "I accept my own weaknesses and shortcomings positively.",
+    "item.28": "I am confident that I have my own talents and strengths.",
+    "item.29": "I compare myself to others and feel inferior.",
+    "item.30": "I set goals and work hard to achieve them.",
+    partE_title: "PART E: STRESS AND ANXIETY", partE_instr: "Questions 31 – 36: Indicate your experience related to stress and anxiety.",
+    "item.31": "I feel stressed due to academic and exam demands.",
+    "item.32": "I find it hard to sleep because I keep thinking about problems I'm facing.",
+    "item.33": "I have my own ways of reducing stress (hobbies, sports, talking to someone).",
+    "item.34": "I feel anxious when I have to speak in front of a crowd.",
+    "item.35": "I feel pressure from my family to achieve excellent results.",
+    "item.36": "I am able to ask an adult for help when I feel stressed or worried.",
+    summary_title: "SCORING SUMMARY",
+    "sum.construct": "Construct", "sum.qnum": "Question Numbers", "sum.max": "Maximum Score", "sum.score": "Student's Score",
+    "sum.a": "A. Self-Emotion", "sum.b": "B. Social Relationships", "sum.c": "C. Behavior",
+    "sum.d": "D. Self-Concept", "sum.e": "E. Stress &amp; Anxiety", "sum.total": "OVERALL TOTAL",
+    interp_title: "INTERPRETATION AND SUGGESTED ACTION",
+    "interp.level": "Healthy Mind Level", "interp.total": "Total Score", "interp.action": "Suggested Action",
+    "interp.high_label": "High (Healthy Mind)", "interp.high_action": "Continue positive practices. The student shows good mental well-being.",
+    "interp.mid_label": "Moderate (Needs Attention)", "interp.mid_action": "The student needs guidance and support. The guidance teacher should monitor periodically.",
+    "interp.low_label": "Low (At Risk)", "interp.low_action": "The student needs immediate intervention. Referral to the Guidance &amp; Counseling Teacher or a specialist is required.",
+    "check.1": "Periodic monitoring by the guidance teacher", "check.2": "Individual counseling session",
+    "check.3": "Group counseling session", "check.4": "Referral to a specialist / psychiatric clinic",
+    "check.5": "Notification to parents / guardian", "check.6": "Other:",
+    review_title: "GUIDANCE &amp; COUNSELING TEACHER'S COMMENTS AND ACTION",
+    "review.comments_label": "Comments:", "review.followup_label": "Follow-up Action:",
+    "sig.counselor": "Guidance &amp; Counseling Teacher's Signature", "sig.principal": "Principal / Headmaster's Signature",
+    "sig.name_label": "Name:", "sig.date_label": "Date:",
+    "disclaimer.confidential": "This instrument is CONFIDENTIAL. For use by authorized Guidance &amp; Counseling Teachers only.",
+    "disclaimer.source": "Developed based on the guidelines of the Psychology &amp; Counseling Division, Ministry of Education Malaysia · Version 2024",
     "disclaimer.footer": "Student Well-Being Early Detection System — Agentic AI · Ministry of Education Malaysia",
   },
   zh: {
     print_btn: "🖨️ 打印为PDF",
-    org1: "马来西亚教育部",
-    org2: "学校管理组",
+    org1: "马来西亚教育部", org2: "辅导与咨询组",
     org3: "学生福祉早期预警系统 — 智能代理AI",
-    form_title: "心理健康筛查表（SMS）",
-    form_subtitle: "仅供学校辅导老师使用",
-    "info.name": "学生姓名：", "info.id": "身份证／学生证号码：", "info.class": "班级：", "info.year": "年级：",
-    "info.gender": "性别：", "info.dob": "出生日期：", "info.school": "学校名称：", "info.screening_date": "筛查日期：",
-    instr_title: "说明",
-    instr_text: "请仔细阅读以下每项陈述。在最能描述学生<strong>过去两周内</strong>感受或状况的格子中打勾（✓）。",
-    "section.a_title": "A部分 — 情绪福祉", "section.b_title": "B部分 — 社交福祉",
-    "section.c_title": "C部分 — 学业福祉", "section.d_title": "D部分 — 生理福祉",
-    "th.no": "编号", "th.statement": "陈述", "th.never": "从不<br/>(0)", "th.sometimes": "偶尔<br/>(1)",
-    "th.often": "经常<br/>(2)", "th.very_often": "非常<br/>经常 (3)",
-    "item.a1": "我感到悲伤或抑郁", "item.a2": "我感到担忧或焦虑",
-    "item.a3": "我感到自己毫无价值或无用", "item.a4": "我的情绪经常突然波动",
-    "item.a5": "我感到压力大，无法享受活动",
-    "item.b6": "我与朋友疏远", "item.b7": "我与同侪发生冲突",
-    "item.b8": "我觉得难以与他人沟通", "item.b9": "我感到被欺凌或被忽视",
-    "item.b10": "即使在群体中我也感到孤单",
-    "item.c11": "我在课堂上难以集中注意力", "item.c12": "我没有完成学校作业",
-    "item.c13": "我因考试而感到压力", "item.c14": "我对学习不感兴趣",
-    "item.c15": "我经常缺席学校",
-    "item.d16": "我有睡眠问题", "item.d17": "我的食欲减退",
-    "item.d18": "我经常头痛或身体疼痛", "item.d19": "即使休息充足我仍感到疲倦",
-    "item.d20": "我忽略个人卫生",
-    "total.a": "A部分总分：", "total.b": "B部分总分：", "total.c": "C部分总分：", "total.d": "D部分总分：",
-    "summary.title": "评分总结", "summary.section_col": "部分", "summary.score_col": "所得分数", "summary.max_col": "最高分数",
-    "summary.row_a": "A — 情绪福祉", "summary.row_b": "B — 社交福祉",
-    "summary.row_c": "C — 学业福祉", "summary.row_d": "D — 生理福祉",
-    "summary.grand_total": "总分",
-    "interp.title": "结果解读", "interp.score_col": "总分", "interp.level_col": "等级", "interp.action_col": "所需行动",
-    "interp.level1_title": "<strong>第1级 — 良好</strong><br/><em>（无风险）</em>",
-    "interp.level1_action": "无需特别介入。维持常规监测。",
-    "interp.level2_title": "<strong>第2级 — 中等</strong><br/><em>（低风险）</em>",
-    "interp.level2_action": "建议进行个别辅导。通知家长／监护人。",
-    "interp.level3_title": "<strong>第3级 — 令人担忧</strong><br/><em>（高风险）</em>",
-    "interp.level3_action": "需要立即介入，并可能需要转介至专科医生。",
-    "result_box.title": "筛查结果：", "result_box.level1": "第1级 — 良好", "result_box.level2": "第2级 — 中等",
-    "result_box.level3": "第3级 — 令人担忧", "result_box.total_label": "总分：___________",
-    "result_box.notes_label": "备注：",
-    "sig.counselor": "辅导老师签名", "sig.name_label": "姓名：", "sig.reg_no_label": "BKM注册编号：", "sig.date_label": "日期：",
-    "sig.principal": "校长签名", "sig.school_stamp": "学校印章：",
-    "disclaimer.confidential": "机密 — 仅供内部使用",
-    "disclaimer.text": "本表格为筛查工具，并非临床诊断。筛查结果必须由合格的学校辅导老师解读。令人担忧的结果应转介给适当的专科医生。请根据《2010年个人资料保护法》（PDPA）妥善保存此信息。",
+    form_title: "健康心灵筛查工具", form_title2: "小学生适用（四、五、六年级）",
+    form_subtitle: "仅供辅导与咨询教师使用",
+    sectionA_title: "A. 学生资料",
+    "info.name": "学生姓名：", "info.dob": "出生日期：", "info.ic": "身份证号码：",
+    "info.gender": "性别：", "info.class": "班级：", "info.year": "年级：", "info.school": "学校名称：",
+    "info.district": "县／区：", "info.counselor_name": "辅导教师姓名：", "info.date": "日期：",
+    sectionB_title: "B. 说明／作答方式",
+    instr_text1: "本工具包含36项与您的心理和情绪健康有关的陈述。请仔细阅读每项陈述，并选出最能描述您<strong>过去一个月</strong>状况的答案。",
+    instr_text2: "请根据以下量表，在适当的圆圈（○）上打勾（✓）：",
+    "scale.never_title": "从不 (1)", "scale.sometimes_title": "偶尔 (2)", "scale.often_title": "经常 (3)", "scale.always_title": "总是 (4)",
+    "scale.never_desc": "我完全没有经历过这种情况",
+    "scale.sometimes_desc": "我很少经历这种情况",
+    "scale.often_desc": "我相当经常经历这种情况",
+    "scale.always_desc": "我经常经历这种情况",
+    scale_note: "注：没有对或错的答案。请根据您真实的感受和经历诚实作答。",
+    "th.no": "编号", "th.item": "陈述／问题", "th.s1": "从不 (1)", "th.s2": "偶尔 (2)", "th.s3": "经常 (3)", "th.s4": "总是 (4)",
+    partA_title: "第一部分：自我情绪", partA_instr: "第1–8题：请说明以下陈述在多大程度上描述了您的感受。",
+    "item.1": "我在日常生活中感到快乐和开朗。",
+    "item.2": "我常常无缘无故地感到悲伤或失望。",
+    "item.3": "我能够很好地控制自己的愤怒情绪。",
+    "item.4": "我在学校感到安全和自在。",
+    "item.5": "我容易对将要发生的事情感到害怕或担忧。",
+    "item.6": "我能够以健康的方式处理悲伤和失望的情绪。",
+    "item.7": "我感到感恩并珍惜自己的生活。",
+    "item.8": "我经常感到没有动力或不想进行活动。",
+    partB_title: "第二部分：社交关系", partB_instr: "第9–16题：请说明您在与他人建立关系方面的经历。",
+    "item.9": "我有理解和支持我的朋友。",
+    "item.10": "我容易与同龄人相处和沟通。",
+    "item.11": "我感到被家人接纳和爱护。",
+    "item.12": "我与朋友发生争执或冲突。",
+    "item.13": "我能够帮助遇到困难的朋友。",
+    "item.14": "即使身处群体中，我仍感到孤独。",
+    "item.15": "我在学校受到朋友和老师的尊重和重视。",
+    "item.16": "我敢于在他人面前发言或表达意见。",
+    partC_title: "第三部分：行为", partC_instr: "第17–24题：请说明您在以下情况中的行为。",
+    "item.17": "我认真努力地完成学校作业。",
+    "item.18": "我遵守学校规则和老师的指示。",
+    "item.19": "我容易分心，无法在课堂上集中注意力。",
+    "item.20": "我喜欢参与体育运动和游戏等体能活动。",
+    "item.21": "我在行动前会做出良好的决定。",
+    "item.22": "我在遇到问题时能够冷静应对。",
+    "item.23": "我尊重他人的财物和学校的财产。",
+    "item.24": "我实践健康的生活方式，例如充足睡眠、健康饮食和运动。",
+    partD_title: "第四部分：自我概念", partD_instr: "第25–30题：请说明您对自己的看法。",
+    "item.25": "我相信自己有能力在学业上取得成功。",
+    "item.26": "我为自己感到骄傲。",
+    "item.27": "我以积极的态度接受自己的弱点和不足。",
+    "item.28": "我相信自己拥有独特的才能和优势。",
+    "item.29": "我拿自己与他人比较，并因此感到自卑。",
+    "item.30": "我设定目标并努力实现它们。",
+    partE_title: "第五部分：压力与焦虑", partE_instr: "第31–36题：请说明您在压力和焦虑方面的经历。",
+    "item.31": "我因学业和考试的要求而感到有压力。",
+    "item.32": "我因不断想着所面对的问题而难以入睡。",
+    "item.33": "我有自己减压的方法（例如爱好、运动、倾诉）。",
+    "item.34": "我在众人面前讲话时会感到焦虑。",
+    "item.35": "我感受到家人要求我取得优异成绩的压力。",
+    "item.36": "我能够在感到压力或担忧时向成人求助。",
+    summary_title: "评分总结",
+    "sum.construct": "构念", "sum.qnum": "题号", "sum.max": "最高分数", "sum.score": "学生得分",
+    "sum.a": "A. 自我情绪", "sum.b": "B. 社交关系", "sum.c": "C. 行为",
+    "sum.d": "D. 自我概念", "sum.e": "E. 压力与焦虑", "sum.total": "总分",
+    interp_title: "解读与建议行动",
+    "interp.level": "健康心灵等级", "interp.total": "总分", "interp.action": "建议行动",
+    "interp.high_label": "高（心灵健康）", "interp.high_action": "继续保持正向习惯。该生展现良好的心理健康状态。",
+    "interp.mid_label": "中等（需要关注）", "interp.mid_action": "该生需要辅导和支持。辅导教师应定期监测。",
+    "interp.low_label": "低（高风险）", "interp.low_action": "该生需要立即介入。须转介给辅导与咨询教师或专业人士。",
+    "check.1": "由辅导教师定期监测", "check.2": "个别辅导会谈",
+    "check.3": "小组辅导会谈", "check.4": "转介给专科医生／精神科诊所",
+    "check.5": "通知家长／监护人", "check.6": "其他：",
+    review_title: "辅导与咨询教师的评语与行动",
+    "review.comments_label": "评语：", "review.followup_label": "后续行动：",
+    "sig.counselor": "辅导与咨询教师签名", "sig.principal": "校长签名",
+    "sig.name_label": "姓名：", "sig.date_label": "日期：",
+    "disclaimer.confidential": "本工具属机密文件，仅供获授权的辅导与咨询教师使用。",
+    "disclaimer.source": "根据马来西亚教育部心理与辅导组的指南编制 · 2024年版",
     "disclaimer.footer": "学生福祉早期预警系统 — 智能代理AI · 马来西亚教育部",
   },
   ta: {
     print_btn: "🖨️ PDF ஆக அச்சிடு",
-    org1: "மலேசியா கல்வி அமைச்சு",
-    org2: "பள்ளி மேலாண்மைப் பிரிவு",
+    org1: "மலேசியா கல்வி அமைச்சு", org2: "வழிகாட்டல் மற்றும் ஆலோசனைப் பிரிவு",
     org3: "மாணவர் நல்வாழ்வு முன்கூட்டிய கண்டறிதல் அமைப்பு — Agentic AI",
-    form_title: "மனநல ஸ்கிரீனிங் படிவம் (SMS)",
-    form_subtitle: "பள்ளி ஆலோசகர் பயன்பாட்டிற்கு மட்டும்",
-    "info.name": "மாணவர் பெயர்:", "info.id": "அடையாள எண் / மாணவர் அட்டை எண்:", "info.class": "வகுப்பு:", "info.year": "ஆண்டு:",
-    "info.gender": "பாலினம்:", "info.dob": "பிறந்த தேதி:", "info.school": "பள்ளி பெயர்:", "info.screening_date": "ஸ்கிரீனிங் தேதி:",
-    instr_title: "வழிமுறைகள்",
-    instr_text: "கீழே உள்ள ஒவ்வொரு கூற்றையும் கவனமாகப் படிக்கவும். கடந்த <strong>2 வாரங்களில்</strong> மாணவரின் உணர்வு அல்லது நிலையை சிறப்பாக விவரிக்கும் பெட்டியில் (✓) குறியிடவும்.",
-    "section.a_title": "பகுதி A — உணர்ச்சி நல்வாழ்வு", "section.b_title": "பகுதி B — சமூக நல்வாழ்வு",
-    "section.c_title": "பகுதி C — கல்வி நல்வாழ்வு", "section.d_title": "பகுதி D — உடல் நல்வாழ்வு",
-    "th.no": "எண்.", "th.statement": "கூற்று", "th.never": "ஒருபோதும்<br/>இல்லை (0)", "th.sometimes": "சில<br/>சமயம் (1)",
-    "th.often": "அடிக்கடி<br/>(2)", "th.very_often": "மிக<br/>அடிக்கடி (3)",
-    "item.a1": "நான் சோகமாக அல்லது மனச்சோர்வாக உணர்கிறேன்", "item.a2": "நான் கவலையாக அல்லது பதற்றமாக உணர்கிறேன்",
-    "item.a3": "நான் பயனற்றவனாக/பயனற்றவளாக உணர்கிறேன்", "item.a4": "எனக்கு திடீர் மனநிலை மாற்றங்கள் ஏற்படுகின்றன",
-    "item.a5": "நான் மன அழுத்தமாக உணர்கிறேன், செயல்பாடுகளை அனுபவிக்க முடியவில்லை",
-    "item.b6": "நான் நண்பர்களிடமிருந்து என்னைத் தனிமைப்படுத்திக் கொள்கிறேன்", "item.b7": "எனக்கு சக மாணவர்களுடன் மோதல் ஏற்படுகிறது",
-    "item.b8": "மற்றவர்களுடன் தொடர்பு கொள்வது எனக்குக் கடினமாக உள்ளது", "item.b9": "நான் கொடுமைப்படுத்தப்படுவதாக அல்லது புறக்கணிக்கப்படுவதாக உணர்கிறேன்",
-    "item.b10": "குழுவில் இருந்தாலும் நான் தனிமையாக உணர்கிறேன்",
-    "item.c11": "வகுப்பில் கவனம் செலுத்துவது எனக்குக் கடினமாக உள்ளது", "item.c12": "நான் பள்ளி வேலைகளை முடிக்கவில்லை",
-    "item.c13": "தேர்வுகளால் நான் அழுத்தமாக உணர்கிறேன்", "item.c14": "படிப்பதில் எனக்கு ஆர்வம் இல்லை",
-    "item.c15": "நான் அடிக்கடி பள்ளிக்கு வராமல் இருக்கிறேன்",
-    "item.d16": "எனக்கு தூக்கப் பிரச்சினைகள் உள்ளன", "item.d17": "என் பசி குறைந்துவிட்டது",
-    "item.d18": "எனக்கு அடிக்கடி தலைவலி அல்லது உடல் வலி ஏற்படுகிறது", "item.d19": "போதுமான ஓய்வு எடுத்தாலும் நான் சோர்வாக உணர்கிறேன்",
-    "item.d20": "நான் தனிப்பட்ட சுகாதாரத்தை புறக்கணிக்கிறேன்",
-    "total.a": "பகுதி A மொத்த மதிப்பெண்:", "total.b": "பகுதி B மொத்த மதிப்பெண்:",
-    "total.c": "பகுதி C மொத்த மதிப்பெண்:", "total.d": "பகுதி D மொத்த மதிப்பெண்:",
-    "summary.title": "மதிப்பெண் சுருக்கம்", "summary.section_col": "பகுதி", "summary.score_col": "பெறப்பட்ட மதிப்பெண்", "summary.max_col": "அதிகபட்ச மதிப்பெண்",
-    "summary.row_a": "A — உணர்ச்சி நல்வாழ்வு", "summary.row_b": "B — சமூக நல்வாழ்வு",
-    "summary.row_c": "C — கல்வி நல்வாழ்வு", "summary.row_d": "D — உடல் நல்வாழ்வு",
-    "summary.grand_total": "மொத்தத் தொகை",
-    "interp.title": "விளக்கம்", "interp.score_col": "மொத்த மதிப்பெண்", "interp.level_col": "நிலை", "interp.action_col": "தேவையான நடவடிக்கை",
-    "interp.level1_title": "<strong>நிலை 1 — நல்லது</strong><br/><em>(அபாயம் இல்லை)</em>",
-    "interp.level1_action": "குறிப்பிட்ட தலையீடு தேவையில்லை. வழக்கமான கண்காணிப்பைத் தொடரவும்.",
-    "interp.level2_title": "<strong>நிலை 2 — மிதமான</strong><br/><em>(குறைந்த அபாயம்)</em>",
-    "interp.level2_action": "தனிப்பட்ட ஆலோசனை அமர்வு பரிந்துரைக்கப்படுகிறது. பெற்றோர்/பாதுகாவலரிடம் தெரிவிக்கவும்.",
-    "interp.level3_title": "<strong>நிலை 3 — கவலைக்குரியது</strong><br/><em>(அதிக அபாயம்)</em>",
-    "interp.level3_action": "உடனடி தலையீடு மற்றும் நிபுணரிடம் பரிந்துரைக்கப்பட வேண்டியிருக்கலாம்.",
-    "result_box.title": "ஸ்கிரீனிங் முடிவு:", "result_box.level1": "நிலை 1 — நல்லது", "result_box.level2": "நிலை 2 — மிதமான",
-    "result_box.level3": "நிலை 3 — கவலைக்குரியது", "result_box.total_label": "மொத்த மதிப்பெண்: ___________",
-    "result_box.notes_label": "குறிப்புகள்:",
-    "sig.counselor": "ஆலோசகரின் கையொப்பம்", "sig.name_label": "பெயர்:", "sig.reg_no_label": "BKM பதிவு எண்:", "sig.date_label": "தேதி:",
-    "sig.principal": "அதிபர் கையொப்பம்", "sig.school_stamp": "பள்ளி முத்திரை:",
-    "disclaimer.confidential": "இரகசியம் — உள் பயன்பாட்டிற்கு மட்டும்",
-    "disclaimer.text": "இந்தப் படிவம் ஒரு ஸ்கிரீனிங் கருவி, மருத்துவ நோய் கண்டறிதல் அல்ல. முடிவுகள் தகுதி வாய்ந்த பள்ளி ஆலோசகரால் விளக்கப்பட வேண்டும். கவலைக்குரிய முடிவுகள் பொருத்தமான நிபுணர்களிடம் பரிந்துரைக்கப்பட வேண்டும். 2010ஆம் ஆண்டு தனிநபர் தரவுப் பாதுகாப்புச் சட்டத்தின் (PDPA) படி இந்தத் தகவலைப் பாதுகாப்பாக சேமிக்கவும்.",
+    form_title: "ஆரோக்கியமான மனநிலை ஸ்கிரீனிங் கருவி", form_title2: "தொடக்கப் பள்ளி மாணவர்கள் (ஆண்டு 4, 5 &amp; 6)",
+    form_subtitle: "வழிகாட்டல் &amp; ஆலோசனை ஆசிரியர்களின் பயன்பாட்டிற்கு மட்டும்",
+    sectionA_title: "A. மாணவர் தகவல்",
+    "info.name": "மாணவர் பெயர்:", "info.dob": "பிறந்த தேதி:", "info.ic": "அடையாள அட்டை எண்:",
+    "info.gender": "பாலினம்:", "info.class": "வகுப்பு:", "info.year": "ஆண்டு:", "info.school": "பள்ளி பெயர்:",
+    "info.district": "மாவட்டம்:", "info.counselor_name": "வழிகாட்டல் ஆசிரியர் பெயர்:", "info.date": "தேதி:",
+    sectionB_title: "B. வழிமுறைகள் / பதிலளிக்கும் விதம்",
+    instr_text1: "இந்தக் கருவியில் உங்கள் மனநல மற்றும் உணர்ச்சி நல்வாழ்வு தொடர்பான 36 கூற்றுகள் உள்ளன. ஒவ்வொரு கூற்றையும் கவனமாகப் படித்து, கடந்த <strong>ஒரு மாத காலத்தில்</strong> உங்கள் நிலையை மிகச் சரியாக விவரிக்கும் பதிலைத் தேர்ந்தெடுக்கவும்.",
+    instr_text2: "பின்வரும் அளவுகோலின் அடிப்படையில் பொருத்தமான வட்டத்தில் (○) (✓) குறியிடவும்:",
+    "scale.never_title": "ஒருபோதும் இல்லை (1)", "scale.sometimes_title": "சில சமயம் (2)", "scale.often_title": "அடிக்கடி (3)", "scale.always_title": "எப்போதும் (4)",
+    "scale.never_desc": "இது எனக்கு ஒருபோதும் நடந்ததில்லை",
+    "scale.sometimes_desc": "இது எனக்கு அரிதாகவே நடக்கும்",
+    "scale.often_desc": "இது எனக்கு அடிக்கடி நடக்கும்",
+    "scale.always_desc": "இது எனக்கு தொடர்ந்து நடக்கும்",
+    scale_note: "குறிப்பு: சரியான அல்லது தவறான பதில்கள் இல்லை. உங்கள் உண்மையான உணர்வுகள் மற்றும் அனுபவங்களின் அடிப்படையில் நேர்மையாக பதிலளிக்கவும்.",
+    "th.no": "எண்.", "th.item": "கூற்று / கேள்வி", "th.s1": "ஒருபோதும் இல்லை (1)", "th.s2": "சில சமயம் (2)", "th.s3": "அடிக்கடி (3)", "th.s4": "எப்போதும் (4)",
+    partA_title: "பகுதி A: சுய உணர்ச்சி", partA_instr: "கேள்வி 1 – 8: பின்வரும் கூற்றுகள் உங்கள் உணர்வுகளை எந்த அளவிற்கு விவரிக்கின்றன என்பதைக் குறிப்பிடவும்.",
+    "item.1": "நான் என் அன்றாட வாழ்க்கையில் மகிழ்ச்சியாகவும் உற்சாகமாகவும் உணர்கிறேன்.",
+    "item.2": "தெளிவான காரணமின்றி நான் எளிதில் சோகமாக அல்லது ஏமாற்றமாக உணர்கிறேன்.",
+    "item.3": "நான் என் கோப உணர்வுகளை நன்றாகக் கட்டுப்படுத்த முடிகிறது.",
+    "item.4": "நான் பள்ளியில் இருப்பதில் பாதுகாப்பாகவும் வசதியாகவும் உணர்கிறேன்.",
+    "item.5": "நடக்கக்கூடிய விஷயங்களைப் பற்றி நான் எளிதில் பயமாக அல்லது கவலையாக உணர்கிறேன்.",
+    "item.6": "நான் சோகம் மற்றும் ஏமாற்ற உணர்வுகளை ஆரோக்கியமான முறையில் கையாள முடிகிறது.",
+    "item.7": "நான் நன்றியுணர்வுடன் இருந்து என் வாழ்க்கையைப் போற்றுகிறேன்.",
+    "item.8": "செயல்பாடுகளைச் செய்ய ஊக்கம் இல்லாமல் அல்லது ஆர்வமின்றி அடிக்கடி உணர்கிறேன்.",
+    partB_title: "பகுதி B: சமூக உறவுகள்", partB_instr: "கேள்வி 9 – 16: மற்றவர்களுடன் உறவை வளர்ப்பதில் உங்கள் அனுபவத்தைக் குறிப்பிடவும்.",
+    "item.9": "என்னைப் புரிந்துகொண்டு ஆதரிக்கும் நண்பர்கள் எனக்கு உள்ளனர்.",
+    "item.10": "சக மாணவர்களுடன் பழகுவதும் தொடர்பு கொள்வதும் எனக்கு எளிதானது.",
+    "item.11": "என் குடும்ப உறுப்பினர்களால் நான் ஏற்றுக்கொள்ளப்பட்டு நேசிக்கப்படுவதாக உணர்கிறேன்.",
+    "item.12": "நண்பர்களுடன் வாக்குவாதங்கள் அல்லது முரண்பாடுகளில் ஈடுபடுகிறேன்.",
+    "item.13": "பிரச்சினைகளை எதிர்கொள்ளும் நண்பர்களுக்கு உதவ முடிகிறது.",
+    "item.14": "ஒரு குழுவில் இருந்தாலும் தனிமையாக உணர்கிறேன்.",
+    "item.15": "பள்ளியில் என் நண்பர்களாலும் ஆசிரியர்களாலும் மதிக்கப்பட்டு மதிப்பளிக்கப்படுகிறேன்.",
+    "item.16": "மற்றவர்களுக்கு முன் பேசவோ என் கருத்தைத் தெரிவிக்கவோ நான் தைரியமாக இருக்கிறேன்.",
+    partC_title: "பகுதி C: நடத்தை", partC_instr: "கேள்வி 17 – 24: பின்வரும் சூழல்களில் உங்கள் நடத்தையைக் குறிப்பிடவும்.",
+    "item.17": "நான் என் பள்ளி வேலையை கவனமாகவும் விடாமுயற்சியுடனும் முடிக்கிறேன்.",
+    "item.18": "நான் பள்ளி விதிகளையும் ஆசிரியர்களின் அறிவுறுத்தல்களையும் பின்பற்றுகிறேன்.",
+    "item.19": "நான் எளிதில் கவனம் சிதறி வகுப்பில் கவனம் செலுத்த முடியவில்லை.",
+    "item.20": "விளையாட்டு மற்றும் விளையாட்டுகள் போன்ற உடல் செயல்பாடுகளை நான் விரும்புகிறேன்.",
+    "item.21": "செயல்படுவதற்கு முன் நான் நல்ல முடிவுகளை எடுக்கிறேன்.",
+    "item.22": "பிரச்சினைகளை எதிர்கொள்ளும்போது நான் அமைதியாக செயல்படுகிறேன்.",
+    "item.23": "மற்றவர்களின் பொருட்களையும் பள்ளி சொத்துக்களையும் மதிக்கிறேன்.",
+    "item.24": "போதுமான தூக்கம், சத்தான உணவு, உடற்பயிற்சி போன்ற ஆரோக்கியமான வாழ்க்கை முறையை நான் பின்பற்றுகிறேன்.",
+    partD_title: "பகுதி D: சுய கருத்து", partD_instr: "கேள்வி 25 – 30: உங்களைப் பற்றிய உங்கள் கருத்துக்களைக் குறிப்பிடவும்.",
+    "item.25": "நான் என் படிப்பில் வெற்றி பெற முடியும் என்று நம்புகிறேன்.",
+    "item.26": "நான் என்னைப் பற்றி பெருமிதமாக உணர்கிறேன்.",
+    "item.27": "என் பலவீனங்களையும் குறைகளையும் நேர்மறையாக ஏற்றுக்கொள்கிறேன்.",
+    "item.28": "எனக்கென்று திறமைகளும் பலங்களும் உள்ளன என்று நான் நம்புகிறேன்.",
+    "item.29": "என்னை மற்றவர்களுடன் ஒப்பிட்டு தாழ்வாக உணர்கிறேன்.",
+    "item.30": "நான் இலக்குகளை நிர்ணயித்து அவற்றை அடைய கடுமையாக உழைக்கிறேன்.",
+    partE_title: "பகுதி E: மன அழுத்தம் மற்றும் கவலை", partE_instr: "கேள்வி 31 – 36: மன அழுத்தம் மற்றும் கவலை தொடர்பான உங்கள் அனுபவத்தைக் குறிப்பிடவும்.",
+    "item.31": "படிப்பு மற்றும் தேர்வுத் தேவைகளால் நான் மன அழுத்தத்தை உணர்கிறேன்.",
+    "item.32": "எதிர்கொள்ளும் பிரச்சினைகளைப் பற்றி தொடர்ந்து யோசிப்பதால் தூங்குவது கடினமாக உள்ளது.",
+    "item.33": "மன அழுத்தத்தைக் குறைக்க எனக்கென்று சொந்த வழிகள் உள்ளன (பொழுதுபோக்கு, விளையாட்டு, பேசுதல்).",
+    "item.34": "பலருக்கு முன் பேச வேண்டியிருக்கும்போது நான் பதற்றமாக உணர்கிறேன்.",
+    "item.35": "சிறந்த முடிவுகளை அடைய குடும்பத்திலிருந்து அழுத்தத்தை உணர்கிறேன்.",
+    "item.36": "மன அழுத்தம் அல்லது கவலையாக உணரும்போது ஒரு பெரியவரிடம் உதவி கேட்க முடிகிறது.",
+    summary_title: "மதிப்பெண் சுருக்கம்",
+    "sum.construct": "கூறு", "sum.qnum": "கேள்வி எண்கள்", "sum.max": "அதிகபட்ச மதிப்பெண்", "sum.score": "மாணவர் மதிப்பெண்",
+    "sum.a": "A. சுய உணர்ச்சி", "sum.b": "B. சமூக உறவுகள்", "sum.c": "C. நடத்தை",
+    "sum.d": "D. சுய கருத்து", "sum.e": "E. மன அழுத்தம் &amp; கவலை", "sum.total": "மொத்த கூட்டுத்தொகை",
+    interp_title: "விளக்கம் மற்றும் பரிந்துரைக்கப்பட்ட நடவடிக்கை",
+    "interp.level": "ஆரோக்கிய மனநிலை", "interp.total": "மொத்த மதிப்பெண்", "interp.action": "பரிந்துரைக்கப்பட்ட நடவடிக்கை",
+    "interp.high_label": "உயர்ந்தது (ஆரோக்கியமான மனநிலை)", "interp.high_action": "நேர்மறை நடைமுறைகளைத் தொடரவும். மாணவர் நல்ல மனநல நிலையைக் காட்டுகிறார்.",
+    "interp.mid_label": "மிதமான (கவனம் தேவை)", "interp.mid_action": "மாணவருக்கு வழிகாட்டலும் ஆதரவும் தேவை. வழிகாட்டல் ஆசிரியர் அவ்வப்போது கண்காணிக்க வேண்டும்.",
+    "interp.low_label": "குறைவு (ஆபத்தில்)", "interp.low_action": "மாணவருக்கு உடனடி தலையீடு தேவை. வழிகாட்டல் &amp; ஆலோசனை ஆசிரியர் அல்லது நிபுணரிடம் பரிந்துரைக்கப்பட வேண்டும்.",
+    "check.1": "வழிகாட்டல் ஆசிரியரால் அவ்வப்போது கண்காணிப்பு", "check.2": "தனிநபர் ஆலோசனை அமர்வு",
+    "check.3": "குழு ஆலோசனை அமர்வு", "check.4": "நிபுணர் / மனநல மருத்துவமனைக்கு பரிந்துரை",
+    "check.5": "பெற்றோர் / பாதுகாவலருக்கு அறிவிப்பு", "check.6": "மற்றவை:",
+    review_title: "வழிகாட்டல் &amp; ஆலோசனை ஆசிரியரின் கருத்துகள் மற்றும் நடவடிக்கை",
+    "review.comments_label": "கருத்துகள்:", "review.followup_label": "தொடர் நடவடிக்கை:",
+    "sig.counselor": "வழிகாட்டல் &amp; ஆலோசனை ஆசிரியரின் கையொப்பம்", "sig.principal": "அதிபர் / தலைமை ஆசிரியரின் கையொப்பம்",
+    "sig.name_label": "பெயர்:", "sig.date_label": "தேதி:",
+    "disclaimer.confidential": "இந்தக் கருவி இரகசியமானது. அங்கீகரிக்கப்பட்ட வழிகாட்டல் &amp; ஆலோசனை ஆசிரியர்களின் பயன்பாட்டிற்கு மட்டும்.",
+    "disclaimer.source": "மலேசியா கல்வி அமைச்சின் உளவியல் &amp; ஆலோசனைப் பிரிவின் வழிகாட்டுதல்களின் அடிப்படையில் உருவாக்கப்பட்டது · 2024 பதிப்பு",
     "disclaimer.footer": "மாணவர் நல்வாழ்வு முன்கூட்டிய கண்டறிதல் அமைப்பு — Agentic AI · மலேசியா கல்வி அமைச்சு",
   },
 };
