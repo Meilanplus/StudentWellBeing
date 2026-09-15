@@ -1,18 +1,26 @@
-"""Translates a saved report's free-text fields for display. Both risk
-assessment reports (Agent 1) and intervention plans (Agent 2) are always
-stored in Bahasa Malaysia (see app/api/risk.py); this converts that
-canonical Malay content into whatever language the viewer currently has
-selected. Schema-agnostic by design — it works on the raw JSONB dict of
-either report type, since both are free-form enough that hardcoding field
-names per schema would need duplicating for every new report type."""
+"""Translates a saved report's free-text fields for display. Risk assessment
+reports (Agent 1), intervention plans (Agent 2), and referral letters
+(Agent 3) are always generated/stored in Bahasa Malaysia (see app/api/risk.py
+and app/api/referrals.py); translate_report_data() converts that canonical
+Malay content into whatever language is requested, on demand. Schema-agnostic
+by design — it works on the raw JSONB dict of any of the three report types,
+since all are free-form enough that hardcoding field names per schema would
+need duplicating for every new report type.
+
+ensure_all_translations() builds on that to eagerly translate a just-saved
+report into every language up front (called from each report type's Save
+endpoint), rather than leaving translations to happen lazily the first time
+someone views that saved report in each language."""
 import json
 
 from openai import OpenAI
+from sqlalchemy.orm import Session
 
 from app.agents.json_utils import extract_json
 from app.config import settings
 
 LANGUAGE_NAMES = {"ms": "Bahasa Malaysia", "en": "English", "zh": "Mandarin Chinese", "ta": "Tamil"}
+NON_CANONICAL_LANGUAGES = ["en", "zh", "ta"]
 
 # The configured agent_model is a reasoning model that spends a large, highly
 # variable number of hidden "thinking" tokens before writing any visible
@@ -70,3 +78,33 @@ Input JSON:
         return _translate_once(client, prompt, TRANSLATE_MAX_TOKENS_RETRY)
     except Exception:
         return report_data
+
+
+def ensure_all_translations(record, db: Session, ui_language: str | None = None) -> None:
+    """Eagerly populates a saved report's `translations` for every language
+    it doesn't already have cached, so all 4 languages (the canonical
+    `report_data` in Bahasa Malaysia, plus en/zh/ta) are available right
+    after Save instead of only being translated the first time someone
+    happens to view that saved report in each language.
+
+    `ui_language` is whichever language was selected in the app's dropdown
+    at the moment Save was clicked — translated first (if it isn't "ms" and
+    isn't already cached) so that if a later language in the pass fails or
+    the process is interrupted, the language the user was actually looking
+    at is the one guaranteed to have been saved.
+
+    Works on any model with `.report_data`/`.translations` columns of this
+    shape (RiskReport, InterventionReport, ReferralReport) — commits
+    incrementally after each language so a partial failure never loses
+    translations already completed in this same call."""
+    languages = list(NON_CANONICAL_LANGUAGES)
+    if ui_language in languages:
+        languages.remove(ui_language)
+        languages.insert(0, ui_language)
+
+    for lang in languages:
+        if lang in (record.translations or {}):
+            continue
+        translated = translate_report_data(record.report_data, lang)
+        record.translations = {**(record.translations or {}), lang: translated}
+        db.commit()

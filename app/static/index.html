@@ -401,6 +401,27 @@ function stopAiWait() {
   if (_aiWaitTimer) { clearInterval(_aiWaitTimer); _aiWaitTimer = null; }
 }
 
+// Same elapsed-time idea as startAiWait/stopAiWait, but scoped to a single
+// button instead of overwriting a whole container — used for Save, which
+// now also eagerly translates into every language (see ensure_all_
+// translations in app/services/report_translator.py) and so can take much
+// longer than a plain save used to.
+async function runWithButtonWait(button, waitingLabel, fn) {
+  const originalText = button.textContent;
+  const startedAt = Date.now();
+  button.disabled = true;
+  const tick = () => { button.textContent = `${waitingLabel} (${Math.floor((Date.now() - startedAt) / 1000)}s)`; };
+  tick();
+  const timer = setInterval(tick, 1000);
+  try {
+    await fn();
+  } finally {
+    clearInterval(timer);
+    button.disabled = false;
+    button.textContent = originalText;
+  }
+}
+
 // Same idea as translateForDisplay, but for an already-saved report (one
 // with a stable id) — checks the report's own cached translations first and
 // only calls the AI translator on a cache miss, so a given report/language
@@ -913,22 +934,24 @@ async function runRiskAssessment() {
   lastReportStudentId = studentId;
   const display = await translateForDisplay(canonical);
   const buttons = `
-    <button class="btn btn-primary" onclick="saveRiskReport()">${t('common.save','Save')}</button>
+    <button class="btn btn-primary" onclick="saveRiskReport(event)">${t('common.save','Save')}</button>
     <button class="btn btn-outline" onclick="discardRiskReport()">${t('risk.discard','Discard')}</button>
     <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
   resultDiv.innerHTML = riskReportHtml(display, buttons);
 }
 
-async function saveRiskReport() {
+async function saveRiskReport(event) {
   if (!lastReport || !lastReportStudentId) return;
-  const res = await apiFetch(`/risk/${lastReportStudentId}/reports`, { method: 'POST', body: JSON.stringify(lastReport) });
-  if (res.ok) {
-    alert(t('risk.report_saved','Report saved.'));
-    lastReport = null;
-    lastReportStudentId = null;
-  } else {
-    alert((await res.json()).detail);
-  }
+  await runWithButtonWait(event.target, t('risk.saving_and_translating','Saving & translating'), async () => {
+    const res = await apiFetch(`/risk/${lastReportStudentId}/reports?ui_language=${currentLang()}`, { method: 'POST', body: JSON.stringify(lastReport) });
+    if (res.ok) {
+      alert(t('risk.report_saved','Report saved.'));
+      lastReport = null;
+      lastReportStudentId = null;
+    } else {
+      alert((await res.json()).detail);
+    }
+  });
 }
 
 function discardRiskReport() {
@@ -1104,22 +1127,24 @@ async function runIntervention() {
   lastInterventionStudentId = studentId;
   const display = await translateForDisplay(canonical);
   const buttons = `
-    <button class="btn btn-primary" onclick="saveInterventionReport()">${t('common.save','Save')}</button>
+    <button class="btn btn-primary" onclick="saveInterventionReport(event)">${t('common.save','Save')}</button>
     <button class="btn btn-outline" onclick="discardInterventionReport()">${t('risk.discard','Discard')}</button>
     <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
   resultDiv.innerHTML = interventionReportHtml(display, buttons);
 }
 
-async function saveInterventionReport() {
+async function saveInterventionReport(event) {
   if (!lastInterventionReport || !lastInterventionStudentId) return;
-  const res = await apiFetch(`/risk/${lastInterventionStudentId}/intervention-reports`, { method: 'POST', body: JSON.stringify(lastInterventionReport) });
-  if (res.ok) {
-    alert(t('risk.report_saved','Report saved.'));
-    lastInterventionReport = null;
-    lastInterventionStudentId = null;
-  } else {
-    alert((await res.json()).detail);
-  }
+  await runWithButtonWait(event.target, t('risk.saving_and_translating','Saving & translating'), async () => {
+    const res = await apiFetch(`/risk/${lastInterventionStudentId}/intervention-reports?ui_language=${currentLang()}`, { method: 'POST', body: JSON.stringify(lastInterventionReport) });
+    if (res.ok) {
+      alert(t('risk.report_saved','Report saved.'));
+      lastInterventionReport = null;
+      lastInterventionStudentId = null;
+    } else {
+      alert((await res.json()).detail);
+    }
+  });
 }
 
 function discardInterventionReport() {
@@ -1286,26 +1311,28 @@ async function runReferral() {
   lastReferralAdditionalNotes = additionalNotes;
   const display = await translateForDisplay(canonical);
   const buttons = `
-    <button class="btn btn-primary" onclick="saveReferralReport()">${t('common.save','Save')}</button>
+    <button class="btn btn-primary" onclick="saveReferralReport(event)">${t('common.save','Save')}</button>
     <button class="btn btn-outline" onclick="discardReferralReport()">${t('risk.discard','Discard')}</button>
     <button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
   resultDiv.innerHTML = referralReportHtml(display, buttons);
 }
 
-async function saveReferralReport() {
+async function saveReferralReport(event) {
   if (!lastReferralDocument || !lastReferralStudentId) return;
-  const res = await apiFetch(`/referrals/${lastReferralStudentId}/reports`, {
-    method: 'POST',
-    body: JSON.stringify({ document: lastReferralDocument, additional_notes: lastReferralAdditionalNotes || null }),
+  await runWithButtonWait(event.target, t('risk.saving_and_translating','Saving & translating'), async () => {
+    const res = await apiFetch(`/referrals/${lastReferralStudentId}/reports?ui_language=${currentLang()}`, {
+      method: 'POST',
+      body: JSON.stringify({ document: lastReferralDocument, additional_notes: lastReferralAdditionalNotes || null }),
+    });
+    if (res.ok) {
+      alert(t('risk.report_saved','Report saved.'));
+      lastReferralDocument = null;
+      lastReferralStudentId = null;
+      lastReferralAdditionalNotes = null;
+    } else {
+      alert((await res.json()).detail);
+    }
   });
-  if (res.ok) {
-    alert(t('risk.report_saved','Report saved.'));
-    lastReferralDocument = null;
-    lastReferralStudentId = null;
-    lastReferralAdditionalNotes = null;
-  } else {
-    alert((await res.json()).detail);
-  }
 }
 
 function discardReferralReport() {

@@ -12,7 +12,7 @@ from app.models.intervention import Referral, ReferralReport
 from app.schemas.risk import ReferralDocument, ReferralDocumentRequest, ReferralReportOut, ReferralReportSaveRequest
 from app.agents.referral_agent import ReferralAgent
 from app.services.i18n_lookup import get_language_display_name
-from app.services.report_translator import translate_report_data
+from app.services.report_translator import translate_report_data, ensure_all_translations
 from app.services.referral_report import generate_referral_docx
 from app.services.dashboard_cache import invalidate_dashboard_cache
 from app.permissions import require_task
@@ -65,9 +65,12 @@ def generate_referral(
 def save_referral_report(
     student_id: str,
     payload: ReferralReportSaveRequest,
+    ui_language: str = "ms",
     requester: User = Depends(require_task(TASK_INVOKE_AGENT3_REFERRAL)),
     db: Session = Depends(get_db),
 ):
+    """See save_risk_report() (app/api/risk.py) — same eager-translation-on-
+    save behavior via ensure_all_translations()."""
     student = _get_student_or_404(student_id, db)
     doc = payload.document
     # Deduplicated by (student, referral_type, referral_to) rather than by
@@ -84,6 +87,7 @@ def save_referral_report(
         .first()
     )
     if existing:
+        ensure_all_translations(existing, db, ui_language)
         return existing
 
     record = ReferralReport(
@@ -96,6 +100,7 @@ def save_referral_report(
     db.add(record)
     db.commit()
     db.refresh(record)
+    ensure_all_translations(record, db, ui_language)
     return record
 
 

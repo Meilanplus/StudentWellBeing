@@ -21,7 +21,7 @@ from app.schemas.risk import (
 from app.services.risk_calculator import compute_pre_screen_score, compute_pre_screen_detail
 from app.services.i18n_lookup import get_translation, get_language_display_name
 from app.services.intervention_report import generate_intervention_docx
-from app.services.report_translator import translate_report_data
+from app.services.report_translator import translate_report_data, ensure_all_translations
 from app.services.dashboard_cache import invalidate_dashboard_cache
 from app.agents.risk_detection_agent import RiskDetectionAgent
 from app.agents.intervention_agent import InterventionAgent
@@ -69,9 +69,16 @@ def assess_risk(
 def save_risk_report(
     student_id: str,
     payload: RiskAssessment,
+    ui_language: str = "ms",
     requester: User = Depends(require_task(TASK_INVOKE_AGENT1_RISK)),
     db: Session = Depends(get_db),
 ):
+    """Saves the canonical (Bahasa Malaysia) report, then eagerly translates
+    it into the other 3 languages — see ensure_all_translations() — so all 4
+    are available immediately rather than lazily on first view. `ui_language`
+    is whichever language was selected in the app when Save was clicked; it's
+    translated first so it's the one guaranteed done if anything interrupts
+    the rest."""
     student = _get_student_or_404(student_id, db)
     # One report per student per day — if today's already saved, return it
     # instead of writing a duplicate (enforced here, not just client-side,
@@ -83,6 +90,7 @@ def save_risk_report(
         .first()
     )
     if existing:
+        ensure_all_translations(existing, db, ui_language)
         return existing
 
     record = RiskReport(
@@ -94,6 +102,7 @@ def save_risk_report(
     db.add(record)
     db.commit()
     db.refresh(record)
+    ensure_all_translations(record, db, ui_language)
     return record
 
 
@@ -211,9 +220,11 @@ def intervene(
 def save_intervention_report(
     student_id: str,
     payload: InterventionRecommendation,
+    ui_language: str = "ms",
     requester: User = Depends(require_task(TASK_INVOKE_AGENT2_INTERVENTION)),
     db: Session = Depends(get_db),
 ):
+    """See save_risk_report() — same eager-translation-on-save behavior."""
     student = _get_student_or_404(student_id, db)
     existing = (
         db.query(InterventionReport)
@@ -222,6 +233,7 @@ def save_intervention_report(
         .first()
     )
     if existing:
+        ensure_all_translations(existing, db, ui_language)
         return existing
 
     record = InterventionReport(
@@ -232,6 +244,7 @@ def save_intervention_report(
     db.add(record)
     db.commit()
     db.refresh(record)
+    ensure_all_translations(record, db, ui_language)
     return record
 
 

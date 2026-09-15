@@ -113,6 +113,9 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "risk.discard": {"en": "Discard", "ms": "Buang", "zh": "放弃", "ta": "நிராகரி"},
     "risk.print": {"en": "Print", "ms": "Cetak", "zh": "打印", "ta": "அச்சிடு"},
     "risk.report_saved": {"en": "Report saved.", "ms": "Laporan disimpan.", "zh": "报告已保存。", "ta": "அறிக்கை சேமிக்கப்பட்டது."},
+    "risk.saving_and_translating": {
+        "en": "Saving & translating", "ms": "Menyimpan & menterjemah", "zh": "正在保存并翻译", "ta": "சேமித்து மொழிபெயர்க்கிறது",
+    },
     "risk.view_previous_reports": {"en": "View Previous Reports", "ms": "Lihat Laporan Terdahulu", "zh": "查看以往报告", "ta": "முந்தைய அறிக்கைகளைப் பார்க்கவும்"},
     "risk.previous_reports": {"en": "Previous Reports", "ms": "Laporan Terdahulu", "zh": "以往报告", "ta": "முந்தைய அறிக்கைகள்"},
     "risk.timestamp": {"en": "Timestamp", "ms": "Cap Masa", "zh": "时间戳", "ta": "நேர முத்திரை"},
