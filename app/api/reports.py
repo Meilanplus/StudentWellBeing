@@ -1,67 +1,22 @@
-from datetime import date, timedelta
+from datetime import date
 
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from sqlalchemy.exc import IntegrityError
 from fastapi import APIRouter, Depends
 
 from app.database import get_db
 from app.models.user import User
 from app.models.student import Student
-from app.models.intervention import Intervention, Referral, DashboardSummary
+from app.models.intervention import Intervention, DashboardSummary
 from app.schemas.report import DashboardReport, DashboardNarrative, StudentCase, MonthlyKPI, ClassRiskSummary, REPORT_DISCLAIMER
 from app.agents.reporting_agent import ReportingAgent
 from app.services.report_translator import translate_report_data
 from app.services.i18n_lookup import get_translation
+from app.services.dashboard_narrative import compute_student_cases, ensure_narrative_generated
 from app.permissions import require_task
 from app.constants import TASK_INVOKE_AGENT4_REPORTING
 
 router = APIRouter(prefix="/reports", tags=["Dashboard & Reports"])
-
-
-def _compute_student_cases(db: Session) -> list[StudentCase]:
-    """The actual students behind the current KPI counts — full names,
-    queried directly from the DB (never passed through Agent 4). Always a
-    live, current-moment computation; callers freeze the result into a
-    DashboardSummary row at generation time if it needs to become a
-    historical snapshot."""
-    since_30 = date.today() - timedelta(days=30)
-    cases: dict[int, StudentCase] = {}
-
-    active_interventions = (
-        db.query(Intervention, Student)
-        .join(Student, Student.id == Intervention.student_id)
-        .filter(Intervention.status == "active")
-        .all()
-    )
-    for interv, student in active_interventions:
-        cases[student.id] = StudentCase(
-            student_id=student.student_id,
-            name=student.full_name,
-            class_name=student.class_name,
-            risk_level=interv.risk_level,
-            intervention_status=interv.status,
-        )
-
-    recent_referrals = (
-        db.query(Referral, Student)
-        .join(Student, Student.id == Referral.student_id)
-        .filter(Referral.created_at >= since_30)
-        .all()
-    )
-    for referral, student in recent_referrals:
-        existing = cases.get(student.id)
-        if existing:
-            existing.referral_status = referral.status
-        else:
-            cases[student.id] = StudentCase(
-                student_id=student.student_id,
-                name=student.full_name,
-                class_name=student.class_name,
-                referral_status=referral.status,
-            )
-
-    return sorted(cases.values(), key=lambda c: c.name)
 
 
 @router.get("/dashboard", response_model=DashboardReport)
@@ -113,33 +68,15 @@ def generate_dashboard_narrative(
     db: Session = Depends(get_db),
 ):
     """Explicitly generates (or serves the cached) Agent 4 narrative for a
-    period/language — the only place that ever invokes Agent 4 or a
-    translation call. On first generation for a period, this also freezes
+    period/language. On first generation for a period, this also freezes
     that period's KPIs/class breakdown/student cases into the same row —
-    from then on it's a locked monthly record, immune to later data changes."""
+    from then on it's a locked monthly record, immune to later data changes.
+    Shares its generation logic with the background pre-generation job (see
+    app/services/scheduler.py), so whichever runs first for a given period
+    wins and the other just reads the cached row."""
     agent = ReportingAgent(db)
     resolved_period = period or agent.default_period()
-    kpis, class_breakdown = agent.compute_kpis(resolved_period)
-
-    cached = db.query(DashboardSummary).filter(DashboardSummary.period == resolved_period).first()
-    if cached is None:
-        narrative = agent.generate_narrative(resolved_period, kpis, class_breakdown, language="Bahasa Malaysia")
-        cached = DashboardSummary(
-            period=resolved_period,
-            narrative=narrative,
-            school_kpis=kpis.model_dump(),
-            class_breakdown=[c.model_dump() for c in class_breakdown],
-            student_cases=[c.model_dump() for c in _compute_student_cases(db)],
-        )
-        db.add(cached)
-        try:
-            db.commit()
-            db.refresh(cached)
-        except IntegrityError:
-            # Another concurrent request for the same period won the race and
-            # committed first — use its row instead of erroring.
-            db.rollback()
-            cached = db.query(DashboardSummary).filter(DashboardSummary.period == resolved_period).first()
+    cached = ensure_narrative_generated(resolved_period, db)
 
     if language == "ms":
         narrative = cached.narrative
@@ -180,7 +117,7 @@ def dashboard_cases(
     cached = db.query(DashboardSummary).filter(DashboardSummary.period == resolved_period).first()
     if cached is not None and cached.student_cases is not None:
         return [StudentCase(**c) for c in cached.student_cases]
-    return _compute_student_cases(db)
+    return compute_student_cases(db)
 
 
 @router.get("/class-summary")

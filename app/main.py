@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.database import init_db
 from app.api import auth, students, risk, referrals, reports, assessments, interventions, geography, rbac, i18n
+from app.services.scheduler import start_scheduler, stop_scheduler
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -15,7 +16,9 @@ STATIC_DIR = Path(__file__).parent / "static"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    start_scheduler()
     yield
+    stop_scheduler()
 
 
 app = FastAPI(
