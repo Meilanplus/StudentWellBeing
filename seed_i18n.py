@@ -78,6 +78,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "nav.class_summary": {"en": "Class Summary", "ms": "Ringkasan Kelas", "zh": "班级摘要", "ta": "வகுப்பு சுருக்கம்"},
     "nav.api_docs": {"en": "API Docs", "ms": "Dokumentasi API", "zh": "API 文档", "ta": "API ஆவணங்கள்"},
     "nav.forms_group": {"en": "Forms", "ms": "Borang", "zh": "表单", "ta": "படிவங்கள்"},
+    "nav.tools_group": {"en": "Tools", "ms": "Alatan", "zh": "工具", "ta": "கருவிகள்"},
     "nav.sms_form": {"en": "SMS Form", "ms": "Borang SMS", "zh": "SMS表单", "ta": "SMS படிவம்"},
     "nav.nichq_form": {"en": "NICHQ Form", "ms": "Borang NICHQ", "zh": "NICHQ表单", "ta": "NICHQ படிவம்"},
     "login.title": {"en": "Login", "ms": "Log Masuk", "zh": "登录", "ta": "உள்நுழைவு"},

@@ -103,12 +103,9 @@
   <div class="nav-item" data-page="intervention" data-i18n="nav.intervention">Intervention</div>
   <div class="nav-item" data-page="referral" data-i18n="nav.referral">Referral</div>
   <div class="nav-item" data-page="reporting" data-i18n="nav.reporting">Reporting</div>
-  <div class="nav-group-label" data-i18n="nav.forms_group">Forms</div>
+  <div class="nav-group-label" data-i18n="nav.tools_group">Tools</div>
   <a class="nav-item" id="smsFormLink" href="/static/forms/saringan_minda_sihat.html" target="_blank" data-i18n="nav.sms_form">SMS Form</a>
   <a class="nav-item" id="nichqFormLink" href="/static/forms/nichq_vanderbilt.html" target="_blank" data-i18n="nav.nichq_form">NICHQ Form</a>
-  <div class="nav-group-label">Tools</div>
-  <div class="nav-item" data-page="assessments" data-i18n="nav.assessments">Assessment Instruments</div>
-  <div class="nav-item" data-page="class_summary" data-i18n="nav.class_summary">Class Summary</div>
   <div class="footer">v1.0.0 · MoE 2027 Aligned<br/>PDPA Compliant</div>
 </div>
 
@@ -482,8 +479,6 @@ async function renderPage() {
     if (S.page === 'intervention') return renderIntervention();
     if (S.page === 'referral') return renderReferral();
     if (S.page === 'reporting') return renderReporting();
-    if (S.page === 'assessments') return renderAssessments();
-    if (S.page === 'class_summary') return renderClassSummary();
   } catch (err) {
     content.innerHTML = `<p style="color:#dc2626">${err.message}</p>`;
   }
@@ -1365,34 +1360,6 @@ async function viewSavedReferralReport(i) {
   const display = await translateSavedReport(rep, 'referral', detailDiv);
   const buttons = `<button class="btn btn-outline" onclick="window.print()">${t('risk.print','Print')}</button>`;
   detailDiv.innerHTML = referralReportHtml(display, buttons, rep.id);
-}
-
-// ── Assessments ──
-async function renderAssessments() {
-  const res = await apiFetch('/assessments/');
-  const content = document.getElementById('content');
-  if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
-  const assessments = await res.json();
-  content.innerHTML = `
-    <h1 class="page-title">${t('nav.assessments', 'Assessment Instruments')}</h1>
-    <div class="card">
-      <table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
-      <tbody>${assessments.map(a => `<tr><td>${a.name}</td><td>${a.instrument_type}</td><td>${a.description||'-'}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">None seeded yet.</td></tr>'}</tbody></table>
-    </div>`;
-}
-
-// ── Class Summary ──
-async function renderClassSummary() {
-  const res = await apiFetch('/reports/class-summary');
-  const content = document.getElementById('content');
-  if (!res.ok) { content.innerHTML = await errorHtml(res); return; }
-  const rows = await res.json();
-  content.innerHTML = `
-    <h1 class="page-title">${t('nav.class_summary', 'Class Summary')}</h1>
-    <div class="card">
-      <table><thead><tr><th>${t('students.class_name','Class')}</th><th>${t('common.total','Total')}</th><th>${t('risk.low','Low')}</th><th>${t('risk.moderate','Moderate')}</th><th>${t('risk.high','High')}</th></tr></thead>
-      <tbody>${rows.map(c => `<tr><td>${c.class_name}</td><td>${c.total_students}</td><td>${c.low_risk}</td><td>${c.moderate_risk}</td><td>${c.high_risk}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No data yet.</td></tr>'}</tbody></table>
-    </div>`;
 }
 
 async function errorHtml(res) {
