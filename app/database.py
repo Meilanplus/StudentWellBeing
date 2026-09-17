@@ -13,11 +13,14 @@ def _normalize_database_url(url: str) -> str:
 
 def resolve_database_url() -> str:
     configured_url = _normalize_database_url(settings.database_url)
+    fallback_url = _normalize_database_url(
+        settings.fallback_database_url or "sqlite:///./studentwellbeing.db"
+    )
 
     if not configured_url.startswith("postgresql+psycopg://"):
         return configured_url
 
-    if settings.app_env.lower() == "production":
+    if str(settings.app_env).lower() == "production":
         return configured_url
 
     try:
@@ -27,11 +30,11 @@ def resolve_database_url() -> str:
         return configured_url
     except Exception:
         print(
-            "Primary Postgres database is unavailable; falling back to the local "
-            "development Postgres database for this startup.",
+            "Primary Postgres database is unavailable; falling back to the configured "
+            "local development database for this startup.",
             file=sys.stderr,
         )
-        return _normalize_database_url(settings.fallback_database_url)
+        return fallback_url
 
 
 database_url = resolve_database_url()
