@@ -1,7 +1,7 @@
 import sys
 
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import settings
 
@@ -54,6 +54,15 @@ def get_db():
 def init_db():
     """Dev-convenience fallback (create_all). Production schema changes go
     through Alembic migrations (`alembic upgrade head`) instead."""
-    from app.models import student, assessment, intervention, user, geography, rbac, i18n, character_category  # noqa: F401
+    from app.models import (
+        assessment,
+        character_category,
+        geography,
+        i18n,
+        intervention,
+        rbac,
+        student,
+        user,
+    )  # noqa: F401
 
     Base.metadata.create_all(bind=engine)
